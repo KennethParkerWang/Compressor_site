@@ -12,11 +12,11 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://your-docusaurus-site.example.com',
-  baseUrl: '/',
+  url: 'https://KennethParkerWang.github.io',
+  baseUrl: '/Compressor_site/',
 
-  organizationName: 'compressor-research',
-  projectName: 'compressor-research',
+  organizationName: 'KennethParkerWang',
+  projectName: 'Compressor_site',
 
   onBrokenLinks: 'throw',
   markdown: {
