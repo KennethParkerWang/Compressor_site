@@ -721,9 +721,14 @@ function PaperCard({l, onOpen}: {l: RowVm; onOpen: () => void}) {
           ) : null}
           <span className={styles.noteBadge} data-state={l.noteStatus}>{noteLabel}</span>
           </div>
-        <button type="button" onClick={onOpen} className={styles.paperOpenBtn}>
+        <div className={styles.paperFooterActions}>
+          <Link to={`/paper-reading?lit=${l.id}`} className={styles.paperReadLink} onClick={(e) => e.stopPropagation()}>
+            <BookOpen size={12} /> 精读
+          </Link>
+          <button type="button" onClick={onOpen} className={styles.paperOpenBtn}>
           展开 →
         </button>
+        </div>
       </footer>
       </div>
     </article>
@@ -858,6 +863,9 @@ function LitDetail({lit, onCitation}: {lit: LiteratureItem; onCitation?: () => v
         <Button variant="outline" onClick={() => bulkAddNotes([lit.id])}>
           <Plus size={14} /> {CN.addNote}
         </Button>
+        <Link to={`/paper-reading?lit=${lit.id}`} className={styles.outBtn}>
+          <BookOpen size={14} /> 论文精读
+        </Link>
         <Button variant="outline" onClick={onCitation}>
           <Download size={14} /> {CN.exportCitations}
         </Button>
