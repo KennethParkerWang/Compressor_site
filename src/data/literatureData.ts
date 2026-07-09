@@ -34,6 +34,16 @@ export interface LiteratureItem {
   readingPathIds?: readonly string[];
   unpublished?: boolean;
   unpublishedReason?: string;
+  coverImage?: string;
+  coverAlt?: string;
+}
+
+export function getLiteratureCoverImage(
+  item: Pick<LiteratureItem, 'id' | 'url' | 'coverImage'>,
+): string | undefined {
+  if (item.coverImage) return item.coverImage;
+  if (!item.url) return undefined;
+  return `/img/literature-covers/${item.id.toLowerCase()}.png`;
 }
 
 export const literatureData: readonly LiteratureItem[] = [

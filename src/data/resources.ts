@@ -17,8 +17,25 @@ export interface Resource {
   emoji: string;
   briefZh: string;
   url: string;
+  coverImage?: string;
+  coverAlt?: string;
   tags?: string[];
   relatedLits?: string[]; // literatureData.ts ids
+}
+
+export function getResourceCoverSlug(name: string): string {
+  const ascii = name
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/-{2,}/g, '-')
+    .toLowerCase();
+  return ascii || 'resource';
+}
+
+export function getResourceCoverImage(resource: Pick<Resource, 'name' | 'coverImage'>): string {
+  return resource.coverImage ?? `/img/resource-covers/${getResourceCoverSlug(resource.name)}.png`;
 }
 
 export const RESOURCES: Resource[] = [
@@ -109,9 +126,9 @@ export const RESOURCES: Resource[] = [
     briefZh: 'C++ 通用压缩 benchmark,zstd/lz4/lzma/brotli 对比。',
     url: 'https://github.com/inikep/lzbench',
     tags: ['cpp', 'bench'] },
-  { name: 'CodecZSTD (Rust)', category: 'tool', emoji: '🛠',
-    briefZh: 'Rust zstd 绑定,sled/tokio 默认压缩后端。',
-    url: 'https://github.com/trussed-dev/codec-zstd',
+  { name: 'zstd-rs (Rust)', category: 'tool', emoji: '🛠',
+    briefZh: 'Rust zstd 绑定,提供流式压缩/解压包装与常用便捷接口。',
+    url: 'https://github.com/gyscos/zstd-rs',
     tags: ['rust', 'binding'] },
   { name: 'paq8px v215', category: 'tool', emoji: '🛠',
     briefZh: 'CM/PAQ 系列 Silesia #1,图像无损 #1,仅 28 MB 输出 22 GB → 28 MB。',
@@ -119,7 +136,7 @@ export const RESOURCES: Resource[] = [
     tags: ['cpp', 'context-mixing', 'SOTA'] },
   { name: 'precomp', category: 'tool', emoji: '🛠',
     briefZh: '常用预处理,CMIX/BZIP 配合用,提压缩率。',
-    url: 'https://github.com/schnaader/precomp-cmake',
+    url: 'https://github.com/schnaader/precomp-cpp',
     tags: ['preprocessing'] },
   { name: 'Nacrith GPU', category: 'tool', emoji: '🛠',
     briefZh: '2026 SOTA:SmolLM2-135M + GPU,enwik8 11.2 MB / 0.94 bpb。',
@@ -127,7 +144,7 @@ export const RESOURCES: Resource[] = [
     tags: ['pytorch', 'gpu', 'transformer'] },
   { name: 'FineZip', category: 'tool', emoji: '🛠',
     briefZh: 'LLaMA-3-8B 微调 + 算术编码,enwik8 1.024 bpb。',
-    url: 'http://mattmahoney.net/dc/text.html',
+    url: 'https://mattmahoney.net/dc/text.html',
     tags: ['llm', 'fine-tune'] },
 
   // ===== frameworks =====
@@ -135,13 +152,13 @@ export const RESOURCES: Resource[] = [
     briefZh: 'Google 官方 TF compression 库,Ballé 等实现。',
     url: 'https://github.com/tensorflow/compression',
     tags: ['tf', 'learned'] },
-  { name: 'JAX compression', category: 'framework', emoji: '🏗',
-    briefZh: 'JAX 实现的可微压缩库(社区项目)。',
-    url: 'https://github.com/nicjac/jax-compression',
+  { name: 'jax-compress', category: 'framework', emoji: '🏗',
+    briefZh: 'JAX/Flax 实现的神经网络无损压缩实验项目,适合观察 JAX 批处理压缩路线。',
+    url: 'https://github.com/byronknoll/jax-compress',
     tags: ['jax'] },
   { name: 'PyTorch distiller (sample)', category: 'framework', emoji: '🏗',
     briefZh: 'PyTorch 模型蒸馏/量化框架(Intel 维护)。',
-    url: 'https://github.com/IntelLabs/distiller',
+    url: 'https://github.com/analogdevicesinc/distiller',
     tags: ['pytorch', 'quantization'] },
 
   // ===== pretrained models =====
@@ -175,10 +192,10 @@ export const RESOURCES: Resource[] = [
     briefZh: 'Deep Learning 教材第 10 章:序列建模。',
     url: 'https://www.deeplearningbook.org/contents/sequence_modeling.html',
     tags: ['book'] },
-  { name: 'Compression 101 by fab-jul', category: 'tutorial', emoji: '📖',
-    briefZh: 'Julian Büttiger 写的神经网络压缩入门博客。',
-    url: 'https://github.com/fab-jul/Compression-101',
-    tags: ['blog'] },
+  { name: 'Nayuki: Huffman Coding', category: 'tutorial', emoji: '📖',
+    briefZh: '可读性很强的 Huffman 编码说明与代码实现入口,适合补全熵编码基础。',
+    url: 'https://www.nayuki.io/page/huffman-coding',
+    tags: ['blog', 'Huffman', 'entropy'] },
   { name: 'Mabyduck CLIC 2025 评测博客', category: 'tutorial', emoji: '📖',
     briefZh: 'Mabyduck 团队的 CLIC 2025 主观评测方法解读。',
     url: 'https://www.mabyduck.com/blog/challenge-on-learned-image-compression-2025/',
@@ -211,7 +228,7 @@ export const RESOURCES: Resource[] = [
     tags: ['wiki', 'english', 'history'] },
   { name: 'Mahoney: The PAQ Data Compression Programs', category: 'tutorial', emoji: '📖',
     briefZh: 'PAQ 系列原主页,Matt Mahoney 维护,版本演进 + 论文索引。',
-    url: 'http://mattmahoney.net/dc/paq.html',
+    url: 'https://mattmahoney.net/dc/paq.html',
     tags: ['homepage', 'PAQ', 'context-mixing', 'SOTA'] },
 
   { name: 'Data Compression Conference Proceedings', category: 'tutorial', emoji: '📚',

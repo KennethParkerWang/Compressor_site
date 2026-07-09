@@ -46,6 +46,8 @@ export interface TutorialResource {
   year?: string;
   duration?: string;
   coverTone: 'blue' | 'cyan' | 'green' | 'purple' | 'amber' | 'rose' | 'slate' | 'indigo';
+  coverImage?: string;
+  coverAlt?: string;
   topics: string[];
   useFor: string[];
   prerequisites?: string[];
@@ -126,6 +128,45 @@ export const TUTORIAL_QUALITY_LABELS: Record<TutorialResourceQuality, string> = 
   benchmark: '基准',
 };
 
+export const TUTORIAL_RESOURCE_COVER_IMAGES: Record<string, string> = {
+  'TR-001': '/img/tutorial-covers/tr-001.png',
+  'TR-002': '/img/tutorial-covers/tr-002.png',
+  'TR-003': '/img/tutorial-covers/tr-003.png',
+  'TR-004': '/img/tutorial-covers/tr-004.png',
+  'TR-005': '/img/tutorial-covers/tr-005.png',
+  'TR-006': '/img/tutorial-covers/tr-006.png',
+  'TR-007': '/img/tutorial-covers/tr-007.png',
+  'TR-008': '/img/tutorial-covers/tr-008.png',
+  'TR-009': '/img/tutorial-covers/tr-009.png',
+  'TR-010': '/img/tutorial-covers/tr-010.png',
+  'TR-011': '/img/tutorial-covers/tr-011.png',
+  'TR-012': '/img/tutorial-covers/tr-012.png',
+  'TR-013': '/img/tutorial-covers/tr-013.png',
+  'TR-014': '/img/tutorial-covers/tr-014.png',
+  'TR-015': '/img/tutorial-covers/tr-015.png',
+  'TR-016': '/img/tutorial-covers/tr-016.png',
+  'TR-017': '/img/tutorial-covers/tr-017.png',
+  'TR-018': '/img/tutorial-covers/tr-018.png',
+  'TR-019': '/img/tutorial-covers/tr-019.png',
+  'TR-020': '/img/tutorial-covers/tr-020.png',
+  'TR-021': '/img/tutorial-covers/tr-021.png',
+  'TR-022': '/img/tutorial-covers/tr-022.png',
+  'TR-023': '/img/tutorial-covers/tr-023.png',
+  'TR-024': '/img/tutorial-covers/tr-024.png',
+  'TR-025': '/img/tutorial-covers/tr-025.png',
+  'TR-026': '/img/tutorial-covers/tr-026.png',
+  'TR-027': '/img/tutorial-covers/tr-027.png',
+  'TR-028': '/img/tutorial-covers/tr-028.png',
+  'TR-029': '/img/tutorial-covers/tr-029.png',
+  'TR-030': '/img/tutorial-covers/tr-030.png',
+  'TR-031': '/img/tutorial-covers/tr-031.png',
+  'TR-032': '/img/tutorial-covers/tr-032.png',
+};
+
+export function getTutorialResourceCoverImage(resource: Pick<TutorialResource, 'id' | 'coverImage'>): string | undefined {
+  return resource.coverImage ?? TUTORIAL_RESOURCE_COVER_IMAGES[resource.id];
+}
+
 export const TUTORIAL_RESOURCES: TutorialResource[] = [
   {
     id: 'TR-001',
@@ -148,21 +189,21 @@ export const TUTORIAL_RESOURCES: TutorialResource[] = [
   },
   {
     id: 'TR-002',
-    title: 'Compression 101',
-    subtitle: '面向工程实现的无损压缩入门，适合快速理解编码器管线。',
+    title: 'FileCrank: Huffman + LZ77 + DEFLATE Explained',
+    subtitle: '从 Shannon 熵、Huffman 树到 LZ77 与 DEFLATE 格式的工程化入门讲解。',
     category: 'foundation',
     media: 'article',
     quality: 'author',
     level: 'intro',
     language: 'EN',
-    source: 'Fabian Giesen / fab-jul resource index',
-    publisher: 'GitHub',
-    url: 'https://github.com/fab-jul/Compression-101',
-    year: '2020+',
+    source: 'FileCrank',
+    publisher: 'filecrank.app',
+    url: 'https://www.filecrank.app/en/blog/how-file-compression-works',
+    year: '2025',
     duration: '约 45 分钟',
     coverTone: 'cyan',
-    topics: ['lossless compression', 'codec pipeline', 'Huffman', 'LZ'],
-    useFor: ['新成员导入', '编码器管线解释', '术语串联'],
+    topics: ['lossless compression', 'Huffman', 'LZ77', 'DEFLATE'],
+    useFor: ['新成员导入', '编码器管线解释', 'zip/gzip/PNG 背景串联'],
     verifiedOn: '2026-07-08',
   },
   {

@@ -475,11 +475,116 @@
   display: flex;
   flex-direction: column;
   gap: 9px;
-  min-height: 172px;
+  min-height: 286px;
   padding: 13px;
   border: var(--cr-border);
   border-radius: 7px;
   background: var(--cr-surface);
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+
+.resCard:hover {
+  border-color: rgba(37, 99, 235, 0.32);
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.1);
+  transform: translateY(-1px);
+}
+
+.resCover {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: var(--cr-border);
+  border-radius: 7px;
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(16, 185, 129, 0.08)),
+    var(--cr-card-bg);
+}
+
+.resCover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transform: scale(1);
+  transition: transform 0.2s ease;
+}
+
+.resCard:hover .resCover img {
+  transform: scale(1.025);
+}
+
+.resCover::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.04), transparent 44%, rgba(15, 23, 42, 0.58)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.68), transparent 46%);
+  content: "";
+}
+
+.resCoverOverlay {
+  position: absolute;
+  inset: auto 9px 9px 9px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.resCoverOverlay span,
+.resCoverOverlay strong {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  min-height: 22px;
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 10.5px;
+  font-weight: 780;
+}
+
+.resCoverOverlay span {
+  flex: 0 0 auto;
+  background: rgba(15, 23, 42, 0.66);
+  color: #ffffff;
+}
+
+.resCoverOverlay strong {
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.88);
+  color: #334155;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resCoverFallback {
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.14), rgba(14, 165, 233, 0.08) 45%, rgba(124, 58, 237, 0.08)),
+    var(--cr-card-bg);
+}
+
+.resCoverFallbackBody {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+}
+
+.resCoverFallbackBody span {
+  font-size: 28px;
+}
+
+.resCoverFallbackBody strong {
+  max-width: 220px;
+  color: var(--cr-text-primary);
+  font-size: 15px;
+  line-height: 1.3;
 }
 
 .resHeader {

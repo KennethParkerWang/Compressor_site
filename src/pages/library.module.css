@@ -248,7 +248,8 @@
   border-top: 3px solid var(--cr-accent, #1f4ed8);
   border-left: 1px solid var(--cr-line, #e2e8f0);
   border-radius: var(--cr-radius);
-  padding: 16px 18px 14px;
+  padding: 0;
+  overflow: hidden;
   position: relative;
   cursor: pointer;
   outline: none;
@@ -266,6 +267,138 @@
   border-color: color-mix(in srgb, var(--cr-accent) 42%, var(--cr-line));
   box-shadow: var(--cr-shadow-elevated);
   transform: translateY(-1px);
+}
+
+.paperCover {
+  position: relative;
+  aspect-ratio: 16 / 8.4;
+  min-height: 154px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--cr-line, #e2e8f0);
+  background:
+    linear-gradient(135deg, rgba(31, 78, 216, 0.08), rgba(14, 165, 233, 0.08)),
+    var(--cr-paper-2, #f8fafc);
+}
+
+.paperCover img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: top center;
+  filter: saturate(0.92) contrast(0.98);
+  transform: scale(1.001);
+  transition: transform .2s ease, filter .2s ease;
+}
+
+.paperCard:hover .paperCover img {
+  filter: saturate(1) contrast(1.02);
+  transform: scale(1.018);
+}
+
+.paperCover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.02), rgba(15, 23, 42, 0.24)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05), transparent 34%);
+}
+
+.paperCoverOverlay {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 9px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.paperCoverOverlay span,
+.paperCoverOverlay strong {
+  min-width: 0;
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: rgba(15, 23, 42, 0.72);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
+  backdrop-filter: blur(8px);
+}
+
+.paperCoverOverlay span {
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 760;
+}
+
+.paperCoverOverlay strong {
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 10.5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 720;
+}
+
+.paperCoverFallback {
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(90deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(31, 78, 216, 0.12), rgba(14, 165, 233, 0.08), rgba(124, 58, 237, 0.08));
+  background-size: 18px 18px, 18px 18px, auto;
+}
+
+.paperCoverFallbackBody {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  max-width: 78%;
+  color: var(--cr-ink, #0f172a);
+  text-align: center;
+}
+
+.paperCoverFallbackBody span {
+  color: var(--cr-accent, #1f4ed8);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 820;
+  letter-spacing: 0.08em;
+}
+
+.paperCoverFallbackBody strong {
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 860;
+  letter-spacing: 0.02em;
+}
+
+.paperCoverFallbackBody em {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--cr-ink-2, #475569);
+  font-size: 11.5px;
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.paperCardBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 14px 16px 14px;
 }
 
 .paperCardHeader {
@@ -465,6 +598,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: auto;
   padding-top: 10px;
   border-top: 1px dashed var(--cr-line, #e2e8f0);
 }

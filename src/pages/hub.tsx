@@ -1,5 +1,6 @@
 import React, {useMemo, useState} from 'react';
 import Layout from '@theme/Layout';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import {
   Archive,
   Code2,
@@ -12,7 +13,7 @@ import {
 } from 'lucide-react';
 import WorkbenchShell from '../components/workbench/WorkbenchShell';
 import {EmptyState, MetricTile, ResearchPanel} from '../components/research-console/ResearchConsole';
-import {RESOURCES, RESOURCE_CATEGORY_LABELS, type ResourceCategory} from '../data/resources';
+import {RESOURCES, RESOURCE_CATEGORY_LABELS, getResourceCoverImage, type Resource, type ResourceCategory} from '../data/resources';
 import {literatureData} from '../data/literatureData';
 import styles from './hub.module.css';
 
@@ -22,6 +23,44 @@ const CN = {
   title: '资源库 / Resource Library',
   noResult: '未找到匹配的资源',
 };
+
+function getHost(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return url;
+  }
+}
+
+function ResourceCover({resource}: {resource: Resource}): React.ReactElement {
+  const [failed, setFailed] = useState(false);
+  const image = getResourceCoverImage(resource);
+  const imageSrc = useBaseUrl(image);
+  const label = RESOURCE_CATEGORY_LABELS[resource.category].label;
+
+  return (
+    <div className={`${styles.resCover} ${failed ? styles.resCoverFallback : ''}`}>
+      {!failed ? (
+        <img
+          src={imageSrc}
+          alt={resource.coverAlt ?? `${resource.name} webpage preview`}
+          loading="lazy"
+          onError={() => setFailed(true)}
+        />
+      ) : null}
+      <div className={styles.resCoverOverlay}>
+        <span>{label}</span>
+        <strong>{getHost(resource.url)}</strong>
+      </div>
+      {failed ? (
+        <div className={styles.resCoverFallbackBody}>
+          <span>{resource.emoji}</span>
+          <strong>{resource.name}</strong>
+        </div>
+      ) : null}
+    </div>
+  );
+}
 
 export default function Hub(): React.ReactElement {
   const [cat, setCat] = useState<ResourceCategory | 'all'>('all');
@@ -129,6 +168,7 @@ export default function Hub(): React.ReactElement {
                     <div className={styles.resGrid}>
                       {grouped[c]!.map((resource) => (
                         <article key={resource.name} className={styles.resCard}>
+                          <ResourceCover resource={resource} />
                           <header className={styles.resHeader}>
                             <span className={styles.resType}>{resource.category}</span>
                             <h3>{resource.name}</h3>

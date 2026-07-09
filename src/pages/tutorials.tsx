@@ -1,5 +1,6 @@
 import React, {useMemo, useState} from 'react';
 import Layout from '@theme/Layout';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import {
   BadgeCheck,
   BookOpen,
@@ -23,6 +24,7 @@ import {
   TUTORIAL_MEDIA_LABELS,
   TUTORIAL_QUALITY_LABELS,
   TUTORIAL_RESOURCES,
+  getTutorialResourceCoverImage,
   type TutorialResource,
   type TutorialResourceCategory,
   type TutorialResourceLevel,
@@ -115,9 +117,28 @@ function matchesText(resource: TutorialResource, query: string): boolean {
 
 function ResourceCoverCard({resource}: {resource: TutorialResource}): React.ReactElement {
   const Icon = getMediaIcon(resource.media);
+  const coverImage = getTutorialResourceCoverImage(resource);
+  const coverImageSrc = useBaseUrl(coverImage ?? '');
   return (
-    <a className={styles.coverCard} data-tone={resource.coverTone} href={resource.url} target="_blank" rel="noopener noreferrer">
+    <a
+      className={`${styles.coverCard} ${coverImage ? styles.coverCardWithImage : ''}`}
+      data-tone={resource.coverTone}
+      href={resource.url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <div className={styles.coverSurface}>
+        {coverImage ? (
+          <>
+            <img
+              className={styles.coverImage}
+              src={coverImageSrc}
+              alt={resource.coverAlt ?? `${resource.title} webpage preview`}
+              loading="lazy"
+            />
+            <div className={styles.coverScrim} />
+          </>
+        ) : null}
         <div className={styles.coverMeta}>
           <span>{TUTORIAL_MEDIA_LABELS[resource.media]}</span>
           <span>{TUTORIAL_QUALITY_LABELS[resource.quality]}</span>
@@ -158,11 +179,29 @@ function ResourceCoverCard({resource}: {resource: TutorialResource}): React.Reac
 
 function ResourceMatrixRow({resource}: {resource: TutorialResource}): React.ReactElement {
   const Icon = getMediaIcon(resource.media);
+  const coverImage = getTutorialResourceCoverImage(resource);
+  const coverImageSrc = useBaseUrl(coverImage ?? '');
   return (
-    <a className={styles.matrixRow} data-tone={resource.coverTone} href={resource.url} target="_blank" rel="noopener noreferrer">
+    <a
+      className={`${styles.matrixRow} ${coverImage ? styles.matrixRowWithImage : ''}`}
+      data-tone={resource.coverTone}
+      href={resource.url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <div className={styles.matrixMedia}>
-        <Icon size={20} />
-        <span>{TUTORIAL_MEDIA_LABELS[resource.media]}</span>
+        {coverImage ? (
+          <img
+            className={styles.matrixThumb}
+            src={coverImageSrc}
+            alt={resource.coverAlt ?? `${resource.title} webpage preview`}
+            loading="lazy"
+          />
+        ) : null}
+        <div className={styles.matrixMediaOverlay}>
+          <Icon size={20} />
+          <span>{TUTORIAL_MEDIA_LABELS[resource.media]}</span>
+        </div>
       </div>
       <div className={styles.matrixMain}>
         <div className={styles.matrixTitleLine}>

@@ -2,6 +2,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import {useLocation} from '@docusaurus/router';
 import Fuse from 'fuse.js';
 import WorkbenchShell from '../components/workbench/WorkbenchShell';
@@ -12,7 +13,7 @@ import {Separator} from '../components/ui/separator';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '../components/ui/select';
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter} from '../components/ui/dialog';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '../components/ui/tabs';
-import {literatureData, type LiteratureItem} from '../data/literatureData';
+import {getLiteratureCoverImage, literatureData, type LiteratureItem} from '../data/literatureData';
 import {readingPaths} from '../data/readingPaths';
 import {useNotes} from '../stores/workbench';
 import {BookOpen, ChevronRight, Code2, Database, Download, ExternalLink, Plus, Search, Sparkles, X, Calendar, Tag, FileText} from 'lucide-react';
@@ -589,8 +590,23 @@ function getAttachmentCounts(l: RowVm): { total: number; kinds: Record<string, n
   return { total: (l.attachments ?? []).length, kinds };
 }
 
+function getLiteratureHost(url?: string): string {
+  if (!url) return 'local record';
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return url.replace(/^https?:\/\//, '').split('/')[0] || 'external source';
+  }
+}
+
 function PaperCard({l, onOpen}: {l: RowVm; onOpen: () => void}) {
   const noteLabel = l.noteStatus === 'none' ? CN.noNote : (NOTE_LABELS[l.noteStatus] ?? l.noteStatus);
+  const [coverFailed, setCoverFailed] = useState(false);
+  const coverImage = getLiteratureCoverImage(l);
+  const coverSrc = useBaseUrl(coverImage ?? '');
+  const sourceHost = getLiteratureHost(l.url);
+  const typeLabel = TYPE_BADGE[l.type ?? '']?.label ?? l.type ?? '文献';
+  const hasCover = Boolean(coverImage) && !coverFailed;
   const handleCardClick = (e: React.MouseEvent<HTMLElement>) => {
     const t = e.target as HTMLElement;
     if (t.closest('button, a, [role="button"]')) return;
@@ -604,6 +620,29 @@ function PaperCard({l, onOpen}: {l: RowVm; onOpen: () => void}) {
   return (
     <article className={styles.paperCard} onClick={handleCardClick} role="button" tabIndex={0}
       onKeyDown={handleCardKey}>
+      <div className={`${styles.paperCover} ${hasCover ? '' : styles.paperCoverFallback}`}>
+        {hasCover ? (
+          <img
+            src={coverSrc}
+            alt={l.coverAlt ?? `${l.title} source preview`}
+            loading="lazy"
+            onError={() => setCoverFailed(true)}
+          />
+        ) : null}
+        <div className={styles.paperCoverOverlay}>
+          <span>{typeLabel}</span>
+          <strong>{sourceHost}</strong>
+        </div>
+        {!hasCover ? (
+          <div className={styles.paperCoverFallbackBody}>
+            <span>{l.id}</span>
+            <strong>{l.year ?? l.chapterId}</strong>
+            <em>{l.venue ?? sourceHost}</em>
+          </div>
+        ) : null}
+      </div>
+
+      <div className={styles.paperCardBody}>
       <header className={styles.paperCardHeader}>
         <div className={styles.paperIdGroup}>
           <span className={styles.paperId}>{l.id}</span>
@@ -686,6 +725,7 @@ function PaperCard({l, onOpen}: {l: RowVm; onOpen: () => void}) {
           展开 →
         </button>
       </footer>
+      </div>
     </article>
   );
 }

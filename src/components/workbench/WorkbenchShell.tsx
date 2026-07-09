@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import {useLocation} from '@docusaurus/router';
 import {
   BarChart3,
@@ -17,6 +18,8 @@ import {
   GraduationCap,
   Map as MapIcon,
   NotebookPen,
+  PanelLeftClose,
+  PanelLeftOpen,
   Presentation,
   RadioTower,
   Search,
@@ -27,6 +30,7 @@ import {
 } from 'lucide-react';
 import CommandPalette from './CommandPalette';
 import GlobalHelpButton from './GlobalHelpButton';
+import ParticleField from './ParticleField';
 import {useWorkbenchStats} from './stats';
 import {useTasks} from '../../stores/workbench';
 import styles from './WorkbenchShell.module.css';
@@ -108,6 +112,9 @@ const SHELL_COPY = {
     localeTitle: '切换到英文',
     localeHint: '英文界面',
     localeBadge: 'EN',
+    collapseSidebar: '收起导航栏',
+    expandSidebar: '展开导航栏',
+    navShort: '导航',
     mock: '示例数据',
     unconnected: '未连接真实源',
     pending: '待配置',
@@ -127,6 +134,9 @@ const SHELL_COPY = {
     localeTitle: 'Switch to Chinese',
     localeHint: 'Chinese interface',
     localeBadge: 'ZH',
+    collapseSidebar: 'Collapse navigation',
+    expandSidebar: 'Expand navigation',
+    navShort: 'Nav',
     mock: 'Demo data',
     unconnected: 'Source pending',
     pending: 'Pending',
@@ -134,6 +144,7 @@ const SHELL_COPY = {
 };
 
 const SIDEBAR_WIDTH_KEY = 'cr.sidebarWidth';
+const SIDEBAR_COLLAPSED_KEY = 'cr.sidebarCollapsed';
 const DEFAULT_SIDEBAR_WIDTH = 444;
 const MIN_SIDEBAR_WIDTH = 320;
 const MAX_SIDEBAR_WIDTH = 640;
@@ -152,15 +163,19 @@ export default function WorkbenchShell({
   fullBleed = false,
 }: WorkbenchShellProps): React.ReactElement {
   const location = useLocation();
+  const baseUrl = useBaseUrl('/');
   const stats = useWorkbenchStats();
   const tasks = useTasks((s) => s.tasks);
   const [sidebarWidth, setSidebarWidth] = React.useState(DEFAULT_SIDEBAR_WIDTH);
+  const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
   const openTasks = tasks.filter((t) => t.status === 'todo' || t.status === 'doing').length;
-  const normalizedPath = stripLocalePrefix(location.pathname);
-  const isEnglishLocale = location.pathname === '/en' || location.pathname.startsWith('/en/');
+  const pathWithoutBase = stripBasePath(location.pathname, baseUrl);
+  const normalizedPath = stripLocalePrefix(pathWithoutBase);
+  const isEnglishLocale = pathWithoutBase === '/en' || pathWithoutBase.startsWith('/en/');
   const lang: 'zh' | 'en' = isEnglishLocale ? 'en' : 'zh';
   const copy = isEnglishLocale ? SHELL_COPY.en : SHELL_COPY.zh;
-  const localeTarget = `${isEnglishLocale ? normalizedPath : addEnglishPrefix(normalizedPath)}${location.search}${location.hash}`;
+  const localePath = isEnglishLocale ? normalizedPath : addEnglishPrefix(normalizedPath);
+  const localeTarget = `${withBasePath(localePath, baseUrl)}${location.search}${location.hash}`;
 
   React.useEffect(() => {
     const savedWidth = window.localStorage.getItem(SIDEBAR_WIDTH_KEY);
@@ -168,17 +183,26 @@ export default function WorkbenchShell({
     if (Number.isFinite(parsedWidth)) {
       setSidebarWidth(clampSidebarWidth(parsedWidth));
     }
+    setSidebarCollapsed(window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === 'true');
   }, []);
 
   const shellStyle = React.useMemo(
-    () => ({'--rail-w': `${sidebarWidth}px`} as React.CSSProperties),
-    [sidebarWidth],
+    () => ({'--rail-w': `${sidebarCollapsed ? 0 : sidebarWidth}px`} as React.CSSProperties),
+    [sidebarCollapsed, sidebarWidth],
   );
 
   const commitSidebarWidth = React.useCallback((nextWidth: number) => {
     const width = clampSidebarWidth(nextWidth);
     setSidebarWidth(width);
     window.localStorage.setItem(SIDEBAR_WIDTH_KEY, String(width));
+  }, []);
+
+  const toggleSidebarCollapsed = React.useCallback(() => {
+    setSidebarCollapsed((current) => {
+      const next = !current;
+      window.localStorage.setItem(SIDEBAR_COLLAPSED_KEY, String(next));
+      return next;
+    });
   }, []);
 
   const beginSidebarResize = React.useCallback(
@@ -233,15 +257,39 @@ export default function WorkbenchShell({
   }
 
   return (
-    <div className={styles.shell} style={shellStyle}>
-      <aside className={styles.sidebar}>
-        <Link to={lang === 'en' ? '/en/' : '/'} className={styles.brand}>
-          <span className={styles.brandMark}>CR</span>
-          <span className={styles.brandText}>
-            <strong>{copy.brandTitle}</strong>
-            <span>{copy.brandSub}</span>
-          </span>
-        </Link>
+    <div className={`${styles.shell} ${sidebarCollapsed ? styles.shellCollapsed : ''}`} style={shellStyle}>
+      {sidebarCollapsed ? (
+        <button
+          type="button"
+          className={styles.sidebarRestore}
+          onClick={toggleSidebarCollapsed}
+          aria-label={copy.expandSidebar}
+          title={copy.expandSidebar}
+        >
+          <PanelLeftOpen size={16} />
+          <span>{copy.navShort}</span>
+        </button>
+      ) : null}
+
+      <aside className={styles.sidebar} aria-hidden={sidebarCollapsed}>
+        <div className={styles.brandRow}>
+          <Link to={lang === 'en' ? '/en/' : '/'} className={styles.brand}>
+            <span className={styles.brandMark}>CR</span>
+            <span className={styles.brandText}>
+              <strong>{copy.brandTitle}</strong>
+              <span>{copy.brandSub}</span>
+            </span>
+          </Link>
+          <button
+            type="button"
+            className={styles.sidebarToggle}
+            onClick={toggleSidebarCollapsed}
+            aria-label={copy.collapseSidebar}
+            title={copy.collapseSidebar}
+          >
+            <PanelLeftClose size={15} />
+          </button>
+        </div>
 
         <button
           type="button"
@@ -325,20 +373,23 @@ export default function WorkbenchShell({
         </div>
       </aside>
 
-      <div
-        className={styles.resizeHandle}
-        role="separator"
-        aria-label={lang === 'zh' ? '调整侧栏宽度' : 'Resize sidebar'}
-        aria-orientation="vertical"
-        aria-valuemin={MIN_SIDEBAR_WIDTH}
-        aria-valuemax={MAX_SIDEBAR_WIDTH}
-        aria-valuenow={sidebarWidth}
-        tabIndex={0}
-        onPointerDown={beginSidebarResize}
-        onKeyDown={resizeSidebarWithKeyboard}
-      />
+      {!sidebarCollapsed ? (
+        <div
+          className={styles.resizeHandle}
+          role="separator"
+          aria-label={lang === 'zh' ? '调整侧栏宽度' : 'Resize sidebar'}
+          aria-orientation="vertical"
+          aria-valuemin={MIN_SIDEBAR_WIDTH}
+          aria-valuemax={MAX_SIDEBAR_WIDTH}
+          aria-valuenow={sidebarWidth}
+          tabIndex={0}
+          onPointerDown={beginSidebarResize}
+          onKeyDown={resizeSidebarWithKeyboard}
+        />
+      ) : null}
 
       <main className={styles.main}>
+        <ParticleField className={styles.particleField} />
         {mockTag ? (
           <header className={styles.pageHead}>
             {mockTag ? (
@@ -363,6 +414,20 @@ function stripLocalePrefix(pathname: string): string {
   if (pathname === '/en') return '/';
   if (pathname.startsWith('/en/')) return pathname.slice(3) || '/';
   return pathname || '/';
+}
+
+function stripBasePath(pathname: string, baseUrl: string): string {
+  const basePath = baseUrl.replace(/\/+$/, '');
+  if (!basePath) return pathname || '/';
+  if (pathname === basePath) return '/';
+  if (pathname.startsWith(`${basePath}/`)) return pathname.slice(basePath.length) || '/';
+  return pathname || '/';
+}
+
+function withBasePath(pathname: string, baseUrl: string): string {
+  const basePath = baseUrl.replace(/\/+$/, '');
+  if (!basePath) return pathname;
+  return pathname === '/' ? `${basePath}/` : `${basePath}${pathname}`;
 }
 
 function addEnglishPrefix(pathname: string): string {
