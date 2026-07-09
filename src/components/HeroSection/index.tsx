@@ -1,0 +1,98 @@
+import React from 'react';
+import Link from '@docusaurus/Link';
+import {ArrowRight, FlaskConical, Map, BookOpen, Network, FileSearch} from 'lucide-react';
+import Logo from '@/src/components/Logo';
+import styles from './styles.module.css';
+
+const PIPELINE_NODES = [
+  {id: 'data', label: '数据类型', sub: '识别 / 路由', icon: '�?},
+  {id: 'transform', label: '可逆预处理', sub: 'BWT / Delta / 色差', icon: '�?},
+  {id: 'model', label: '概率建模', sub: 'PAQ / 神经 / 上下�?, icon: '�?},
+  {id: 'entropy', label: '熵编�?, sub: 'rANS / tANS / AC', icon: '�?},
+  {id: 'benchmark', label: 'Benchmark', sub: 'Silesia / NNLCB', icon: '�?},
+  {id: 'algo', label: '算法模块设计', sub: '可迁移流水线', icon: '�?, highlight: true},
+];
+
+export default function HeroSection(): React.ReactElement {
+  return (
+    <header className={styles.hero}>
+      <div className={styles.heroInner}>
+        <div className={styles.heroLeft}>
+          <span className={styles.eyebrow}>Academic Reading · Lossless Compression</span>
+          <h1 className={styles.title}>压缩算法研图</h1>
+          <p className={styles.subtitle}>Compression Research Atlas</p>
+          <p className={styles.description}>
+            一个面向无损压缩、神经压缩、领域专用压缩与实验复现的学术阅读地图�?          </p>
+          <div className={styles.actions}>
+            <Link className={styles.btnPrimary} to="/core">
+              <BookOpen size={14} />
+              开始阅�?              <ArrowRight size={14} />
+            </Link>
+            <Link className={styles.btnSecondary} to="/map">
+              <Map size={14} />
+              打开思维导图
+            </Link>
+            <Link className={styles.btnSecondary} to="/experiments">
+              <FlaskConical size={14} />
+              复现实验
+            </Link>
+          </div>
+          <div className={styles.eyebrowList}>
+            <span className={styles.dot} />11 个章�?· 88 个方�?· 338 篇文�?· 62 项资�?· 5 条阅读路�?          </div>
+        </div>
+
+        <div className={styles.pipelineWrapper}>
+          <div className={styles.pipelineCard}>
+            <div className={styles.pipelineHeader}>
+              <div className={styles.pipelineHeaderLeft}>
+                <Logo size={20} />
+                <span>Compression Research Pipeline</span>
+              </div>
+              <span className={styles.pipelineHeaderLive}>
+                <span className={styles.liveDot} />
+                live
+              </span>
+            </div>
+
+            <div className={styles.pipelineFlow}>
+              {PIPELINE_NODES.map((node, i) => (
+                <React.Fragment key={node.id}>
+                  <div
+                    className={`${styles.pipelineNode} ${node.highlight ? styles.nodeHighlight : ''}`}
+                  >
+                    <div className={styles.nodeCircle}>
+                      <span className={styles.nodeIcon}>{node.icon}</span>
+                    </div>
+                    <span className={styles.nodeLabel}>{node.label}</span>
+                    <span className={styles.nodeSubLabel}>{node.sub}</span>
+                  </div>
+                  {i < PIPELINE_NODES.length - 1 && (
+                    <div className={styles.pipelineArrow}>�?/div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+
+            <div className={styles.pipelineMeta}>
+              <div className={styles.pipelineMetaLeft}>
+                <div className={styles.metaItem}>
+                  <Network size={12} />
+                  <span>Map</span>
+                </div>
+                <div className={styles.metaItem}>
+                  <BookOpen size={12} />
+                  <span>Library</span>
+                </div>
+                <div className={styles.metaItem}>
+                  <FileSearch size={12} />
+                  <span>Workbench</span>
+                </div>
+              </div>
+              <span className={styles.metaItem}>Compressor = pipeline</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}

@@ -1,0 +1,188 @@
+/* ResearchPipeline - 研究流程与章节索引 */
+
+.section {
+  padding: 2.5rem 0 1.5rem;
+}
+
+.inner {
+  max-width: var(--cr-w-overview);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.header {
+  margin-bottom: 1.75rem;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cr-accent);
+  margin-bottom: 0.375rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+  color: var(--cr-text-primary);
+}
+
+.desc {
+  font-size: 0.9rem;
+  color: var(--cr-text-secondary);
+  max-width: 640px;
+  line-height: 1.6;
+}
+
+.flow {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  position: relative;
+  background: var(--cr-card-bg);
+  border: var(--cr-border);
+  border-radius: var(--cr-radius-lg);
+  padding: 1.5rem;
+  overflow-x: auto;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 100px;
+  position: relative;
+}
+
+.stageIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: var(--cr-accent-soft);
+  border: 1px solid var(--cr-border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  margin-bottom: 0.625rem;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.stage:hover .stageIcon {
+  transform: translateY(-1px);
+  border-color: var(--cr-accent);
+}
+
+.stageLabel {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--cr-text-primary);
+  text-align: center;
+  margin-bottom: 0.2rem;
+}
+
+.stageSubLabel {
+  font-size: 0.65rem;
+  color: var(--cr-text-muted);
+  text-align: center;
+  font-family: var(--ifm-font-family-monospace);
+}
+
+.stageChapters {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.chapterTag {
+  font-size: 0.6rem;
+  padding: 0.1rem 0.4rem;
+  background: var(--cr-surface);
+  border-radius: 3px;
+  color: var(--cr-text-secondary);
+  font-family: var(--ifm-font-family-monospace);
+  font-variant-numeric: tabular-nums;
+}
+
+.connector {
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  color: var(--cr-text-faint);
+  font-size: 1rem;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.chapterCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.625rem;
+  margin-top: 1.25rem;
+}
+
+.chapterCard {
+  background: var(--cr-card-bg);
+  border: var(--cr-border);
+  border-radius: var(--cr-radius);
+  padding: 0.75rem 0.875rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.chapterCard:hover {
+  transform: translateY(-1px);
+  border-color: var(--cr-accent);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.chapterNum {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--cr-accent);
+  background: var(--cr-accent-soft);
+  padding: 0.2rem 0.45rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.chapterInfo {
+  min-width: 0;
+  flex: 1;
+}
+
+.chapterTitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--cr-text-primary);
+  margin-bottom: 0.1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chapterSubTitle {
+  font-size: 0.62rem;
+  color: var(--cr-text-muted);
+  font-family: var(--ifm-font-family-monospace);
+}
+
+.chapterCount {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: var(--cr-text-muted);
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}

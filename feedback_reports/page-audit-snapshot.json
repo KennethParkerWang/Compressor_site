@@ -1,0 +1,3021 @@
+[
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "全局搜索"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "Today · 科研驾驶舱"
+    ],
+    "h2": [
+      "压缩算法研究控制台",
+      "下一步研究入口",
+      "任务执行层",
+      "深度学习压缩器",
+      "榜单核验状态"
+    ],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [
+      {
+        "cls": "",
+        "cw": 384,
+        "sw": 618,
+        "tag": "STRONG",
+        "text": "OmniCodec: Low Frame Rate Universal Audio Codec with Semantic-Acoustic Disentanglement"
+      },
+      {
+        "cls": "",
+        "cw": 384,
+        "sw": 393,
+        "tag": "STRONG",
+        "text": "Lossless Data Compression by Large Models — LMCompress"
+      },
+      {
+        "cls": "",
+        "cw": 384,
+        "sw": 578,
+        "tag": "STRONG",
+        "text": "Next-Pixel Prediction in Language Space is All You Need for Lossless Image Compression"
+      },
+      {
+        "cls": "",
+        "cw": 384,
+        "sw": 431,
+        "tag": "STRONG",
+        "text": "LALIC: Linear Attention Modeling for Learned Image Compression"
+      },
+      {
+        "cls": "",
+        "cw": 384,
+        "sw": 463,
+        "tag": "STRONG",
+        "text": "Balanced Rate-Distortion Optimization in Learned Image Compression"
+      }
+    ],
+    "scrollWidth": 1430,
+    "title": "Today · Research Console | 压缩算法研图",
+    "url": "/"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "导出当前筛选",
+      "导出引用库",
+      "查看可引用",
+      "阅读视图",
+      "批量管理",
+      "🗂全部",
+      "论文资料",
+      "标准文档",
+      "代码与项目"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "文献库 / Library"
+    ],
+    "h2": [
+      "文献、标准、代码与数据集证据库"
+    ],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [],
+    "scrollWidth": 1430,
+    "title": "文献库 / Library | 压缩算法研图",
+    "url": "/library"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "全部领域23",
+      "图像有损(学习)2",
+      "图像无损(学习)3",
+      "图像传统 codec1",
+      "视频传统 codec1",
+      "视频学习 codec1",
+      "文本混合数据5",
+      "文本纯压缩1",
+      "音频1"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "SOTA 榜单 / Leaderboards"
+    ],
+    "h2": [
+      "压缩榜单真相源",
+      "领域筛选"
+    ],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [],
+    "scrollWidth": 1430,
+    "title": "SOTA 榜单 / Leaderboards | 压缩算法研图",
+    "url": "/sota"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "全部数据集33",
+      "通用 / 混合语料3",
+      "文本 / 语言建模4",
+      "图像8",
+      "视频4",
+      "音频 / 语音4",
+      "科学数据 / 数组5",
+      "基因组 / 测序2",
+      "日志 / 结构化数据3"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "数据集 / Datasets"
+    ],
+    "h2": [
+      "压缩研究数据集与基准库"
+    ],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [
+      {
+        "cls": "datasetTable_g7ns",
+        "cw": 461,
+        "sw": 860,
+        "tag": "DIV",
+        "text": "数据集领域规模引用风险Canterbury Corpus经典入门基准,适合验证编码器正确性和小文件行为。通用 / 混合语料约 2.8 MB / 11 files官方入口低风险Calgary Corpus历史压缩论文常见 baseline,用"
+      }
+    ],
+    "scrollWidth": 1430,
+    "title": "数据集 / Datasets | 压缩算法研图",
+    "url": "/datasets"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "全部资源48",
+      "工具 / 库14",
+      "框架3",
+      "预训练模型4",
+      "综述 / 教程14",
+      "项目 / 案例7",
+      "标准 / 规范4",
+      "模板 / 报告2"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "资源库 / Resource Library"
+    ],
+    "h2": [
+      "工具、课程、项目、标准与模板",
+      "资源筛选",
+      "工具 / 库 · 14",
+      "框架 · 3",
+      "预训练模型 · 4"
+    ],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [
+      {
+        "cls": "",
+        "cw": 281,
+        "sw": 330,
+        "tag": "H3",
+        "text": "Goodfellow Deep Learning Ch.10 (Transformers)"
+      },
+      {
+        "cls": "",
+        "cw": 281,
+        "sw": 300,
+        "tag": "H3",
+        "text": "Alvin Wan: How lossless compression works"
+      },
+      {
+        "cls": "",
+        "cw": 281,
+        "sw": 347,
+        "tag": "H3",
+        "text": "Young Ju: Compression Algorithms Deep Dive 2025"
+      },
+      {
+        "cls": "",
+        "cw": 281,
+        "sw": 327,
+        "tag": "H3",
+        "text": "FileCrank: Huffman + LZ77 + DEFLATE Explained"
+      },
+      {
+        "cls": "",
+        "cw": 281,
+        "sw": 331,
+        "tag": "H3",
+        "text": "SegmentFault Idiomeo: 无损+有损+Golang 伪实现"
+      },
+      {
+        "cls": "",
+        "cw": 281,
+        "sw": 383,
+        "tag": "H3",
+        "text": "ETHW: History of Lossless Data Compression Algorithms"
+      },
+      {
+        "cls": "",
+        "cw": 281,
+        "sw": 326,
+        "tag": "H3",
+        "text": "Mahoney: The PAQ Data Compression Programs"
+      },
+      {
+        "cls": "",
+        "cw": 281,
+        "sw": 294,
+        "tag": "H3",
+        "text": "Data Compression Conference Proceedings"
+      },
+      {
+        "cls": "",
+        "cw": 281,
+        "sw": 348,
+        "tag": "H3",
+        "text": "ProjectManagement.com Project Charter Template"
+      }
+    ],
+    "scrollWidth": 1430,
+    "title": "资源库 / Resource Library | 压缩算法研图",
+    "url": "/hub"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "LLM 无损压缩语言模型概率分布接入无损熵编码4",
+      "神经图像无损像素/latent 概率模型与无损图像 codec6",
+      "神经图像有损可学习变换、超先验、上下文熵模型与 RD 优化9",
+      "神经音频 codecSoundStream / EnCodec / DAC / APCodec 等 RVQ codec10",
+      "神经视频 codec运动补偿、时域上下文与端到端视频压缩9",
+      "生成式低码率GAN/Diffusion decoder 参与极低码率重建5",
+      "新架构熵模型Mamba/RWKV/Transformer 作为 codec backbone 或熵模型3",
+      "带 benchmark",
+      "有代码"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "深度学习压缩器 / Learned Compression"
+    ],
+    "h2": [
+      "深度学习压缩器库"
+    ],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [
+      {
+        "cls": "",
+        "cw": 213,
+        "sw": 228,
+        "tag": "EM",
+        "text": "可学习变换、超先验、上下文熵模型与 RD 优化"
+      },
+      {
+        "cls": "",
+        "cw": 206,
+        "sw": 280,
+        "tag": "EM",
+        "text": "SoundStream / EnCodec / DAC / APCodec 等 RVQ codec"
+      },
+      {
+        "cls": "",
+        "cw": 213,
+        "sw": 296,
+        "tag": "EM",
+        "text": "Mamba/RWKV/Transformer 作为 codec backbone 或熵模型"
+      },
+      {
+        "cls": "",
+        "cw": 272,
+        "sw": 281,
+        "tag": "STRONG",
+        "text": "End-to-End Optimized Image Compression"
+      },
+      {
+        "cls": "",
+        "cw": 272,
+        "sw": 366,
+        "tag": "STRONG",
+        "text": "Variational Image Compression with a Scale Hyperprior"
+      },
+      {
+        "cls": "",
+        "cw": 272,
+        "sw": 342,
+        "tag": "EM",
+        "text": "ICLR 2018 (sub) · Ballé, Minnen, Singh, Tucker, Agustsson, Ballé"
+      },
+      {
+        "cls": "",
+        "cw": 272,
+        "sw": 341,
+        "tag": "STRONG",
+        "text": "High Fidelity Neural Audio Compression — EnCodec"
+      },
+      {
+        "cls": "",
+        "cw": 272,
+        "sw": 298,
+        "tag": "EM",
+        "text": "ICASSP 2023 / Meta AI · Défossez, Copet, Synnaeve, Adi"
+      },
+      {
+        "cls": "",
+        "cw": 272,
+        "sw": 326,
+        "tag": "STRONG",
+        "text": "SoundStream: An End-to-End Neural Audio Codec"
+      },
+      {
+        "cls": "",
+        "cw": 272,
+        "sw": 367,
+        "tag": "EM",
+        "text": "IEEE TASLP 2021 · Zeghidour, Luebs, Omran, Skoglund, Tagliasacchi"
+      },
+      {
+        "cls": "",
+        "cw": 272,
+        "sw": 321,
+        "tag": "STRONG",
+        "text": "DCVC-RT: Towards Real-Time Neural Video Codec"
+      },
+      {
+        "cls": "",
+        "cw": 272,
+        "sw": 495,
+        "tag": "STRONG",
+        "text": "Learned Image Compression with Discretized Gaussian Mixture Likelihoods"
+      }
+    ],
+    "scrollWidth": 1430,
+    "title": "深度学习压缩器 / Learned Compression | 压缩算法研图",
+    "url": "/neural-hub"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "全部",
+      "通用 / 混合语料",
+      "文本 / 语言建模",
+      "图像",
+      "视频",
+      "音频 / 语音",
+      "科学数据 / 数组",
+      "基因组 / 测序",
+      "日志 / 结构化数据"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "实验复现 / Experiments"
+    ],
+    "h2": [],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [],
+    "scrollWidth": 1430,
+    "title": "实验复现 / Experiments | 压缩算法研图",
+    "url": "/experiments"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "M01文件类型识别输入识别原型",
+      "M08块级优化分块策略草案",
+      "M14领域适配层可逆变换草案",
+      "M02可逆预处理可逆变换原型",
+      "M06BitPlane / Residual可逆变换草案",
+      "M10字典匹配器统计建模原型",
+      "M03上下文专家模型统计建模草案",
+      "M04神经预测器神经预测草案",
+      "M05概率混合概率融合草案"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "算法模块 / Algorithm Board"
+    ],
+    "h2": [
+      "压缩器架构模块板",
+      "模块页的定位"
+    ],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [
+      {
+        "cls": "flowRow_cU1f",
+        "cw": 1061,
+        "sw": 1696,
+        "tag": "DIV",
+        "text": "M01文件类型识别输入识别原型M08块级优化分块策略草案M14领域适配层可逆变换草案M02可逆预处理可逆变换原型M06BitPlane / Residual可逆变换草案M10字典匹配器统计建模原型M03上下文专家模型统计建模草案M04神经预"
+      }
+    ],
+    "scrollWidth": 1430,
+    "title": "算法模块 / Algorithm Board | 压缩算法研图",
+    "url": "/algorithm-board"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "历史主线",
+      "技术分支",
+      "架构位置",
+      "性能取舍",
+      "场景适配",
+      "全部技术域",
+      "理论基础",
+      "熵编码",
+      "字典 / LZ"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "压缩算法演化图谱 / Compression Algorithm Atlas"
+    ],
+    "h2": [
+      "压缩算法技术路线图",
+      "图谱控制台",
+      "历史主线"
+    ],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [
+      {
+        "cls": "roadmapScroller_fnI1",
+        "cw": 713,
+        "sw": 1680,
+        "tag": "DIV",
+        "text": "核心主干视图保留主干节点与关键关系,用于呈现压缩技术从理论、字典、变换、上下文建模到学习式方法的历史递进。1838 - 1947早期编码思想1948 - 1976信息论与熵编码基础1977 - 1988LZ 字典爆发1989 - 1999格"
+      },
+      {
+        "cls": "",
+        "cw": 62,
+        "sw": 69,
+        "tag": "STRONG",
+        "text": "Morse Code"
+      },
+      {
+        "cls": "",
+        "cw": 62,
+        "sw": 92,
+        "tag": "STRONG",
+        "text": "Shannon 信息论"
+      },
+      {
+        "cls": "",
+        "cw": 62,
+        "sw": 107,
+        "tag": "STRONG",
+        "text": "Arithmetic Coding"
+      },
+      {
+        "cls": "",
+        "cw": 62,
+        "sw": 81,
+        "tag": "STRONG",
+        "text": "Range Coding"
+      },
+      {
+        "cls": "",
+        "cw": 62,
+        "sw": 100,
+        "tag": "STRONG",
+        "text": "JPEG-LS / LOCO-I"
+      },
+      {
+        "cls": "",
+        "cw": 62,
+        "sw": 85,
+        "tag": "STRONG",
+        "text": "WebP Lossless"
+      },
+      {
+        "cls": "",
+        "cw": 62,
+        "sw": 114,
+        "tag": "STRONG",
+        "text": "LLM as Compressor"
+      }
+    ],
+    "scrollWidth": 1430,
+    "title": "压缩算法演化图谱 / Compression Algorithm Atlas | 压缩算法研图",
+    "url": "/algorithm-evolution"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "按时间",
+      "按分类",
+      "压缩率",
+      "速度",
+      "全部族",
+      "Theory",
+      "Entropy",
+      "LZ",
+      "Transform"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "算法目录 / Algorithm Catalog"
+    ],
+    "h2": [
+      "压缩算法目录"
+    ],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [],
+    "scrollWidth": 1430,
+    "title": "算法目录 / Algorithm Catalog | 压缩算法研图",
+    "url": "/algorithm-catalog"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "🗂全部186",
+      "📚基础概念20",
+      "🌀信息论21",
+      "🎲熵编码20",
+      "🔁字典编码20",
+      "🌊变换20",
+      "🧠学习型压缩21",
+      "📊评价指标26",
+      "🏭工业标准20"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "术语栏 / Glossary",
+      "术语栏 / Glossary"
+    ],
+    "h2": [],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [],
+    "scrollWidth": 1430,
+    "title": "术语栏 / Glossary | 压缩算法研图",
+    "url": "/terms"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "path-fundamentals信息论与熵编码基础Foundations and Entropy Coding2 周 · 24 h0/6 · 0%",
+      "path-paq-cmix上下文混合与高压缩率路线Context Mixing and High-Ratio Compression4 周 · 50 h0/4 · 0%",
+      "path-neural学习式无损压缩路线Learned Lossless Compression3 周 · 36 h0/4 · 0%",
+      "path-domain领域标准与科学数据压缩Domain Standards and Scientific Data Compression3 周 · 36 h0/5 · 0%",
+      "path-reproduction可复现实验与论文证据路线Reproducible Benchmarking and Paper Evidence持续 · 40 h0/5 · 0%",
+      "整条入任务",
+      "排到日历",
+      "加入本周",
+      "加入本周"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "阅读路线 / Reading Paths"
+    ],
+    "h2": [
+      "专业学习路线",
+      "信息论与熵编码基础"
+    ],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [],
+    "scrollWidth": 1430,
+    "title": "阅读路线 / Reading Paths | 压缩算法研图",
+    "url": "/reading-paths"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "新建任务",
+      "手动新建"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "研究任务 / Tasks"
+    ],
+    "h2": [
+      "研究任务看板"
+    ],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [
+      {
+        "cls": "kanban_NVL5",
+        "cw": 1110,
+        "sw": 1140,
+        "tag": "DIV",
+        "text": "待开始0已新建,还没开始做此列当前没有任务。进行中0正在做此列当前没有任务。等待材料0在等材料 / 延期 / 阻塞此列当前没有任务。已完成0已完成此列当前没有任务。归档0不再做 / 归档此列当前没有任务。"
+      }
+    ],
+    "scrollWidth": 1430,
+    "title": "研究任务 / Tasks | 压缩算法研图",
+    "url": "/tasks"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "全部",
+      "新建笔记",
+      "A Mathematical Theory of CommunicationC. E. Shannon · 1948已完成information-theorylossless",
+      "PPM 模型与上下文统计Cleary & Witten · 1984在审ppmcontext-modeling",
+      "DeepZip: RNN-based Lossless CompressionGoyal et al. · 2018草稿neuralrnn",
+      "已完成",
+      "复制全部",
+      "保存快照",
+      "历史版本 (0)"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "阅读笔记 / Notes"
+    ],
+    "h2": [
+      "文献笔记工作台"
+    ],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [
+      {
+        "cls": "center_lcsc",
+        "cw": 541,
+        "sw": 590,
+        "tag": "SECTION",
+        "text": "已完成 ?保存于: 08:00:00 复制全部 保存快照 历史版本 (0) 导出 Markdown导出纯文本 加标签information-theory ×lossless ×经典 × 六问问题 · 这篇要解决什么问题?信源的极限压缩比是多"
+      },
+      {
+        "cls": "editor_hgch",
+        "cw": 505,
+        "sw": 572,
+        "tag": "DIV",
+        "text": "已完成 ?保存于: 08:00:00 复制全部 保存快照 历史版本 (0) 导出 Markdown导出纯文本 加标签information-theory ×lossless ×经典 × 六问问题 · 这篇要解决什么问题?信源的极限压缩比是多"
+      },
+      {
+        "cls": "titleInput_e2rb",
+        "cw": 375,
+        "sw": 447,
+        "tag": "INPUT",
+        "text": ""
+      },
+      {
+        "cls": "",
+        "cw": 505,
+        "sw": 572,
+        "tag": "DIV",
+        "text": "?保存于: 08:00:00 复制全部 保存快照 历史版本 (0) 导出 Markdown导出纯文本"
+      }
+    ],
+    "scrollWidth": 1430,
+    "title": "阅读笔记 / Notes | 压缩算法研图",
+    "url": "/notes"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "全部",
+      "P0 · Architecture",
+      "P1 · Core Algorithms",
+      "P2 · Research Practice"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "教程 / Tutorials",
+      "教程 / Tutorials"
+    ],
+    "h2": [
+      "P0 · Architecture",
+      "P1 · Core Algorithms",
+      "P2 · Research Practice"
+    ],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [],
+    "scrollWidth": 1430,
+    "title": "教程 / Tutorials | 压缩算法研图",
+    "url": "/tutorials"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "🌐我要压网页 / 文本网页/文本冗余以字典与字符概率为主,需要工业成熟、吞吐高的组合方案。HTML / JSON / 日志 / 源码3 个标准查看标准",
+      "🖼️我要压图像图像冗余以像素相关为主,通用字典往往吃不满;近无损/有损参考用于带宽敏感场景。8-bit / 16-bit 图像 / 高位深图像4 个标准查看标准",
+      "🏥我要压医学影像医学对无损、稳定性、互操作要求最高,DICOM 是行业默认承载格式。DICOM 图像序列 / 体积数据3 个标准查看标准",
+      "🛰️我要压天文遥感天文/卫星数据常为 16-bit+ 大体积,需要严格无损或可控误差,CCSDS 是航天标准。FITS / 高光谱 / 卫星载荷4 个标准查看标准",
+      "🔬我要压科学数组科学数据多为浮点/高位深,HDF5/NetCDF 是容器,fpzip/zfp 是针对浮点的压缩。浮点数组 / 大规模模拟数据4 个标准查看标准",
+      "📊我要压表格 / 日志时序与结构化数据冗余在列内字典与值域分布,列式压缩更适合。时序、列存表、日志流3 个标准查看标准",
+      "🎯我要做基准测试通用压缩研究需要可比对的语料,Benchmark 语料本身就是研究材料。标准化文本/二进制/混合语料5 个标准查看标准"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "标准与场景 / Standards"
+    ],
+    "h2": [
+      "标准与基准矩阵"
+    ],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [],
+    "scrollWidth": 1430,
+    "title": "标准与场景 / Standards | 压缩算法研图",
+    "url": "/standards"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K",
+      "⏳ 待办0",
+      "🔨 进行中0",
+      "✅ 已完成0",
+      "⚠️ 延期0",
+      "📝 笔记更新2",
+      "🏛️ 里程碑44",
+      "全部阶段",
+      "本周阅读",
+      "待做笔记"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "日程 / Calendar"
+    ],
+    "h2": [],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [
+      {
+        "cls": "sx__button sx__today-button sx__ripple",
+        "cw": 60,
+        "sw": 98,
+        "tag": "BUTTON",
+        "text": "今天"
+      },
+      {
+        "cls": "sx__button sx__chevron-wrapper sx__ripple",
+        "cw": 48,
+        "sw": 92,
+        "tag": "BUTTON",
+        "text": "上一段时间"
+      },
+      {
+        "cls": "sx__button sx__chevron-wrapper sx__ripple",
+        "cw": 48,
+        "sw": 92,
+        "tag": "BUTTON",
+        "text": "下一段时间"
+      },
+      {
+        "cls": "sx__view-selection-selected-item sx__ripple",
+        "cw": 70,
+        "sw": 103,
+        "tag": "BUTTON",
+        "text": "月"
+      },
+      {
+        "cls": "sx__event sx__month-grid-event sx__month-grid-cell",
+        "cw": 104,
+        "sw": 121,
+        "tag": "DIV",
+        "text": "1948 · 1 篇奠基论文"
+      },
+      {
+        "cls": "sx__event sx__month-grid-event sx__month-grid-cell",
+        "cw": 104,
+        "sw": 121,
+        "tag": "DIV",
+        "text": "1949 · 1 篇奠基论文"
+      },
+      {
+        "cls": "sx__event sx__month-grid-event sx__month-grid-cell",
+        "cw": 104,
+        "sw": 121,
+        "tag": "DIV",
+        "text": "1956 · 1 篇奠基论文"
+      },
+      {
+        "cls": "sx__event sx__month-grid-event sx__month-grid-cell",
+        "cw": 104,
+        "sw": 121,
+        "tag": "DIV",
+        "text": "1975 · 1 篇奠基论文"
+      },
+      {
+        "cls": "sx__button sx__month-grid-day__events-more sx__ripple--wide",
+        "cw": 107,
+        "sw": 254,
+        "tag": "BUTTON",
+        "text": "+ 40 场活动"
+      },
+      {
+        "cls": "sx__event sx__month-grid-event sx__month-grid-cell",
+        "cw": 104,
+        "sw": 249,
+        "tag": "DIV",
+        "text": "DeepZip: RNN-based Lossless Compression"
+      },
+      {
+        "cls": "sx__event sx__month-grid-event sx__month-grid-cell",
+        "cw": 104,
+        "sw": 243,
+        "tag": "DIV",
+        "text": "A Mathematical Theory of Communication"
+      }
+    ],
+    "scrollWidth": 1430,
+    "title": "日程 / Calendar | 压缩算法研图",
+    "url": "/calendar"
+  },
+  {
+    "buttons": [
+      "Academic Light",
+      "🔍 搜索… ⌘K",
+      "搜索论文、榜单、任务⌘K"
+    ],
+    "clientWidth": 1430,
+    "h1": [
+      "客户项目总览 / Acceptance Dashboard",
+      "项目验收总览"
+    ],
+    "h2": [
+      "阶段统计",
+      "项目阶段甘特",
+      "交付物",
+      "风险与缓解",
+      "移交包"
+    ],
+    "links": [
+      {
+        "href": "#__docusaurus_skipToContent_fallback",
+        "text": "跳到主要内容"
+      },
+      {
+        "href": "/",
+        "text": "压缩算法研图"
+      },
+      {
+        "href": "/",
+        "text": "Today"
+      },
+      {
+        "href": "/library",
+        "text": "Library"
+      },
+      {
+        "href": "/sota",
+        "text": "SOTA"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/map",
+        "text": "Map"
+      },
+      {
+        "href": "/tasks",
+        "text": "Tasks"
+      },
+      {
+        "href": "/calendar",
+        "text": "Calendar"
+      },
+      {
+        "href": "/experiments",
+        "text": "Experiments"
+      },
+      {
+        "href": "/tutorials",
+        "text": "Tutorials"
+      },
+      {
+        "href": "#",
+        "text": "More"
+      },
+      {
+        "href": "/reading-paths",
+        "text": "Reading Paths"
+      },
+      {
+        "href": "/notes",
+        "text": "Notes"
+      },
+      {
+        "href": "/core",
+        "text": "Core Papers"
+      },
+      {
+        "href": "/terms",
+        "text": "Terms"
+      },
+      {
+        "href": "/standards",
+        "text": "Standards"
+      },
+      {
+        "href": "/hub",
+        "text": "Resource Library"
+      },
+      {
+        "href": "/datasets",
+        "text": "Datasets"
+      },
+      {
+        "href": "/algorithm-board",
+        "text": "Algorithm Modules"
+      },
+      {
+        "href": "/algorithm-evolution",
+        "text": "Algorithm Evolution"
+      },
+      {
+        "href": "/algorithm-catalog",
+        "text": "Algorithm Catalog"
+      },
+      {
+        "href": "/neural-hub",
+        "text": "Learned Compression"
+      },
+      {
+        "href": "/research-feed",
+        "text": "Research Feed"
+      }
+    ],
+    "overflow": [
+      {
+        "cls": "ganttFrame_Zzk_",
+        "cw": 1077,
+        "sw": 1116,
+        "tag": "DIV",
+        "text": "2026年8月2026年9月2026年10月2026年11月2026年12月2027年1月2027年2月M1 调研W1-W4 · ★ 2026-08-31★17 篇核心文献精读 (按章节分布 11 章)120h11 章文献综述 PDF (每"
+      },
+      {
+        "cls": "gantt_w1F8",
+        "cw": 1100,
+        "sw": 1110,
+        "tag": "DIV",
+        "text": "2026年8月2026年9月2026年10月2026年11月2026年12月2027年1月2027年2月M1 调研W1-W4 · ★ 2026-08-31★17 篇核心文献精读 (按章节分布 11 章)120h11 章文献综述 PDF (每"
+      },
+      {
+        "cls": "ganttHead_CV7n",
+        "cw": 1100,
+        "sw": 1105,
+        "tag": "DIV",
+        "text": "2026年8月2026年9月2026年10月2026年11月2026年12月2027年1月2027年2月"
+      },
+      {
+        "cls": "ganttStageBar_SSYa",
+        "cw": 158,
+        "sw": 164,
+        "tag": "DIV",
+        "text": "★"
+      },
+      {
+        "cls": "ganttStageBar_SSYa",
+        "cw": 468,
+        "sw": 475,
+        "tag": "DIV",
+        "text": "★"
+      },
+      {
+        "cls": "ganttStageBar_SSYa",
+        "cw": 194,
+        "sw": 200,
+        "tag": "DIV",
+        "text": "★"
+      },
+      {
+        "cls": "ganttRowTitle_hzUr",
+        "cw": 244,
+        "sw": 322,
+        "tag": "SPAN",
+        "text": "自研模块全数据集实验 (Silesia / enwik8 / CLIC 2025 / 自有集)"
+      },
+      {
+        "cls": "ganttStage_l2zJ",
+        "cw": 1100,
+        "sw": 1110,
+        "tag": "DIV",
+        "text": "M5 收尾W31-W35 · ★ 2027-02-28★演示 demo (Web 可视化) + 录屏60h项目白皮书 PDF20h项目知识库 1 套 (验收包)20h专利 2–3 提交 + 论文 2 投稿20h5 问 1 试验收清单 (移交"
+      },
+      {
+        "cls": "ganttStageTrack_BT4L",
+        "cw": 1092,
+        "sw": 1102,
+        "tag": "DIV",
+        "text": "★"
+      },
+      {
+        "cls": "ganttStageBar_SSYa",
+        "cw": 142,
+        "sw": 149,
+        "tag": "DIV",
+        "text": "★"
+      }
+    ],
+    "scrollWidth": 1430,
+    "title": "客户项目总览 / Acceptance Dashboard | 压缩算法研图",
+    "url": "/project-overview"
+  },
+  {
+    "bodyText": "!function(){var t=function(){try{return new URLSearchParams(window.location.search).get(\"docusaurus-theme\")}catch(t){}}()||function(){try{return window.localStorage.getItem(\"theme-9f6\")}catch(t){}}();document.documentElement.setAttribute(\"data-theme\",t||(window.matchMedia(\"(prefers-color-scheme: dark)\").matches?\"dark\":\"light\")),document.documentElement.setAttribute(\"data-theme-choice\",t||\"system\")}(),function(){try{for(var[t,e]of new URLSearchParams(window.location.search).entries())if(t.startsW",
+    "clientWidth": 380,
+    "overflow": [
+      {
+        "cls": "theme-layout-navbar-sidebar navbar-sidebar",
+        "cw": 324,
+        "sw": 647,
+        "tag": "DIV",
+        "text": "压缩算法研图TodayLibrarySOTADatasetsMapTasksCalendarExperimentsTutorialsMoreAbout🔍 搜索… ⌘K← 回到主菜单"
+      },
+      {
+        "cls": "navbar-sidebar__items",
+        "cw": 324,
+        "sw": 647,
+        "tag": "DIV",
+        "text": "TodayLibrarySOTADatasetsMapTasksCalendarExperimentsTutorialsMoreAbout🔍 搜索… ⌘K← 回到主菜单"
+      },
+      {
+        "cls": "theme-layout-navbar-sidebar-panel navbar-sidebar__item menu",
+        "cw": 324,
+        "sw": 340,
+        "tag": "DIV",
+        "text": "← 回到主菜单"
+      },
+      {
+        "cls": "nav_klZv",
+        "cw": 364,
+        "sw": 964,
+        "tag": "NAV",
+        "text": "Research ConsoleToday驾驶舱SOTA榜单真相源Datasets数据集Learned深度压缩器Tasks执行层Evidence IntelligenceLibrary事实数据库Map研究图谱Core Papers核心论文S"
+      }
+    ],
+    "scrollWidth": 380,
+    "url": "/",
+    "mobile": true
+  },
+  {
+    "bodyText": "!function(){var t=function(){try{return new URLSearchParams(window.location.search).get(\"docusaurus-theme\")}catch(t){}}()||function(){try{return window.localStorage.getItem(\"theme-9f6\")}catch(t){}}();document.documentElement.setAttribute(\"data-theme\",t||(window.matchMedia(\"(prefers-color-scheme: dark)\").matches?\"dark\":\"light\")),document.documentElement.setAttribute(\"data-theme-choice\",t||\"system\")}(),function(){try{for(var[t,e]of new URLSearchParams(window.location.search).entries())if(t.startsW",
+    "clientWidth": 380,
+    "overflow": [
+      {
+        "cls": "theme-layout-navbar-sidebar navbar-sidebar",
+        "cw": 324,
+        "sw": 647,
+        "tag": "DIV",
+        "text": "压缩算法研图TodayLibrarySOTADatasetsMapTasksCalendarExperimentsTutorialsMoreAbout🔍 搜索… ⌘K← 回到主菜单"
+      },
+      {
+        "cls": "navbar-sidebar__items",
+        "cw": 324,
+        "sw": 647,
+        "tag": "DIV",
+        "text": "TodayLibrarySOTADatasetsMapTasksCalendarExperimentsTutorialsMoreAbout🔍 搜索… ⌘K← 回到主菜单"
+      },
+      {
+        "cls": "theme-layout-navbar-sidebar-panel navbar-sidebar__item menu",
+        "cw": 324,
+        "sw": 340,
+        "tag": "DIV",
+        "text": "← 回到主菜单"
+      },
+      {
+        "cls": "nav_klZv",
+        "cw": 364,
+        "sw": 964,
+        "tag": "NAV",
+        "text": "Research ConsoleToday驾驶舱SOTA榜单真相源Datasets数据集Learned深度压缩器Tasks执行层Evidence IntelligenceLibrary事实数据库Map研究图谱Core Papers核心论文S"
+      }
+    ],
+    "scrollWidth": 380,
+    "url": "/library",
+    "mobile": true
+  },
+  {
+    "bodyText": "!function(){var t=function(){try{return new URLSearchParams(window.location.search).get(\"docusaurus-theme\")}catch(t){}}()||function(){try{return window.localStorage.getItem(\"theme-9f6\")}catch(t){}}();document.documentElement.setAttribute(\"data-theme\",t||(window.matchMedia(\"(prefers-color-scheme: dark)\").matches?\"dark\":\"light\")),document.documentElement.setAttribute(\"data-theme-choice\",t||\"system\")}(),function(){try{for(var[t,e]of new URLSearchParams(window.location.search).entries())if(t.startsW",
+    "clientWidth": 380,
+    "overflow": [
+      {
+        "cls": "theme-layout-navbar-sidebar navbar-sidebar",
+        "cw": 324,
+        "sw": 647,
+        "tag": "DIV",
+        "text": "压缩算法研图TodayLibrarySOTADatasetsMapTasksCalendarExperimentsTutorialsMoreReading PathsNotesCore PapersTermsStandardsResourc"
+      },
+      {
+        "cls": "navbar-sidebar__items",
+        "cw": 324,
+        "sw": 647,
+        "tag": "DIV",
+        "text": "TodayLibrarySOTADatasetsMapTasksCalendarExperimentsTutorialsMoreReading PathsNotesCore PapersTermsStandardsResource Libr"
+      },
+      {
+        "cls": "theme-layout-navbar-sidebar-panel navbar-sidebar__item menu",
+        "cw": 324,
+        "sw": 340,
+        "tag": "DIV",
+        "text": "← 回到主菜单"
+      },
+      {
+        "cls": "nav_klZv",
+        "cw": 364,
+        "sw": 964,
+        "tag": "NAV",
+        "text": "Research ConsoleToday驾驶舱SOTA榜单真相源Datasets数据集Learned深度压缩器Tasks执行层Evidence IntelligenceLibrary事实数据库Map研究图谱Core Papers核心论文S"
+      },
+      {
+        "cls": "ganttFrame_Zzk_",
+        "cw": 323,
+        "sw": 1116,
+        "tag": "DIV",
+        "text": "2026年8月2026年9月2026年10月2026年11月2026年12月2027年1月2027年2月M1 调研W1-W4 · ★ 2026-08-31★17 篇核心文献精读 (按章节分布 11 章)120h11 章文献综述 PDF (每"
+      },
+      {
+        "cls": "gantt_w1F8",
+        "cw": 1100,
+        "sw": 1110,
+        "tag": "DIV",
+        "text": "2026年8月2026年9月2026年10月2026年11月2026年12月2027年1月2027年2月M1 调研W1-W4 · ★ 2026-08-31★17 篇核心文献精读 (按章节分布 11 章)120h11 章文献综述 PDF (每"
+      },
+      {
+        "cls": "ganttHead_CV7n",
+        "cw": 1100,
+        "sw": 1105,
+        "tag": "DIV",
+        "text": "2026年8月2026年9月2026年10月2026年11月2026年12月2027年1月2027年2月"
+      },
+      {
+        "cls": "ganttStageBar_SSYa",
+        "cw": 158,
+        "sw": 164,
+        "tag": "DIV",
+        "text": "★"
+      },
+      {
+        "cls": "ganttStageBar_SSYa",
+        "cw": 468,
+        "sw": 475,
+        "tag": "DIV",
+        "text": "★"
+      },
+      {
+        "cls": "ganttStageBar_SSYa",
+        "cw": 194,
+        "sw": 200,
+        "tag": "DIV",
+        "text": "★"
+      },
+      {
+        "cls": "ganttRowTitle_hzUr",
+        "cw": 244,
+        "sw": 322,
+        "tag": "SPAN",
+        "text": "自研模块全数据集实验 (Silesia / enwik8 / CLIC 2025 / 自有集)"
+      },
+      {
+        "cls": "ganttStage_l2zJ",
+        "cw": 1100,
+        "sw": 1110,
+        "tag": "DIV",
+        "text": "M5 收尾W31-W35 · ★ 2027-02-28★演示 demo (Web 可视化) + 录屏60h项目白皮书 PDF20h项目知识库 1 套 (验收包)20h专利 2–3 提交 + 论文 2 投稿20h5 问 1 试验收清单 (移交"
+      }
+    ],
+    "scrollWidth": 380,
+    "url": "/project-overview",
+    "mobile": true
+  },
+  {
+    "bodyText": "!function(){var t=function(){try{return new URLSearchParams(window.location.search).get(\"docusaurus-theme\")}catch(t){}}()||function(){try{return window.localStorage.getItem(\"theme-9f6\")}catch(t){}}();document.documentElement.setAttribute(\"data-theme\",t||(window.matchMedia(\"(prefers-color-scheme: dark)\").matches?\"dark\":\"light\")),document.documentElement.setAttribute(\"data-theme-choice\",t||\"system\")}(),function(){try{for(var[t,e]of new URLSearchParams(window.location.search).entries())if(t.startsW",
+    "clientWidth": 380,
+    "overflow": [
+      {
+        "cls": "theme-layout-navbar-sidebar navbar-sidebar",
+        "cw": 324,
+        "sw": 647,
+        "tag": "DIV",
+        "text": "压缩算法研图TodayLibrarySOTADatasetsMapTasksCalendarExperimentsTutorialsMoreReading PathsNotesCore PapersTermsStandardsResourc"
+      },
+      {
+        "cls": "navbar-sidebar__items",
+        "cw": 324,
+        "sw": 647,
+        "tag": "DIV",
+        "text": "TodayLibrarySOTADatasetsMapTasksCalendarExperimentsTutorialsMoreReading PathsNotesCore PapersTermsStandardsResource Libr"
+      },
+      {
+        "cls": "theme-layout-navbar-sidebar-panel navbar-sidebar__item menu",
+        "cw": 324,
+        "sw": 340,
+        "tag": "DIV",
+        "text": "← 回到主菜单"
+      },
+      {
+        "cls": "nav_klZv",
+        "cw": 364,
+        "sw": 964,
+        "tag": "NAV",
+        "text": "Research ConsoleToday驾驶舱SOTA榜单真相源Datasets数据集Learned深度压缩器Tasks执行层Evidence IntelligenceLibrary事实数据库Map研究图谱Core Papers核心论文S"
+      },
+      {
+        "cls": "roadmapScroller_fnI1",
+        "cw": 355,
+        "sw": 1680,
+        "tag": "DIV",
+        "text": "核心主干视图保留主干节点与关键关系,用于呈现压缩技术从理论、字典、变换、上下文建模到学习式方法的历史递进。1838 - 1947早期编码思想1948 - 1976信息论与熵编码基础1977 - 1988LZ 字典爆发1989 - 1999格"
+      },
+      {
+        "cls": "",
+        "cw": 62,
+        "sw": 69,
+        "tag": "STRONG",
+        "text": "Morse Code"
+      },
+      {
+        "cls": "",
+        "cw": 62,
+        "sw": 92,
+        "tag": "STRONG",
+        "text": "Shannon 信息论"
+      },
+      {
+        "cls": "",
+        "cw": 62,
+        "sw": 107,
+        "tag": "STRONG",
+        "text": "Arithmetic Coding"
+      },
+      {
+        "cls": "",
+        "cw": 62,
+        "sw": 81,
+        "tag": "STRONG",
+        "text": "Range Coding"
+      },
+      {
+        "cls": "",
+        "cw": 62,
+        "sw": 100,
+        "tag": "STRONG",
+        "text": "JPEG-LS / LOCO-I"
+      },
+      {
+        "cls": "",
+        "cw": 62,
+        "sw": 85,
+        "tag": "STRONG",
+        "text": "WebP Lossless"
+      },
+      {
+        "cls": "",
+        "cw": 62,
+        "sw": 114,
+        "tag": "STRONG",
+        "text": "LLM as Compressor"
+      }
+    ],
+    "scrollWidth": 380,
+    "url": "/algorithm-evolution",
+    "mobile": true
+  },
+  {
+    "bodyText": "!function(){var t=function(){try{return new URLSearchParams(window.location.search).get(\"docusaurus-theme\")}catch(t){}}()||function(){try{return window.localStorage.getItem(\"theme-9f6\")}catch(t){}}();document.documentElement.setAttribute(\"data-theme\",t||(window.matchMedia(\"(prefers-color-scheme: dark)\").matches?\"dark\":\"light\")),document.documentElement.setAttribute(\"data-theme-choice\",t||\"system\")}(),function(){try{for(var[t,e]of new URLSearchParams(window.location.search).entries())if(t.startsW",
+    "clientWidth": 380,
+    "overflow": [
+      {
+        "cls": "theme-layout-navbar-sidebar navbar-sidebar",
+        "cw": 324,
+        "sw": 647,
+        "tag": "DIV",
+        "text": "压缩算法研图TodayLibrarySOTADatasetsMapTasksCalendarExperimentsTutorialsMoreReading PathsNotesCore PapersTermsStandardsResourc"
+      },
+      {
+        "cls": "navbar-sidebar__items",
+        "cw": 324,
+        "sw": 647,
+        "tag": "DIV",
+        "text": "TodayLibrarySOTADatasetsMapTasksCalendarExperimentsTutorialsMoreReading PathsNotesCore PapersTermsStandardsResource Libr"
+      },
+      {
+        "cls": "theme-layout-navbar-sidebar-panel navbar-sidebar__item menu",
+        "cw": 324,
+        "sw": 340,
+        "tag": "DIV",
+        "text": "← 回到主菜单"
+      },
+      {
+        "cls": "nav_klZv",
+        "cw": 364,
+        "sw": 964,
+        "tag": "NAV",
+        "text": "Research ConsoleToday驾驶舱SOTA榜单真相源Datasets数据集Learned深度压缩器Tasks执行层Evidence IntelligenceLibrary事实数据库Map研究图谱Core Papers核心论文S"
+      },
+      {
+        "cls": "headerInner_DYSl",
+        "cw": 308,
+        "sw": 320,
+        "tag": "DIV",
+        "text": "术语栏 / Glossary压缩算法领域常用术语:解释 + 维基百科 + 关联论文。"
+      }
+    ],
+    "scrollWidth": 380,
+    "url": "/terms",
+    "mobile": true
+  },
+  {
+    "bodyText": "!function(){var t=function(){try{return new URLSearchParams(window.location.search).get(\"docusaurus-theme\")}catch(t){}}()||function(){try{return window.localStorage.getItem(\"theme-9f6\")}catch(t){}}();document.documentElement.setAttribute(\"data-theme\",t||(window.matchMedia(\"(prefers-color-scheme: dark)\").matches?\"dark\":\"light\")),document.documentElement.setAttribute(\"data-theme-choice\",t||\"system\")}(),function(){try{for(var[t,e]of new URLSearchParams(window.location.search).entries())if(t.startsW",
+    "clientWidth": 380,
+    "overflow": [
+      {
+        "cls": "theme-layout-navbar-sidebar navbar-sidebar",
+        "cw": 324,
+        "sw": 647,
+        "tag": "DIV",
+        "text": "压缩算法研图TodayLibrarySOTADatasetsMapTasksCalendarExperimentsTutorialsMoreAbout🔍 搜索… ⌘K← 回到主菜单"
+      },
+      {
+        "cls": "navbar-sidebar__items",
+        "cw": 324,
+        "sw": 647,
+        "tag": "DIV",
+        "text": "TodayLibrarySOTADatasetsMapTasksCalendarExperimentsTutorialsMoreAbout🔍 搜索… ⌘K← 回到主菜单"
+      },
+      {
+        "cls": "theme-layout-navbar-sidebar-panel navbar-sidebar__item menu",
+        "cw": 324,
+        "sw": 340,
+        "tag": "DIV",
+        "text": "← 回到主菜单"
+      },
+      {
+        "cls": "nav_klZv",
+        "cw": 364,
+        "sw": 964,
+        "tag": "NAV",
+        "text": "Research ConsoleToday驾驶舱SOTA榜单真相源Datasets数据集Learned深度压缩器Tasks执行层Evidence IntelligenceLibrary事实数据库Map研究图谱Core Papers核心论文S"
+      }
+    ],
+    "scrollWidth": 380,
+    "url": "/tutorials",
+    "mobile": true
+  }
+]

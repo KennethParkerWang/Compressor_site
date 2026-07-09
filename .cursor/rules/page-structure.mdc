@@ -1,0 +1,51 @@
+---
+description: 页面结构规范 — src/pages/tutorials/* 必须包含的区块
+globs:
+  - src/pages/tutorials/**/*.tsx
+---
+
+# 教程页面结构
+
+## `/tutorials` 列表页
+```
+<Layout title="..." description="...">
+  <WorkbenchShell pageTitle="教程" pageHint="...">
+    <HeroSection />              // 栏目介绍 + 学习路径图入口
+    <PathFilter />                // 阶段筛选 (入门/原理/专题)
+    <DifficultyFilter />          // 难度筛选
+    <SearchBar />                 // 标题搜索
+    <TutorialGrid />              // 卡片网格
+    <Legend />                    // 难度/时长图例
+  </WorkbenchShell>
+</Layout>
+```
+
+## `/tutorials/[id]` 详情页
+```
+<Layout title="..." description="...">
+  <WorkbenchShell>
+    <Breadcrumb />               // 路径: 首页 / 教程 / TUT-0101
+    <TutorialHeader />           // 标题 + 难度/时长徽章 + 作者/更新时间
+    <Sidebar>
+      <Outline />                 // 章节锚点
+      <PrerequisiteList />        // 前置知识 (链到其他教程)
+      <LinkedTermsPanel />        // 涉及的术语
+      <LinkedPapersPanel />       // 涉及的论文
+    </Sidebar>
+    <MarkdownBody />              // 教程正文
+    <CommonPitfalls />            // 常见坑
+    <TutorialNav />               // 上/下篇
+    <NextTutorial />              // 推荐下篇
+  </WorkbenchShell>
+</Layout>
+```
+
+## 顶栏入口
+- 顶部 nav 添加 "教程" 链接 (`docusaurus.config.ts`)
+- 主页 `<StartHere />` 卡片里加 "第一次访问从这里开始 → /tutorials/TUT-0101"
+- `<Hub />` 加 "教程" tile
+
+## 严禁
+- ❌ 教程页不带难度/时长徽章
+- ❌ 详情页没有上/下篇导航
+- ❌ 教程页裸链到外部资源 (走 ResourceLink)

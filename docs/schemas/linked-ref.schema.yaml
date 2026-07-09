@@ -1,0 +1,46 @@
+# 教程内引用结构 schema
+# 教程正文里嵌入的术语/论文/资源/资产引用统一格式
+
+$schema: http://json-schema.org/draft-07/schema#
+$id: https://compressor-research/schemas/linked-ref.schema.yaml
+title: LinkedRef
+type: object
+
+required:
+  - kind
+  - id
+
+properties:
+  kind:
+    type: string
+    enum: [term, paper, resource, asset, tutorial]
+    description: |
+      term      - 术语 (id 对应 terms.ts name)
+      paper     - 论文 (id 对应 literatureData.ts id)
+      resource  - 外部资源 (id 对应 resources.ts name)
+      asset     - 项目资产 (id 对应 projectAssets.json id)
+      tutorial  - 教程 (id 对应 tutorials.ts id)
+
+  id:
+    type: string
+    description: 对应数据文件的 ID
+
+  display:
+    type: string
+    description: 可选,自定义显示文本 (默认用 name/title)
+
+  inline:
+    type: boolean
+    default: true
+    description: |
+      true  - 行内显示,带悬浮卡片
+      false - 卡片网格展示
+
+additionalProperties: false
+
+# 示例 (在教程 markdown 里写成):
+#   <Term id="Entropy" />
+#   <LitLink id="LIT-0001" />
+#   <ResourceLink name="PAQ8px" />
+#   <AssetLink id="ASSET-0002" />
+#   <TutorialLink id="TUT-0102" />

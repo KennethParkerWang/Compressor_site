@@ -1,0 +1,274 @@
+/* AlgorithmModuleSection - 服务 Ch.10 的模块板 */
+
+.section {
+  padding: 2.5rem 0;
+  background: var(--cr-surface);
+  border-top: var(--cr-border);
+  border-bottom: var(--cr-border);
+}
+
+.inner {
+  max-width: var(--cr-w-overview);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cr-accent);
+  margin-bottom: 0.375rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--cr-text-primary);
+}
+
+.desc {
+  font-size: 0.9rem;
+  color: var(--cr-text-secondary);
+  max-width: 640px;
+  margin: 0.5rem 0 0;
+  line-height: 1.6;
+}
+
+.viewAll {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--cr-accent);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.4rem 0.75rem;
+  border: var(--cr-border);
+  border-radius: var(--cr-radius);
+  background: var(--cr-card-bg);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.viewAll:hover {
+  border-color: var(--cr-accent);
+  background: var(--cr-accent-soft);
+  text-decoration: none;
+}
+
+.flowRow {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.moduleChip {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.625rem 0.875rem;
+  background: var(--cr-card-bg);
+  border: var(--cr-border);
+  border-radius: var(--cr-radius);
+  min-width: 140px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.moduleChip:hover {
+  border-color: var(--cr-accent);
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: inherit;
+}
+
+.chipId {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.65rem;
+  color: var(--cr-accent);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.chipName {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--cr-text-primary);
+}
+
+.chipCat {
+  font-size: 0.65rem;
+  color: var(--cr-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: var(--ifm-font-family-monospace);
+}
+
+.chipStatus {
+  font-size: 0.65rem;
+  padding: 0.05rem 0.4rem;
+  background: var(--cr-accent-soft);
+  color: var(--cr-accent);
+  border-radius: 3px;
+  align-self: flex-start;
+  font-variant-numeric: tabular-nums;
+  margin-top: 0.2rem;
+}
+
+.chipStatusDone {
+  background: rgba(34, 197, 94, 0.1);
+  color: #16a34a;
+}
+
+.chipStatusFailed {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+.chipStatusTodo {
+  background: var(--cr-surface-soft);
+  color: var(--cr-text-muted);
+}
+
+.modulesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+@media (max-width: 1000px) {
+  .modulesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .modulesGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.moduleCard {
+  background: var(--cr-card-bg);
+  border: var(--cr-border);
+  border-radius: var(--cr-radius);
+  padding: 1rem 1.125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.moduleCard:hover {
+  transform: translateY(-1px);
+  border-color: var(--cr-accent);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+}
+
+.moduleHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.moduleId {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--cr-accent);
+  background: var(--cr-accent-soft);
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  font-variant-numeric: tabular-nums;
+}
+
+.moduleCategory {
+  font-size: 0.65rem;
+  color: var(--cr-text-muted);
+  font-family: var(--ifm-font-family-monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.moduleName {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--cr-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.moduleIo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  background: var(--cr-surface);
+  border-radius: 6px;
+  padding: 0.5rem 0.625rem;
+  font-size: 0.7rem;
+  color: var(--cr-text-secondary);
+  line-height: 1.4;
+}
+
+.moduleIo strong {
+  color: var(--cr-text-primary);
+  font-weight: 600;
+}
+
+.moduleFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: var(--cr-border);
+}
+
+.moduleStatusBadge {
+  font-size: 0.65rem;
+  font-family: var(--ifm-font-family-monospace);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  background: var(--cr-surface);
+  color: var(--cr-text-secondary);
+  font-variant-numeric: tabular-nums;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.riskBadge {
+  font-size: 0.65rem;
+  font-family: var(--ifm-font-family-monospace);
+  font-variant-numeric: tabular-nums;
+}
+
+.riskLow {
+  color: #16a34a;
+}
+
+.riskMedium {
+  color: var(--cr-accent-cyan);
+}
+
+.riskHigh {
+  color: #dc2626;
+}

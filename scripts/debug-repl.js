@@ -1,0 +1,16 @@
+const fs = require('fs');
+let src = fs.readFileSync('src/data/literatureData.ts', 'utf8');
+const idx = src.indexOf('"url": "https://doi.org/10.1109/TIT.1956.1056818"');
+console.log('before:', JSON.stringify(src.slice(idx - 50, idx)));
+console.log('after:', JSON.stringify(src.slice(idx + 49, idx + 80)));
+const blockStart = src.lastIndexOf('{', idx);
+const blockEnd = src.indexOf('"id": "LIT-', idx + 1);
+console.log('blockStart:', blockStart, 'blockEnd:', blockEnd);
+const block = src.slice(blockStart, blockEnd < 0 ? src.indexOf('];', idx) : blockEnd);
+const urlMatch = block.match(/"url":\s*"([^"]+)"(\s*,)?/);
+console.log('urlMatch[2]:', JSON.stringify(urlMatch[2]));
+console.log('truthy:', !!urlMatch[2]);
+const trailing = urlMatch[2] ? '' : ',';
+console.log('trailing:', JSON.stringify(trailing));
+const repl = `"url": "${urlMatch[1]}"${trailing}\n    "attachments": [\n      { "kind": "x", "label": "X", "url": "${urlMatch[1]}" }\n    ],`;
+console.log('repl:', JSON.stringify(repl));

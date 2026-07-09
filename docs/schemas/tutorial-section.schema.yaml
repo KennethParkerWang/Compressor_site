@@ -1,0 +1,73 @@
+# Tutorial 单节结构 schema
+
+$schema: http://json-schema.org/draft-07/schema#
+$id: https://compressor-research/schemas/tutorial-section.schema.yaml
+title: TutorialSection
+type: object
+
+required:
+  - id
+  - type
+  - title
+
+properties:
+  id:
+    type: string
+    pattern: '^[a-z0-9-]+$'
+
+  type:
+    type: string
+    enum:
+      - intro           # 引子段 (为什么读这个)
+      - prerequisites   # 前置知识列表
+      - body            # 正文
+      - intuition       # 直觉建立 (原理类教程用)
+      - formalization   # 形式化定义 (公式段)
+      - code            # 代码段
+      - comparison      # 对比表
+      - pitfalls        # 常见坑
+      - callout         # 单条提示
+      - next            # 下一步引导
+
+  title:
+    type: string
+
+  body:
+    type: string
+    description: Markdown 内容,支持术语/论文/资源引用
+
+  calloutType:
+    type: string
+    enum: [tip, info, warn, danger, compare]
+    description: callout 段的视觉类型
+
+  items:
+    type: array
+    description: 用于 prerequisites / pitfalls / lists 段
+    items:
+      type: object
+
+  subsections:
+    type: array
+    description: 用于 body 段嵌套小节
+    items:
+      $ref: 'tutorial-section.schema.yaml'
+
+  linkedRefs:
+    type: array
+    description: 本节涉及的术语/论文/资源引用列表
+    items:
+      $ref: 'linked-ref.schema.yaml'
+
+  code:
+    type: object
+    description: 代码块 (code 类型时使用)
+    properties:
+      lang:
+        type: string
+      title:
+        type: string
+      content:
+        type: string
+
+additionalProperties: false

@@ -1,0 +1,285 @@
+/* shadcn / Tailwind layers + shadcn 主题变量
+ * 5 主题变量由 html[data-cr-theme] 切换,叠加在原有 custom.css 之上
+ * 不覆盖原有 --ifm-* 变量
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============== shadcn theme tokens (5 套主题) ============== */
+:root,
+[data-cr-theme='light'] {
+  --background: 210 40% 99%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --primary: 217 91% 60%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+  --accent: 210 40% 92%;
+  --accent-foreground: 222 47% 11%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --ring: 217 91% 60%;
+  --radius: 0.5rem;
+
+  --font-sans: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+[data-cr-theme='paper'] {
+  --background: 36 33% 97%;
+  --foreground: 30 25% 18%;
+  --card: 36 30% 99%;
+  --card-foreground: 30 25% 18%;
+  --popover: 36 30% 99%;
+  --popover-foreground: 30 25% 18%;
+  --primary: 28 70% 38%;
+  --primary-foreground: 36 33% 97%;
+  --secondary: 36 20% 92%;
+  --secondary-foreground: 30 25% 18%;
+  --muted: 36 18% 90%;
+  --muted-foreground: 30 12% 40%;
+  --accent: 36 18% 88%;
+  --accent-foreground: 30 25% 18%;
+  --destructive: 0 70% 45%;
+  --destructive-foreground: 36 33% 97%;
+  --border: 36 18% 82%;
+  --input: 36 18% 82%;
+  --ring: 28 70% 38%;
+}
+
+[data-cr-theme='graph'] {
+  --background: 220 25% 96%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --primary: 174 72% 36%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 220 20% 94%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 220 20% 94%;
+  --muted-foreground: 215 16% 47%;
+  --accent: 220 20% 90%;
+  --accent-foreground: 222 47% 11%;
+  --destructive: 0 84% 50%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 220 20% 86%;
+  --input: 220 20% 86%;
+  --ring: 174 72% 36%;
+}
+
+[data-cr-theme='dark'] {
+  --background: 222 47% 8%;
+  --foreground: 210 40% 96%;
+  --card: 222 47% 11%;
+  --card-foreground: 210 40% 96%;
+  --popover: 222 47% 11%;
+  --popover-foreground: 210 40% 96%;
+  --primary: 217 91% 60%;
+  --primary-foreground: 222 47% 8%;
+  --secondary: 222 32% 18%;
+  --secondary-foreground: 210 40% 96%;
+  --muted: 222 32% 16%;
+  --muted-foreground: 215 20% 70%;
+  --accent: 222 32% 22%;
+  --accent-foreground: 210 40% 96%;
+  --destructive: 0 70% 55%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 222 32% 22%;
+  --input: 222 32% 22%;
+  --ring: 217 91% 60%;
+}
+
+[data-cr-theme='focus'] {
+  --background: 30 25% 94%;
+  --foreground: 30 30% 14%;
+  --card: 30 30% 97%;
+  --card-foreground: 30 30% 14%;
+  --popover: 30 30% 97%;
+  --popover-foreground: 30 30% 14%;
+  --primary: 0 70% 42%;
+  --primary-foreground: 30 30% 97%;
+  --secondary: 30 20% 90%;
+  --secondary-foreground: 30 30% 14%;
+  --muted: 30 20% 88%;
+  --muted-foreground: 30 10% 38%;
+  --accent: 30 25% 86%;
+  --accent-foreground: 30 30% 14%;
+  --destructive: 0 75% 45%;
+  --destructive-foreground: 30 30% 97%;
+  --border: 30 20% 80%;
+  --input: 30 20% 80%;
+  --ring: 0 70% 42%;
+}
+
+/* 基础样式 - 让 Tailwind 类可全局用 */
+@layer base {
+  .wb-card {
+    @apply bg-card text-card-foreground rounded-lg border border-border shadow-sm;
+  }
+  .wb-btn-primary {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium
+           bg-primary text-primary-foreground hover:opacity-90
+           transition-colors focus-visible:outline-none focus-visible:ring-2
+           focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50;
+  }
+  .wb-btn-ghost {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium
+           hover:bg-accent hover:text-accent-foreground transition-colors
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring;
+  }
+}
+
+/* ============== 5 主题背景纹理 ============== */
+[data-cr-theme='light'] body::before,
+[data-cr-theme='paper'] body::before,
+[data-cr-theme='graph'] body::before,
+[data-cr-theme='dark'] body::before,
+[data-cr-theme='focus'] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+[data-cr-theme='light'] body::before {
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+[data-cr-theme='paper'] body::before {
+  background-image:
+    radial-gradient(rgba(120, 90, 50, 0.08) 1px, transparent 1px),
+    radial-gradient(rgba(120, 90, 50, 0.04) 1px, transparent 1px);
+  background-size: 14px 14px, 7px 7px;
+  background-position: 0 0, 3px 3px;
+}
+
+[data-cr-theme='graph'] body::before {
+  background-image:
+    radial-gradient(rgba(13, 148, 136, 0.18) 1.4px, transparent 1.4px),
+    radial-gradient(rgba(13, 148, 136, 0.08) 1px, transparent 1px);
+  background-size: 56px 56px, 28px 28px;
+  background-position: 0 0, 14px 14px;
+}
+
+[data-cr-theme='dark'] body::before {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+[data-cr-theme='focus'] body::before {
+  background-image:
+    radial-gradient(rgba(180, 60, 50, 0.06) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+main, .theme-doc-sidebar-container, .navbar, .pagination-nav, footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============== v3.0 Workbench semantic vars ============== */
+:root,
+[data-cr-theme='light'] {
+  --cr-paper: #ffffff;
+  --cr-paper-2: #f8fafc;
+  --cr-card: #ffffff;
+  --cr-ink: #0f172a;
+  --cr-ink-2: #334155;
+  --cr-ink-3: #64748b;
+  --cr-line: #e2e8f0;
+  --cr-accent: #1f4ed8;
+  --cr-accent-soft: rgba(31, 78, 216, 0.08);
+  --cr-font: ui-sans-serif, system-ui, -apple-system, 'Inter', 'Noto Sans SC', sans-serif;
+}
+[data-cr-theme='paper'] {
+  --cr-paper: #fbf7ee;
+  --cr-paper-2: #f5ecd9;
+  --cr-card: #ffffff;
+  --cr-ink: #3a2a18;
+  --cr-ink-2: #5a4030;
+  --cr-ink-3: #8c6d50;
+  --cr-line: #e7d7b8;
+  --cr-accent: #92400e;
+  --cr-accent-soft: rgba(146, 64, 14, 0.10);
+  --cr-font: 'EB Garamond', 'Noto Serif SC', ui-serif, serif;
+}
+[data-cr-theme='graph'] {
+  --cr-paper: #ffffff;
+  --cr-paper-2: #ecfdf7;
+  --cr-card: #ffffff;
+  --cr-ink: #0c2f2b;
+  --cr-ink-2: #134e48;
+  --cr-ink-3: #5a7470;
+  --cr-line: #d1f0ea;
+  --cr-accent: #0d9488;
+  --cr-accent-soft: rgba(13, 148, 136, 0.10);
+  --cr-font: ui-sans-serif, system-ui, 'Inter', sans-serif;
+}
+[data-cr-theme='dark'] {
+  --cr-paper: #0b1220;
+  --cr-paper-2: #0f1a2e;
+  --cr-card: #111a2f;
+  --cr-ink: #e2e8f0;
+  --cr-ink-2: #cbd5e1;
+  --cr-ink-3: #94a3b8;
+  --cr-line: #1f2a44;
+  --cr-accent: #3b82f6;
+  --cr-accent-soft: rgba(59, 130, 246, 0.18);
+  --cr-font: ui-sans-serif, system-ui, 'Inter', sans-serif;
+}
+[data-cr-theme='focus'] {
+  --cr-paper: #ede4d3;
+  --cr-paper-2: #ddd0bb;
+  --cr-card: #f3ebd9;
+  --cr-ink: #2a1818;
+  --cr-ink-2: #4a2828;
+  --cr-ink-3: #7a5050;
+  --cr-line: #d4c5a8;
+  --cr-accent: #b91c1c;
+  --cr-accent-soft: rgba(185, 28, 28, 0.10);
+  --cr-font: 'EB Garamond', 'Noto Serif SC', ui-serif, serif;
+}
+
+/* ============= 全局 SelectTrigger 兜底(防止任意页面下拉文本裁切) ============= */
+[data-slot="select-trigger"] {
+  max-width: 100%;
+  min-width: 0;
+}
+[data-slot="select-trigger"] [data-slot="select-value"] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  max-width: 100%;
+  min-width: 0;
+}
+[data-slot="select-trigger"] > span:first-child:not([data-slot]) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+[data-slot="select-content"] {
+  /* 弹层用 portal 渲染,不加 viewport 限制,长 items 自然滚动 */
+  max-width: min(420px, calc(100vw - 32px));
+}

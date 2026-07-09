@@ -1,0 +1,50 @@
+.wrap {
+  width: 100%;
+}
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
+}
+.col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 0;
+}
+.barTrack {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: var(--cr-paper-2, #f1f5f9);
+  border-radius: 6px 6px 0 0;
+  overflow: hidden;
+}
+.bar {
+  width: 100%;
+  transition: height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  border-radius: 4px 4px 0 0;
+}
+.value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cr-ink, #0f172a);
+  margin-top: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.label {
+  font-size: 10px;
+  color: var(--cr-ink-3, #64748b);
+  text-align: center;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}

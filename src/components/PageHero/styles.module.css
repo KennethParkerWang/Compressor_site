@@ -1,0 +1,93 @@
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 74px;
+  margin-bottom: 14px;
+  padding: 14px 16px;
+  border: var(--cr-border);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--cr-accent) 7%, transparent), color-mix(in srgb, var(--cr-cyan) 4%, transparent)),
+    var(--cr-card-bg);
+  box-shadow: var(--cr-shadow-card);
+}
+
+.titleBlock {
+  min-width: 0;
+}
+
+.kicker {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--cr-accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hero h2 {
+  margin: 0;
+  color: var(--cr-text-primary);
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.side {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.meta,
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.meta span,
+.actions a,
+.actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 32px;
+  padding: 5px 9px;
+  border: var(--cr-border);
+  border-radius: 6px;
+  background: var(--cr-card-bg);
+  color: var(--cr-text-secondary);
+  font-size: 12px;
+  font-weight: 680;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.actions a:hover,
+.actions button:hover {
+  border-color: var(--cr-accent);
+  color: var(--cr-accent);
+  text-decoration: none;
+}
+
+@media (max-width: 720px) {
+  .hero {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .side,
+  .meta,
+  .actions {
+    justify-content: flex-start;
+  }
+}

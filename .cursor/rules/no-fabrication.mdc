@@ -1,0 +1,38 @@
+---
+description: 不准胡编资料 — 论文/SOTA/GitHub 涉及事实必须联网核查
+globs:
+  - src/**/*.ts
+  - src/**/*.tsx
+  - docs/**/*.md
+---
+
+# 真实性规范
+
+## 强制规则
+1. **任何引用** (论文、GitHub 仓库、DOI、SOTA 数据、benchmark 数字) 必须来自 `literatureData.ts` / `resources.ts` / `leaderboards.ts` 中已有的数据
+2. **新加内容** 必须在联网状态下,通过 `WebSearch` 或 `WebFetch` 校验后,才能写入数据文件
+3. **SOTA 数字** 必须从 `leaderboards.ts` 引用,不准凭印象写 "XX 算法 yy% 压缩率"
+4. **GitHub stars / arXiv 引用数 / 发布时间** 不准编,要联网拉真实数据
+
+## 联网核查清单
+任何教程/页面发布前,作者必须自查:
+- [ ] 所有 LIT-XXXX 在 literatureData.ts 里存在
+- [ ] 所有 GitHub/DOI 链接在 resources.ts 里 + URL 可访问
+- [ ] 所有 SOTA 数字有 leaderboards.ts 来源
+- [ ] 所有未发表论文标 `unpublished=true`
+- [ ] 所有自定义 benchmark 数字 (非 SOTA) 在 `docs/benchmarks/` 留原始记录
+
+## 引用论文的标准说法
+- ✅ "<LitLink id='LIT-0001' /> 在 1948 年 Bell System Technical Journal 上发表"
+- ❌ "Shannon 那篇 1948 年的经典论文" (没 ID)
+
+## 引用 SOTA
+- ✅ "enwik9 上当前最优压缩率 X bpb (来源: <ResourceLink name='Hutter Prize' />)"
+- ❌ "当前最优压缩率是 X bpb" (没来源)
+
+## 严禁
+- ❌ 凭印象写论文标题/作者/年份
+- ❌ 凭印象写 GitHub stars / 项目状态
+- ❌ 编一个 "我听说" 的 SOTA 数字
+- ❌ 把综述里别人引用的二手论文当一手引用
+- ❌ 把博客文章当论文引用

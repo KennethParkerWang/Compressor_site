@@ -1,0 +1,193 @@
+/* CorePapersSection - 首页核心文献精选 */
+
+.section {
+  padding: 2.5rem 0 1.5rem;
+}
+
+.inner {
+  max-width: var(--cr-w-overview);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cr-accent);
+  margin-bottom: 0.375rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--cr-text-primary);
+}
+
+.viewAll {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--cr-accent);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.4rem 0.75rem;
+  border: var(--cr-border);
+  border-radius: var(--cr-radius);
+  background: var(--cr-card-bg);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.viewAll:hover {
+  border-color: var(--cr-accent);
+  background: var(--cr-accent-soft);
+  text-decoration: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.75rem;
+}
+
+.card {
+  background: var(--cr-card-bg);
+  border: var(--cr-border);
+  border-radius: var(--cr-radius);
+  padding: 1rem 1.125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-1px);
+  border-color: var(--cr-accent);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.priorityBadge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  background: var(--cr-accent-soft);
+  color: var(--cr-accent);
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.yearBadge {
+  font-size: 0.65rem;
+  font-family: var(--ifm-font-family-monospace);
+  color: var(--cr-text-muted);
+  background: var(--cr-surface);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chapterBadge {
+  font-size: 0.6rem;
+  padding: 0.1rem 0.4rem;
+  background: var(--cr-surface);
+  border-radius: 3px;
+  color: var(--cr-text-secondary);
+  font-family: var(--ifm-font-family-monospace);
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.titleText {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--cr-text-primary);
+  line-height: 1.4;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.72rem;
+  color: var(--cr-text-muted);
+  flex-wrap: wrap;
+}
+
+.authors {
+  font-weight: 500;
+  color: var(--cr-text-secondary);
+}
+
+.venue {
+  font-style: italic;
+}
+
+.summary {
+  font-size: 0.78rem;
+  color: var(--cr-text-secondary);
+  line-height: 1.55;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tags {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 0.65rem;
+  padding: 0.1rem 0.4rem;
+  background: var(--cr-surface);
+  border-radius: 3px;
+  color: var(--cr-text-secondary);
+}
+
+.actions {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: var(--cr-border);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actionLink {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--cr-accent);
+  text-decoration: none;
+}
+
+.actionLink:hover {
+  text-decoration: underline;
+}

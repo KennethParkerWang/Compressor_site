@@ -1,0 +1,33 @@
+---
+description: 术语使用规范 — 出现术语必须链接 terms.ts
+globs:
+  - src/**/*.tsx
+  - src/**/*.ts
+  - docs/**/*.md
+---
+
+# 术语使用规范
+
+## 强制规则
+1. 凡是出现在 `src/data/terms.ts` 里的术语,在教程/笔记/页面里**第一次出现时必须挂链接**
+2. 链接形式: `<Term id="Entropy" />` 渲染成 `熵 (Entropy)`,鼠标悬浮显示定义和关联论文
+3. **不允许只写中文不写英文**: 例如 "算术编码 (Arithmetic Coding)"
+4. 中文解释优先,英文后置括号补全
+5. 术语禁止拆开翻译 ("自适应上下文" 应该是 "Adaptive Context (自适应上下文)" 而不是 "自适应 上下文")
+
+## 链接样式
+- 行内: `这是一个 <Term id="Entropy" /> 的例子`
+- 段落开头: `<Term id="PAQ8px" /> 是 Matt Mahoney 设计的压缩器`
+
+## 添加新术语
+新术语必须:
+1. 在 `terms.ts` 末尾追加,带 category + emoji + briefZh + wikipedia
+2. 若有相关论文,补 `relatedLits: ['LIT-XXXX']`
+3. 教程写完后跑 `npm run lint:tutorial-refs` 校验
+
+## 反例
+- ❌ "熵是信息不确定度的度量"
+- ✅ "<Term id='Entropy' /> 是信息不确定度的度量,压缩极限的下界"
+
+## 不在术语库的词
+如果是项目专有名词 (例如 "PAQ8px"、"Silesia"),不算术语,走 `LitLink` 或资源卡片,不强制术语链接。

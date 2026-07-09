@@ -1,0 +1,38 @@
+---
+description: 论文引用规范 — 论文必须挂 LIT-XXXX,不允许裸标题
+globs:
+  - src/**/*.tsx
+  - src/**/*.ts
+  - docs/**/*.md
+---
+
+# 论文引用规范
+
+## 强制规则
+1. 凡是提到论文,**必须**用 `<LitLink id="LIT-XXXX" />` 组件,而不是裸标题
+2. 论文 ID 来自 `src/data/literatureData.ts`,完整列表 600+ 条
+3. 同一篇论文在教程中多次出现,每次都挂链接 (不强求但推荐)
+
+## 引用样式
+- 行内: "Shannon 1948 给出 <LitLink id='LIT-0001' />"
+- 列表: 用 `references` 段,自动渲染成卡片网格
+
+## 校验
+写教程后必须:
+```
+npm run lint:tutorial-refs
+```
+会自动检查:
+- 所有 `LIT-XXXX` 在 literatureData.ts 里存在
+- 未发表论文 (`unpublished=true`) 不要标为"已发表"
+
+## 添加新论文
+1. 在 `literatureData.ts` 末尾追加
+2. 必填字段: `id`, `title`, `authors`, `year`, `isPublic`
+3. 选填: `coreReason`, `readerBenefit`, `difficulty`, `recommendedAction`
+4. **未发表**文献 (`unpublished=true`) 必须填 `unpublishedReason`
+
+## 严禁
+- ❌ 写 "Shannon 在论文里证明..." 不带 ID
+- ❌ 编一个不存在的 LIT ID
+- ❌ 把未发表论文说成"已发表"

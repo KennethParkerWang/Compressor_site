@@ -1,0 +1,232 @@
+.summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  background: var(--cr-paper-2, #f8fafc);
+  border: 1px solid var(--cr-line, #e2e8f0);
+  border-radius: 10px;
+  flex-wrap: wrap;
+}
+.sCard {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px;
+  border-right: 1px solid var(--cr-line, #e2e8f0);
+}
+.sCard:last-of-type { border-right: 0; }
+.sIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--cr-accent-soft, rgba(31, 78, 216, 0.10));
+  color: var(--cr-accent, #1f4ed8);
+  display: grid;
+  place-items: center;
+}
+.sValue {
+  font-size: 18px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--cr-ink, #0f172a);
+}
+.sLabel { font-size: 10.5px; color: var(--cr-ink-3, #64748b); letter-spacing: 0.04em; }
+.spacer { flex: 1; }
+.viewSel { height: 34px; }
+
+/* ============= 年总览周热力图 ============= */
+.heatmapCard { margin-bottom: 16px; }
+.heatmapHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.heatmapTitle { font-size: 14px; font-weight: 600; margin: 0; }
+.heatmapHint { font-size: 11.5px; color: var(--cr-ink-3, #64748b); }
+.heatmapLegend { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+
+.hmWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.hmGrid {
+  display: flex;
+  gap: 4px;
+  align-items: flex-start;
+}
+.hmDowCol {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 18px;
+  flex-shrink: 0;
+}
+.hmDow {
+  width: 14px;
+  height: 11px;
+  font-size: 9.5px;
+  color: var(--cr-ink-3, #94a3b8);
+  text-align: center;
+  line-height: 11px;
+  font-family: ui-monospace, monospace;
+}
+.hmScroll { flex: 1; overflow-x: auto; }
+.hmMonths {
+  display: flex;
+  align-items: center;
+  height: 18px;
+  font-size: 10.5px;
+  color: var(--cr-ink-3, #64748b);
+  font-family: ui-monospace, monospace;
+  margin-bottom: 2px;
+}
+.hmMonthLabel { white-space: nowrap; }
+
+.hmCells {
+  display: flex;
+  gap: 2px;
+}
+.hmCol {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.hmCell {
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  background: #ebedf0;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  cursor: default;
+}
+.hmCell[data-level="0"] { background: #ebedf0; }
+.hmCell[data-level="1"] { background: #c6e48b; border-color: rgba(0,0,0,0.05); }
+.hmCell[data-level="2"] { background: #7bc96f; border-color: rgba(0,0,0,0.06); }
+.hmCell[data-level="3"] { background: #239a3b; border-color: rgba(0,0,0,0.07); }
+.hmCell[data-level="4"] { background: #196127; border-color: rgba(0,0,0,0.10); }
+.hmCell:hover { stroke: var(--cr-accent, #1f4ed8); stroke-width: 1.5; }
+
+.hmFoot {
+  display: flex;
+  gap: 16px;
+  font-size: 11px;
+  color: var(--cr-ink-3, #64748b);
+  font-family: ui-monospace, monospace;
+  margin-top: 6px;
+}
+
+/* ============= 近 30 天柱状图 ============= */
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 96px;
+  padding: 4px 0;
+}
+.barCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.bar {
+  width: 100%;
+  max-width: 18px;
+  min-height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: #ebedf0;
+}
+.bar[data-level="1"] { background: #c6e48b; }
+.bar[data-level="2"] { background: #7bc96f; }
+.bar[data-level="3"] { background: #239a3b; }
+.bar[data-level="4"] { background: #196127; }
+.bar:hover { outline: 1.5px solid var(--cr-accent, #1f4ed8); }
+.barLabel {
+  font-size: 9.5px;
+  font-family: ui-monospace, monospace;
+  color: var(--cr-ink-3, #64748b);
+}
+.barLabel[data-weekend="1"] { color: #ef4444; }
+
+/* ============= 近 30 天柱状图 ============= */
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 110px;
+  padding: 6px 0 4px;
+  border-bottom: 1px solid var(--cr-line, #e2e8f0);
+}
+.barCol {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  position: relative;
+}
+.bar {
+  width: 100%;
+  border-radius: 2px 2px 0 0;
+  background: #ebedf0;
+  transition: opacity 0.15s;
+}
+.bar:hover { opacity: 0.75; }
+.bar[data-level="0"] { background: #ebedf0; min-height: 3px; }
+.bar[data-level="1"] { background: #c6e48b; }
+.bar[data-level="2"] { background: #7bc96f; }
+.bar[data-level="3"] { background: #239a3b; }
+.bar[data-level="4"] { background: #196127; }
+.barLabel {
+  font-size: 9.5px;
+  color: var(--cr-ink-3, #94a3b8);
+  font-family: ui-monospace, monospace;
+  line-height: 1;
+}
+.barLabel[data-weekend="1"] { color: var(--cr-accent, #1f4ed8); font-weight: 600; }
+
+.calWrap {
+  padding: 12px;
+  --fc-border-color: var(--cr-line, #e2e8f0);
+  --fc-page-bg-color: transparent;
+  --fc-neutral-bg-color: var(--cr-paper-2, #f8fafc);
+  --fc-today-bg-color: rgba(31, 78, 216, 0.06);
+  --fc-event-text-color: #fff;
+}
+.calWrap :global(.fc) { font-family: inherit; font-size: 13px; }
+.calWrap :global(.fc-toolbar-title) { font-size: 16px; }
+.calWrap :global(.fc-button) {
+  background: var(--cr-paper-2, #f1f5f9);
+  border: 1px solid var(--cr-line, #cbd5e1);
+  color: var(--cr-ink, #0f172a);
+  font-size: 12px;
+  padding: 4px 10px;
+  text-transform: none;
+  box-shadow: none;
+}
+.calWrap :global(.fc-button-primary:not(:disabled).fc-button-active),
+.calWrap :global(.fc-button-primary:not(:disabled):hover) {
+  background: var(--cr-accent, #1f4ed8);
+  border-color: var(--cr-accent, #1f4ed8);
+  color: #fff;
+}
+
+.legend { margin-top: 14px; }
+.legendTitle { font-size: 13px; font-weight: 600; margin: 0 0 8px; }
+.legendRow { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.legendGroup { font-size: 11px; color: var(--cr-ink-3, #64748b); }
+.legendItem { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--cr-ink-2, #334155); }
+.legendDot { width: 10px; height: 10px; border-radius: 3px; }
+
+.form { display: flex; flex-direction: column; gap: 12px; margin: 12px 0; }
+.form label { display: flex; flex-direction: column; gap: 4px; font-size: 12.5px; color: var(--cr-ink-2, #334155); }
+.formRow { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }

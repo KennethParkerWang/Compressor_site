@@ -1,0 +1,35 @@
+---
+description: 资源引用规范 — GitHub/DOI/工具链接从 resources.ts 引,URL 必须联网校验
+globs:
+  - src/**/*.tsx
+  - src/**/*.ts
+  - docs/**/*.md
+---
+
+# 资源引用规范
+
+## 强制规则
+1. 外部链接 (GitHub、arXiv、官方网站、数据集下载) **必须**先在 `src/data/resources.ts` 注册
+2. URL 必须经过 `scripts/verify-urls.mjs` HEAD 校验通过
+3. 教程里引用资源用 `<ResourceLink name="..." />`,不允许裸 URL
+4. 分类必须准确: `dataset` / `tool` / `framework` / `pretrained` / `tutorial` / `leaderboard`
+
+## 添加新资源
+1. 在 `resources.ts` 末尾追加
+2. 必填字段: `name`, `category`, `emoji`, `briefZh`, `url`
+3. 选填: `tags`, `relatedLits` (关联的论文 ID)
+4. **联网核查**: 用 `npm run verify-urls` 校验,失败的标 `isDead: true`
+
+## 引用样式
+- 行内: "PAQ8px 官方仓库 <ResourceLink name='PAQ8px' />"
+- 卡片网格: 自动渲染 resources.ts 里 category=tutorial 的全部条目
+
+## 严禁
+- ❌ 教程里直接写 `https://github.com/...` 裸链接
+- ❌ 编一个不存在的资源名
+- ❌ 引用 404 链接 (除非已标 `isDead: true` 并说明)
+
+## 失效链接处理
+1. `npm run verify-urls` 输出失效列表
+2. 找到原资源替换 URL,或删条目
+3. 教程里若引用,自动不渲染

@@ -1,0 +1,43 @@
+---
+description: 组件命名规范 — src/components/tutorial/ 下的统一命名
+globs:
+  - src/components/tutorial/**/*.tsx
+---
+
+# 教程组件命名
+
+## 目录结构
+```
+src/components/tutorial/
+├── TutorialCard.tsx           # 教程列表卡片
+├── TutorialBadge.tsx          # 难度/时长徽章
+├── TutorialNav.tsx            # 上/下篇导航
+├── TermPopover.tsx            # 术语悬浮卡片
+├── LitLink.tsx                # 论文内链
+├── ResourceLink.tsx           # 资源内链
+├── LearningPathMap.tsx        # 学习路径 SVG 图
+├── CompressionFlowChart.tsx   # 压缩流程图
+├── AlgorithmCompareTable.tsx  # 算法对比表
+├── DatasetCard.tsx            # 数据集卡片
+├── NextTutorial.tsx           # 推荐下篇
+├── MarkdownRenderer.tsx       # 教程 Markdown 渲染
+└── index.ts                   # 统一导出
+```
+
+## 命名
+- 组件文件 PascalCase,必须带 `Tutorial` 前缀 (教程专属)
+- 公共 UI 组件从 `src/components/ui/` 引,不重复造
+- 单文件单组件,无 default export 副作用
+
+## Props 命名
+- `tutorialId: string` — 教程 ID (`TUT-01xx`)
+- `litId: string` — 论文 ID (`LIT-XXXX`)
+- `termId: string` — 术语 ID (与 `terms.ts` name 一致)
+- `resourceName: string` — 资源 name (与 `resources.ts` 一致)
+- `difficulty: 'intro' | 'intermediate' | 'advanced'`
+- `estimatedMinutes: number`
+
+## 严禁
+- ❌ 组件名混用 `Tutorial` / `Lesson` / `Guide`
+- ❌ 把教程组件放到 `src/components/` 根目录
+- ❌ 跨组件用全局 state 传值 (走 props 或 store)

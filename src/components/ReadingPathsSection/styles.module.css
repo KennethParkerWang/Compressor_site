@@ -1,0 +1,189 @@
+/* ReadingPathsSection - 5 条阅读路线 */
+
+.section {
+  padding: 2.5rem 0;
+  background: var(--cr-surface);
+  border-top: var(--cr-border);
+  border-bottom: var(--cr-border);
+}
+
+.inner {
+  max-width: var(--cr-w-overview);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cr-accent);
+  margin-bottom: 0.375rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--cr-text-primary);
+}
+
+.desc {
+  font-size: 0.9rem;
+  color: var(--cr-text-secondary);
+  max-width: 640px;
+  margin: 0.5rem 0 0;
+  line-height: 1.6;
+}
+
+.viewAll {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--cr-accent);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.4rem 0.75rem;
+  border: var(--cr-border);
+  border-radius: var(--cr-radius);
+  background: var(--cr-card-bg);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.viewAll:hover {
+  border-color: var(--cr-accent);
+  background: var(--cr-accent-soft);
+  text-decoration: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.875rem;
+}
+
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pathCard {
+  background: var(--cr-card-bg);
+  border: var(--cr-border);
+  border-radius: var(--cr-radius);
+  padding: 1.125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+}
+
+.pathCard:hover {
+  transform: translateY(-1px);
+  border-color: var(--cr-accent);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+  text-decoration: none;
+  color: inherit;
+}
+
+.pathHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.pathName {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--cr-text-primary);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.pathDuration {
+  font-size: 0.7rem;
+  font-family: var(--ifm-font-family-monospace);
+  color: var(--cr-accent);
+  background: var(--cr-accent-soft);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.pathAudience {
+  font-size: 0.75rem;
+  color: var(--cr-text-muted);
+}
+
+.pathGoal {
+  font-size: 0.8rem;
+  color: var(--cr-text-secondary);
+  line-height: 1.5;
+}
+
+.steps {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.25rem;
+}
+
+.stepChip {
+  font-size: 0.7rem;
+  font-family: var(--ifm-font-family-monospace);
+  background: var(--cr-surface);
+  color: var(--cr-text-primary);
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  border: var(--cr-border);
+}
+
+.stepArrow {
+  color: var(--cr-text-faint);
+  font-size: 0.7rem;
+}
+
+.chapters {
+  display: flex;
+  gap: 0.3rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: var(--cr-border);
+}
+
+.chapterTag {
+  font-size: 0.65rem;
+  font-family: var(--ifm-font-family-monospace);
+  color: var(--cr-text-muted);
+  background: var(--cr-surface);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,121 @@
+导出当前筛选 · 270 条
+候选条目
+270
+可导出
+95
+预印本
+27
+排除
+161
+重复候选
+18
+格式
+GB/T 7714 顺序编码 (.txt)
+按 DOI / arXiv / 标题去重
+包含预印本/未发表
+附录模式：包含标准、软件和 benchmark
+Crossref / OpenAlex 补全
+默认导出正式可引用文献：论文、综述、专著、技术报告与学位论文。预印本、数据集、代码仓库、标准网页和 benchmark 资源默认进入排除清单，避免论文参考文献混入资源导航条目。
+排除清单 (161)
+导出预览
+GB/T 7714 顺序编码 (.txt) · 95 条
+[1] Kai Wang, Yuanchao Bai, Daxin Li, Deming Zhai, Junjun Jiang, Xianming Liu. Learning Lossless Compression for High Bit-Depth Volumetric Medical Image[J]. IEEE Transactions on Image Processing, 2025. DOI: 10.1109/TIP.2024.3513156.
+[2] Sheng Di et al.. A Survey on Error-Bounded Lossy Compression for Scientific Datasets[J]. ACM Computing Surveys, 2025. DOI: 10.1145/3733104.
+[3] Yanick Fratantonio, Luca Invernizzi, Loua Farah, Kurt Thomas, Marina Zhang, Ange Albertini, et al.. Magika: AI-Powered Content-Type Detection[J]. IEEE/ACM ICSE 2025, 2025. DOI: 10.1109/ICSE55347.2025.00158.
+[4] Zhe Zhang et al.. Learned Lossless Image Compression Based on Bit Plane Slicing[C]. CVPR, 2024. Available: https://openaccess.thecvf.com/content/CVPR2024/html/Zhang_Learned_Lossless_Image_Compression_based_on_Bit_Plane_Slicing_CVPR_2024_paper.html.
+[5] Xiaohui Liu et al.. Bilateral Context Modeling for Residual Coding in Lossless 3D Medical Image Compression[J]. IEEE Transactions on Image Processing, 2024. DOI: 10.1109/TIP.2024.3378910.
+[6] Grégoire Delétang, Anian Ruoss, Paul-Ambroise Duquenne, Elliot Catt, Tim Genewein, Christopher Mattern, et al.. Language Modeling Is Compression[C]. ICLR 2024, 2024. Available: https://arxiv.org/abs/2309.10668.
+[7] Grégoire Delétang et al.. Language Modeling Is Compression[C]. ICLR 2024, 2024. Available: https://proceedings.iclr.cc/paper_files/paper/2024/file/3cbf627fa24fb6cb576e04e689b9428b-Paper-Conference.pdf.
+[8] Yuanchao Bai, Xianming Liu, Kai Wang, Xiangyang Ji, Xiaolin Wu, Wen Gao. Deep Lossy Plus Residual Coding for Lossless and Near-Lossless Image Compression[J]. IEEE Transactions on Pattern Analysis and Machine Intelligence, 2024. DOI: 10.1109/TPAMI.2023.3348486.
+[9] Xinyu Chen et al.. FCBench PVLDB Paper[J]. PVLDB, 2024. Available: https://www.vldb.org/pvldb/vol17/p1418-tao.pdf.
+[10] Yibo Yang, Stephan Mandt, Lucas Theis. An Introduction to Neural Data Compression[J]. Foundations and Trends in Computer Graphics and Vision, 2023. DOI: 10.1561/0600000107.
+[11] Giacomo Chiarot, Claudio Silvestri. Time Series Compression Survey[J]. ACM Computing Surveys, 2023. DOI: 10.1145/3560814.
+[12] Yu Mao, Yufei Cui, Tei-Wei Kuo, Chun Jason Xue. TRACE: A Fast Transformer-based General-Purpose Lossless Compressor[C]. Proceedings of the ACM Web Conference 2022 (WWW 2022), 2022. DOI: 10.1145/3485447.3511987.
+[13] Siyu Wang, Jianfei Chen, Chongxuan Li, Jun Zhu, Bo Zhang. Fast Lossless Neural Compression with Integer-Only Discrete Flows[C]. ICML 2022, 2022. Available: https://proceedings.mlr.press/v162/wang22a.html.
+[14] Panagiotis Liakos et al.. Chimp: Efficient Lossless Floating Point Compression for Time Series Databases[C]. PVLDB, 2022. Available: https://www.vldb.org/pvldb/vol15/p3058-liakos.pdf.
+[15] Shifeng Zhang, Ning Kang, Tom Ryder, Zhenguo Li. iFlow: Numerically Invertible Flows for Efficient Lossless Compression via a Uniform Coder[C]. NeurIPS 2021, 2021. Available: https://arxiv.org/abs/2111.00965.
+[16] Fabrice Bellard. NNCP v2 Report[J]. 技术报告, 2021. Available: https://bellard.org/nncp/nncp_v2.1.pdf.
+[17] Fabrice Bellard. NNCP v2 Report - discussion of model/program cost[J]. 技术报告, 2021. Available: https://bellard.org/nncp/nncp_v2.1.pdf.
+[18] Fabian Mentzer, Luc Van Gool, Michael Tschannen. Learning Better Lossless Compression Using Lossy Compression[C]. CVPR, 2020. DOI: 10.1109/CVPR42600.2020.00667.
+[19] Mohit Goyal, Kedar Tatwawadi, Shubham Chandak, Idoia Ochoa. DZip: Improved General-Purpose Lossless Compression Based on Novel Neural Network Modeling[C]. Data Compression Conference, DCC 2020, 2020. Available: https://arxiv.org/abs/1911.03572.
+[20] Zhengxue Cheng, Heming Sun, Masaru Takeuchi, Jiro Katto. Learned Image Compression with Discretized Gaussian Mixture Likelihoods and Attention Modules[C]. CVPR 2020, 2020. Available: https://openaccess.thecvf.com/content_CVPR_2020/html/Cheng_Learned_Image_Compression_With_Discretized_Gaussian_Mixture_Likelihoods_and_Attention_Modules_CVPR_2020_paper.html.
+[21] Fabian Mentzer, George Toderici, Michael Tschannen, Eirikur Agustsson. High-Fidelity Generative Image Compression[C]. NeurIPS 2020, 2020. Available: https://arxiv.org/abs/2006.09965.
+[22] Sebastian Schwarz et al.. An Overview of Ongoing Point Cloud Compression Standardization Activities[J]. IEEE JETCAS, 2019. DOI: 10.1109/JETCAS.2018.2885981.
+[23] Mohit Goyal, Kedar Tatwawadi, Shubham Chandak, Idoia Ochoa. DeepZip: Lossless Data Compression Using Recurrent Neural Networks[C]. Data Compression Conference (DCC) 2019, 2019. DOI: 10.1109/DCC.2019.00087.
+[24] Q. Liu, Y. Xu, Z. Li. DecMac: A Deep Context Model for High Efficiency Arithmetic Coding[J]. ICAIIC 2019, 2019. Available: https://ieeexplore.ieee.org/document/8668843.
+[25] James Townsend, Thomas Bird, David Barber. Practical Lossless Compression with Latent Variables using Bits Back Coding[C]. ICLR 2019, 2019. Available: https://openreview.net/forum?id=BayiccRq7X.
+[26] Friso H. Kingma, Pieter Abbeel, Jonathan Ho. Bit-Swap: Recursive Bits-Back Coding for Lossless Compression with Hierarchical Latent Variables[C]. ICML 2019, 2019. Available: https://proceedings.mlr.press/v97/kingma19a.html.
+[27] Emiel Hoogeboom, Jorn W. T. Peters, Rianne van den Berg, Max Welling. Integer Discrete Flows and Lossless Compression[C]. NeurIPS 2019, 2019. Available: https://proceedings.neurips.cc/paper/9383-integer-discrete-flows-and-lossless-compression.
+[28] Fabian Mentzer, Eirikur Agustsson, Michael Tschannen, Radu Timofte, Luc Van Gool. Practical Full Resolution Learned Lossless Image Compression[C]. CVPR 2019, 2019. Available: https://openaccess.thecvf.com/content_CVPR_2019/html/Mentzer_Practical_Full_Resolution_Learned_Lossless_Image_Compression_CVPR_2019_paper.html.
+[29] MSD organizers. Medical Segmentation Decathlon[J]. Medical imaging challenge dataset, 2018. Available: http://medicaldecathlon.com/.
+[30] Jyrki Alakuijala et al.. Brotli: A General-Purpose Data Compressor[J]. ACM Transactions on Information Systems, 2018. DOI: 10.1145/3233232.
+[31] Léonard Blier, Yann Ollivier. The Description Length of Deep Learning Models[C]. NeurIPS 2018, 2018. Available: https://arxiv.org/abs/1802.07044.
+[32] Léonard Blier, Yann Ollivier. The Description Length of Deep Learning Models - NeurIPS page[C]. NeurIPS 2018, 2018. Available: https://proceedings.neurips.cc/paper/2018/hash/3b712de48137572f3849aabd5666a4e3-Abstract.html.
+[33] Johannes Ballé, David Minnen, Saurabh Singh, Sung Jin Hwang, Nick Johnston. Variational Image Compression with a Scale Hyperprior[C]. ICLR 2018, 2018. Available: https://arxiv.org/abs/1802.01436.
+[34] David Minnen, Johannes Ballé, George Toderici. Joint Autoregressive and Hierarchical Priors for Learned Image Compression[C]. NeurIPS 2018, 2018. Available: https://proceedings.neurips.cc/paper/8275-joint-autoregressive-and-hierarchical-priors-for-learned-image-compression.
+[35] Khalid Sayood. Introduction to Data Compression[M]. Morgan Kaufmann, 2017. Available: https://www.elsevier.com/books/introduction-to-data-compression/sayood/978-0-12-809474-7.
+[36] Frank Liu et al.. The Current Role of Image Compression Standards in Medical Imaging[J]. PMC, 2017. Available: https://pmc.ncbi.nlm.nih.gov/articles/PMC8525863/.
+[37] Johannes Ballé, Valero Laparra, Eero P. Simoncelli. End-to-end Optimized Image Compression[C]. ICLR 2017, 2017. Available: https://arxiv.org/abs/1611.01704.
+[38] Wen Xia et al.. FastCDC: a Fast and Efficient Content-Defined Chunking Approach for Data Deduplication[C]. USENIX ATC, 2016. Available: https://www.usenix.org/conference/atc16/technical-sessions/presentation/xia.
+[39] Sheng Di, Franck Cappello. Fast Error-bounded Lossy HPC Data Compression with SZ[J]. IEEE IPDPS 2016, 2016. Available: https://www.mcs.anl.gov/papers/P5437-1115.pdf.
+[40] Song Han, Huizi Mao, William J. Dally. Deep Compression: Compressing Deep Neural Networks with Pruning, Trained Quantization and Huffman Coding[C]. ICLR 2016, 2016. Available: https://arxiv.org/abs/1510.00149.
+[41] Tuomas Pelkonen et al.. Gorilla: A Fast, Scalable, In-Memory Time Series Database[J]. PVLDB, 2015. Available: https://www.vldb.org/pvldb/vol8/p1816-teller.pdf.
+[42] Jan Voges et al.. High-throughput DNA Sequence Data Compression[J]. Briefings in Bioinformatics, 2015. DOI: 10.1093/bib/bbu047.
+[43] Sebastian Deorowicz, Szymon Grabowski. DSRC 2—Industry-oriented compression of FASTQ files[J]. Bioinformatics, 2015. DOI: 10.1093/bioinformatics/btv071.
+[44] Jarek Duda. Asymmetric Numeral Systems: Entropy Coding Combining Speed of Huffman Coding with Compression Rate of Arithmetic Coding[J]. Picture Coding Symposium (PCS) 2015, 2015. DOI: 10.1109/PCS.2015.7170048.
+[45] Peter Lindstrom. Fixed-Rate Compressed Floating-Point Arrays[J]. IEEE TVCG, 2014. DOI: 10.1109/TVCG.2014.2346458.
+[46] Peter Lindstrom. Fixed-Rate Compressed Floating-Point Arrays[J]. IEEE Transactions on Visualization and Computer Graphics, 2014. Available: https://vis.cs.ucdavis.edu/vis2014papers/TVCG/papers/2674_20tvcg12-lindstrom-2346458.pdf.
+[47] Martin Burtscher, Paruj Ratanaworabhan. FPC: A High-Speed Compressor for Double-Precision Floating-Point Data[C]. IEEE Transactions on Computers, 2009. Available: https://userweb.cs.txstate.edu/~burtscher/papers/tc09.pdf.
+[48] Benjamin Zhu, Kai Li, Hugo Patterson. Avoiding the Disk Bottleneck in the Data Domain Deduplication File System[C]. USENIX FAST, 2008. Available: https://www.usenix.org/legacy/events/fast08/tech/full_papers/zhu/zhu.pdf.
+[49] David Salomon. Data Compression: The Complete Reference[M]. Springer, 2007. DOI: 10.1007/978-1-84628-603-2.
+[50] Thomas M. Cover, Joy A. Thomas. Elements of Information Theory[M]. Wiley, 2006. DOI: 10.1002/047174882X.
+[51] Peter Lindstrom, Martin Isenburg. Fast and Efficient Compression of Floating-Point Data[J]. IEEE TVCG, 2006. Available: https://computing.llnl.gov/projects/fpzip.
+[52] Daniel J. Abadi, Samuel Madden, Miguel Ferreira. Integrating Compression and Execution in Column-Oriented Database Systems[C]. SIGMOD, 2006. Available: https://15721.courses.cs.cmu.edu/spring2016/papers/abadi-sigmod2006.pdf.
+[53] Jarno Mielikainen. Lossless Compression of Hyperspectral Images Using Lookup Tables[C]. IEEE Signal Processing Letters, 2006. DOI: 10.1109/LSP.2005.862607.
+[54] Mielikainen, Toivanen 等. Lossless Hyperspectral Image Compression via Linear Prediction[J]. Hyperspectral Data Compression, 2006. DOI: 10.1007/0-387-28600-4.
+[55] Matt Mahoney. Adaptive Weighing of Context Models for Lossless Data Compression[J]. Florida Institute of Technology Technical Report, 2005. Available: https://repository.fit.edu/ces_faculty/166/.
+[56] Michael Stonebraker et al.. C-Store: A Column-oriented DBMS[J]. VLDB, 2005. DOI: 10.5555/1083592.1083658.
+[57] Paolo Boldi, Sebastiano Vigna. The WebGraph Framework I: Compression Techniques[J]. WWW, 2004. DOI: 10.1145/988672.988752.
+[58] Bjorn De Sutter, Bruno De Bus, Koen De Bosschere. A Survey of Code-Size Reduction Methods[J]. ACM Computing Surveys, 2003. DOI: 10.1145/885884.885885.
+[59] Thomas Wiegand et al.. Overview of the H.264/AVC Video Coding Standard[J]. IEEE TCSVT, 2003. DOI: 10.1109/TCSVT.2003.815165.
+[60] Athicha Muthitacharoen, Benjie Chen, David Mazières. A Low-bandwidth Network File System[J]. SOSP, 2001. DOI: 10.1145/502034.502052.
+[61] Marcelo J. Weinberger, Gadiel Seroussi, Guillermo Sapiro. The LOCO-I Lossless Image Compression Algorithm[J]. IEEE Transactions on Image Processing, 2000. DOI: 10.1109/83.855427.
+[62] Xin Chen, Sam Kwong, Ming Li. GenCompress: A Novel Algorithm for Compressing DNA Sequences[J]. Bioinformatics, 2000. DOI: 10.1093/bioinformatics/16.4.360.
+[63] Matthew V. Mahoney. Fast Text Compression with Neural Networks[J]. FLAIRS, 2000. Available: https://www.mattmahoney.net/dc/mmahoney00.pdf.
+[64] Ian H. Witten, Alistair Moffat, Timothy C. Bell. Managing Gigabytes[M]. Morgan Kaufmann, 1999. Available: https://www.google.com/books/edition/Managing_Gigabytes/2F74jyPl48EC.
+[65] Jarek Rossignac. Edgebreaker: Connectivity Compression for Triangle Meshes[J]. IEEE TVCG, 1999. DOI: 10.1109/2945.764870.
+[66] Alistair Moffat, Radford M. Neal, Ian H. Witten. Arithmetic Coding Revisited[J]. ACM TOIS, 1998. DOI: 10.1145/290159.290162.
+[67] Ross Arnold, Tim Bell. A Corpus for the Evaluation of Lossless Compression Algorithms[J]. Canterbury Corpus paper, 1997. Available: https://corpus.canterbury.ac.nz/research/corpus.pdf.
+[68] Xiaolin Wu, Nasir Memon. Context-Based, Adaptive, Lossless Image Coding[J]. IEEE Transactions on Communications, 1997. DOI: 10.1109/26.585919.
+[69] Frans M. J. Willems, Yuri M. Shtarkov, Tjalling J. Tjalkens. The Context-Tree Weighting Method: Basic Properties[J]. IEEE Transactions on Information Theory, 1995. DOI: 10.1109/18.382012.
+[70] Paul G. Howard, Jeffrey Scott Vitter. Arithmetic Coding for Data Compression[C]. Proceedings of the IEEE, 1994. Available: https://www.ittc.ku.edu/~jsv/Papers/HoV94.arithmetic_codingOfficial.pdf.
+[71] Michael Burrows, David J. Wheeler. A Block-sorting Lossless Data Compression Algorithm[J]. DEC SRC Technical Report, 1994. Available: https://www.cs.jhu.edu/~langmea/resources/burrows_wheeler.pdf.
+[72] Andrew Wolfe, Alex Chanin. Executing Compressed Programs on an Embedded RISC Architecture[C]. Proceedings of the 25th Annual International Symposium on Microarchitecture (MICRO 25), 1992. DOI: 10.1109/MICRO.1992.697002.
+[73] Ueli Maurer. A Universal Statistical Test for Random Bit Generators[J]. Journal of Cryptology, 1992. DOI: 10.1007/BF00193563.
+[74] Timothy C. Bell, Ian H. Witten, John G. Cleary. Modeling for Text Compression[J]. ACM Computing Surveys, 1989. DOI: 10.1145/73911.73913.
+[75] Ian H. Witten, Radford M. Neal, John G. Cleary. Arithmetic Coding for Data Compression[J]. Communications of the ACM, 1987. DOI: 10.1145/214762.214771.
+[76] Debra A. Lelewer, Daniel S. Hirschberg. Data Compression[J]. ACM Computing Surveys, 1987. DOI: 10.1145/35615.35621.
+[77] Jeffrey Scott Vitter. Design and Analysis of Dynamic Huffman Codes[J]. Journal of the ACM, 1987. DOI: 10.1145/28395.28401.
+[78] Terry A. Welch. A Technique for High-Performance Data Compression[J]. Computer, 1984. DOI: 10.1109/MC.1984.1659158.
+[79] Jorma Rissanen. Universal Coding, Information, Prediction, and Estimation[J]. IEEE Transactions on Information Theory, 1984. DOI: 10.1109/TIT.1984.1056936.
+[80] John G. Cleary, Ian H. Witten. Data Compression Using Adaptive Coding and Partial String Matching[J]. IEEE Transactions on Communications, 1984. DOI: 10.1109/TCOM.1984.1096090.
+[81] Glen G. Langdon. An Introduction to Arithmetic Coding[J]. IBM Journal of Research and Development, 1984. DOI: 10.1147/rd.286.0135.
+[82] R. E. Krichevsky, V. K. Trofimov. The Performance of Universal Encoding[J]. IEEE Transactions on Information Theory, 1981. DOI: 10.1109/TIT.1981.1056404.
+[83] Jorma Rissanen, Glen G. Langdon. Arithmetic Coding[J]. IBM Journal of Research and Development, 1979. DOI: 10.1147/rd.232.0149.
+[84] G. Nigel N. Martin. Range Encoding: An Algorithm for Removing Redundancy from a Digitised Message[C]. Video & Data Recording Conference, 1979.
+[85] Robert F. Rice. Some Practical Universal Noiseless Coding Techniques[J]. JPL Publication, 1979. Available: https://ipnpr.jpl.nasa.gov/progress_report2/42-45/45N.PDF.
+[86] Jacob Ziv, Abraham Lempel. Compression of Individual Sequences via Variable-Rate Coding[J]. IEEE Transactions on Information Theory, 1978. DOI: 10.1109/TIT.1978.1055934.
+[87] Jorma Rissanen. Modeling by Shortest Data Description[J]. Automatica, 1978. DOI: 10.1016/0005-1098(78)90005-5.
+[88] Robert G. Gallager. Variations on a Theme by Huffman[J]. IEEE Transactions on Information Theory, 1978. DOI: 10.1109/TIT.1978.1055879.
+[89] Jacob Ziv, Abraham Lempel. A Universal Algorithm for Sequential Data Compression[J]. IEEE Transactions on Information Theory, 1977. DOI: 10.1109/TIT.1977.1055714.
+[90] Peter Elias. Universal Codeword Sets and Representations of the Integers[J]. IEEE Transactions on Information Theory, 1975. DOI: 10.1109/TIT.1975.1055349.
+[91] Solomon W. Golomb. Run-Length Encodings[J]. IEEE Transactions on Information Theory, 1966. DOI: 10.1109/TIT.1966.1053907.
+[92] Brockway McMillan. Two Inequalities Implied by Unique Decipherability[J]. IRE Transactions on Information Theory, 1956. DOI: 10.1109/TIT.1956.1056818.
+[93] David A. Huffman. A Method for the Construction of Minimum-Redundancy Codes[C]. Proceedings of the IRE, 1952. DOI: 10.1109/JRPROC.1952.273898.
+[94] L. G. Kraft. A Device for Quantizing, Grouping, and Coding Amplitude-Modulated Pulses[D]. MIT thesis, 1949.
+[95] Claude E. Shannon. A Mathematical Theory of Communication[J]. Bell System Technical Journal, 1948. Available: https://people.math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf.
+关闭
+复制
+下载
+元数据源
+Close

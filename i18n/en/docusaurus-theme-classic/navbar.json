@@ -1,0 +1,110 @@
+{
+  "title": {
+    "message": "Compression Research Atlas",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "Compression Research Atlas",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.今日总览": {
+    "message": "Today",
+    "description": "Navbar item with label 今日总览"
+  },
+  "item.label.文献库": {
+    "message": "Library",
+    "description": "Navbar item with label 文献库"
+  },
+  "item.label.SOTA": {
+    "message": "SOTA",
+    "description": "Navbar item with label SOTA"
+  },
+  "item.label.数据集": {
+    "message": "Datasets",
+    "description": "Navbar item with label 数据集"
+  },
+  "item.label.研究图谱": {
+    "message": "Research Map",
+    "description": "Navbar item with label 研究图谱"
+  },
+  "item.label.任务看板": {
+    "message": "Tasks",
+    "description": "Navbar item with label 任务看板"
+  },
+  "item.label.日程计划": {
+    "message": "Calendar",
+    "description": "Navbar item with label 日程计划"
+  },
+  "item.label.周汇报": {
+    "message": "Weekly Briefings",
+    "description": "Navbar item with label 周汇报"
+  },
+  "item.label.实验台": {
+    "message": "Experiments",
+    "description": "Navbar item with label 实验台"
+  },
+  "item.label.教程资源": {
+    "message": "Tutorials",
+    "description": "Navbar item with label 教程资源"
+  },
+  "item.label.更多": {
+    "message": "More",
+    "description": "Navbar item with label 更多"
+  },
+  "item.label.阅读路线": {
+    "message": "Reading Paths",
+    "description": "Navbar item with label 阅读路线"
+  },
+  "item.label.研究笔记": {
+    "message": "Notes",
+    "description": "Navbar item with label 研究笔记"
+  },
+  "item.label.核心论文": {
+    "message": "Core Papers",
+    "description": "Navbar item with label 核心论文"
+  },
+  "item.label.术语库": {
+    "message": "Glossary",
+    "description": "Navbar item with label 术语库"
+  },
+  "item.label.标准矩阵": {
+    "message": "Standards",
+    "description": "Navbar item with label 标准矩阵"
+  },
+  "item.label.资源库": {
+    "message": "Resource Library",
+    "description": "Navbar item with label 资源库"
+  },
+  "item.label.算法模块": {
+    "message": "Algorithm Modules",
+    "description": "Navbar item with label 算法模块"
+  },
+  "item.label.演化天梯": {
+    "message": "Algorithm Evolution",
+    "description": "Navbar item with label 演化天梯"
+  },
+  "item.label.算法目录": {
+    "message": "Algorithm Catalog",
+    "description": "Navbar item with label 算法目录"
+  },
+  "item.label.深度压缩器": {
+    "message": "Learned Compression",
+    "description": "Navbar item with label 深度压缩器"
+  },
+  "item.label.来源监控": {
+    "message": "Source Monitor",
+    "description": "Navbar item with label 来源监控"
+  },
+  "item.label.项目计划": {
+    "message": "Project Plan",
+    "description": "Navbar item with label 项目计划"
+  },
+  "item.label.设置": {
+    "message": "Settings",
+    "description": "Navbar item with label 设置"
+  },
+  "item.label.关于": {
+    "message": "About",
+    "description": "Navbar item with label 关于"
+  }
+}

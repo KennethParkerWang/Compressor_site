@@ -1,0 +1,162 @@
+# Tutorial 主结构 schema
+# 用法: src/data/tutorials.ts 中的每个教程必须满足本 schema
+
+$schema: http://json-schema.org/draft-07/schema#
+$id: https://compressor-research/schemas/tutorial.schema.yaml
+title: Tutorial
+type: object
+
+required:
+  - id
+  - title
+  - stage
+  - difficulty
+  - estimatedMinutes
+  - summary
+  - publishedAt
+  - updatedAt
+
+properties:
+  id:
+    type: string
+    pattern: '^TUT-(01|02|03)\d{2}$'
+    description: 教程 ID,两位数阶段 (01=入门/02=原理/03=专题)
+
+  title:
+    type: string
+    minLength: 5
+    maxLength: 60
+
+  subtitle:
+    type: string
+    maxLength: 120
+    description: 一句话副标题,出现在卡片副位
+
+  stage:
+    type: string
+    enum: [entry, intermediate, advanced]
+    description: entry=P0 入门,intermediate=P1 原理,advanced=P2 专题
+
+  difficulty:
+    type: string
+    enum: [intro, intermediate, advanced]
+
+  estimatedMinutes:
+    type: integer
+    minimum: 5
+    maximum: 180
+
+  summary:
+    type: string
+    maxLength: 300
+    description: 卡片摘要,1-2 句话讲清你将学到什么
+
+  prerequisites:
+    type: array
+    items:
+      type: object
+      required: [kind, id]
+      properties:
+        kind:
+          type: string
+          enum: [tutorial, term, paper, resource]
+        id:
+          type: string
+
+  linkedTerms:
+    type: array
+    items:
+      type: string
+    description: 教程涉及的术语 ID (来自 terms.ts name 字段)
+
+  linkedPapers:
+    type: array
+    items:
+      type: string
+      pattern: '^LIT-\d{4}$'
+    description: 教程涉及的论文 ID (来自 literatureData.ts)
+
+  linkedResources:
+    type: array
+    items:
+      type: string
+    description: 教程涉及的外部资源 name (来自 resources.ts)
+
+  linkedAssets:
+    type: array
+    items:
+      type: string
+      pattern: '^ASSET-\d{4}$'
+    description: 教程涉及的项目资产 ID (来自 projectAssets.json)
+
+  sections:
+    type: array
+    description: 教程正文结构
+    items:
+      $ref: 'tutorial-section.schema.yaml'
+
+  commonPitfalls:
+    type: array
+    minItems: 3
+    items:
+      type: string
+      minLength: 10
+
+  prevId:
+    type: string
+    pattern: '^TUT-\d{4}$'
+    description: 上一篇教程 ID
+
+  nextId:
+    type: string
+    pattern: '^TUT-\d{4}$'
+    description: 下一篇教程 ID
+
+  author:
+    type: string
+    description: 作者署名 (本项目一般就是站主本人)
+
+  publishedAt:
+    type: string
+    format: date
+
+  updatedAt:
+    type: string
+    format: date
+
+  tags:
+    type: array
+    items:
+      type: string
+
+  codeExamples:
+    type: array
+    items:
+      type: object
+      properties:
+        lang:
+          type: string
+          enum: [python, c, cpp, bash, javascript, typescript, pseudo]
+        title:
+          type: string
+        code:
+          type: string
+        note:
+          type: string
+
+  comparison:
+    type: object
+    description: 算法对比表 (若适用)
+    properties:
+      title:
+        type: string
+      columns:
+        type: array
+        items:
+          type: string
+      rows:
+        type: array
+        items:
+          type: object
+
+additionalProperties: false

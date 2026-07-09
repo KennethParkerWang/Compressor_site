@@ -1,0 +1,92 @@
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--ifm-color-emphasis-200);
+}
+
+.item {
+  position: relative;
+  padding: 0 0 1.5rem 2.5rem;
+}
+
+.marker {
+  position: absolute;
+  left: 6px;
+  top: 4px;
+}
+
+.dot {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--ifm-color-primary);
+  box-shadow: 0 0 0 4px var(--ifm-background-color);
+}
+
+.body {
+  background: var(--ifm-card-background-color, #ffffff);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+}
+
+.phaseRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.phase {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--ifm-heading-color);
+}
+
+.phaseEn {
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.goal {
+  margin: 0.4rem 0 0.6rem;
+  color: var(--ifm-color-emphasis-800);
+  line-height: 1.55;
+}
+
+.chapters {
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-700);
+  margin-bottom: 0.6rem;
+}
+
+.section {
+  margin-top: 0.4rem;
+}
+
+.sectionTitle {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-600);
+  margin-bottom: 0.2rem;
+}
+
+.sectionList {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--ifm-color-emphasis-800);
+  line-height: 1.6;
+}

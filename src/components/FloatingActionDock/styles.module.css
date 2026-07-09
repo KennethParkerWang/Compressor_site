@@ -1,0 +1,130 @@
+.dock {
+  position: fixed;
+  top: 50%;
+  right: 18px;
+  z-index: 3800;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.actionButton,
+.themeSlot :global(.cr-theme-trigger) {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--cr-accent) 26%, var(--cr-border-color));
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--cr-card-bg) 92%, transparent), var(--cr-surface));
+  color: var(--cr-text-secondary);
+  box-shadow:
+    0 12px 30px rgba(15, 23, 42, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 760;
+  text-decoration: none;
+  white-space: nowrap;
+  pointer-events: auto;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  transition:
+    width 0.18s ease,
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.actionButton:hover,
+.themeSlot :global(.cr-theme-trigger:hover) {
+  width: 108px;
+  border-color: var(--cr-accent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--cr-card-bg) 84%, var(--cr-accent-soft) 16%), var(--cr-card-bg));
+  color: var(--cr-accent);
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.18);
+  text-decoration: none;
+  transform: translateX(-3px);
+}
+
+.actionButton span {
+  display: none;
+}
+
+.actionButton:hover span {
+  display: inline;
+}
+
+.actionButton b {
+  min-width: 20px;
+  color: inherit;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.02em;
+}
+
+.themeSlot {
+  position: relative;
+  pointer-events: auto;
+}
+
+.themeSlot :global(.cr-theme-switcher) {
+  display: block;
+}
+
+.themeSlot :global(.cr-theme-trigger) {
+  padding: 0;
+}
+
+.themeSlot :global(.cr-theme-trigger__label),
+.themeSlot :global(.cr-theme-trigger__chevron) {
+  display: none;
+}
+
+.themeSlot :global(.cr-theme-trigger:hover) {
+  width: 44px;
+}
+
+.themeSlot :global(.cr-theme-menu) {
+  top: 0;
+  right: calc(100% + 10px);
+}
+
+@media (max-width: 760px) {
+  .dock {
+    right: 12px;
+    bottom: 78px;
+    top: auto;
+    transform: none;
+  }
+
+  .actionButton,
+  .themeSlot :global(.cr-theme-trigger) {
+    width: 40px;
+    height: 40px;
+    border-radius: 9px;
+  }
+
+  .actionButton:hover {
+    width: 40px;
+    transform: none;
+  }
+
+  .actionButton:hover span {
+    display: none;
+  }
+
+  .themeSlot :global(.cr-theme-menu) {
+    right: calc(100% + 8px);
+    width: min(280px, calc(100vw - 76px));
+  }
+}

@@ -1,0 +1,203 @@
+/* 全站动效 */
+
+@keyframes cr-fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cr-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes cr-scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes cr-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes cr-pulse-ring {
+  0%   { transform: scale(0.85); opacity: 0.7; }
+  70%  { transform: scale(1.4); opacity: 0; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+@keyframes cr-spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes cr-blob-move {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(20px, -25px) scale(1.05); }
+  66%      { transform: translate(-15px, 15px) scale(0.95); }
+}
+
+@keyframes cr-progress-stripe {
+  0%   { background-position: 0 0; }
+  100% { background-position: 40px 0; }
+}
+
+@keyframes cr-grid-drift {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: 34px 34px, 34px 34px; }
+}
+
+@keyframes cr-light-sweep {
+  0%, 70%, 100% { transform: translateX(-18%); opacity: 0.16; }
+  35%           { transform: translateX(18%); opacity: 0.30; }
+}
+
+@keyframes cr-sidebar-scan {
+  0%   { transform: translateY(-24%); opacity: 0.10; }
+  50%  { opacity: 0.22; }
+  100% { transform: translateY(24%); opacity: 0.10; }
+}
+
+/* 通用动效 class */
+.cr-fade-up    { animation: cr-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.cr-fade-in    { animation: cr-fade-in 0.4s ease-out both; }
+.cr-scale-in   { animation: cr-scale-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.cr-pulse      { position: relative; }
+.cr-pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid currentColor;
+  animation: cr-pulse-ring 1.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  pointer-events: none;
+}
+
+.cr-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: cr-shimmer 2s infinite linear;
+}
+
+.cr-spin-slow { animation: cr-spin-slow 8s linear infinite; }
+
+/* 顶部进度条(路由切换时启动) */
+#cr-progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, #1f4ed8, #0ea5e9, #1f4ed8);
+  background-size: 200% 100%;
+  animation: cr-progress-stripe 0.8s linear infinite;
+  z-index: 99999;
+  box-shadow: 0 0 8px rgba(31, 78, 216, 0.4);
+  transition: width 0.3s ease;
+}
+
+/* 全局动效背景 — 在 WorkbenchShell 内的 main 之后放置 */
+.cr-aurora {
+  position: fixed;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(60px);
+  opacity: 0.5;
+}
+.cr-aurora-1 {
+  top: -10%; left: -5%;
+  width: 50vw; height: 50vw;
+  background: radial-gradient(circle, rgba(31, 78, 216, 0.20), transparent 60%);
+  animation: cr-blob-move 14s ease-in-out infinite;
+}
+.cr-aurora-2 {
+  bottom: -15%; right: -10%;
+  width: 60vw; height: 60vw;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.15), transparent 60%);
+  animation: cr-blob-move 18s ease-in-out infinite reverse;
+}
+.cr-aurora-3 {
+  top: 40%; left: 50%;
+  width: 40vw; height: 40vw;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.10), transparent 60%);
+  animation: cr-blob-move 22s ease-in-out infinite;
+}
+
+/* 卡片 hover 浮起 - 通用 */
+.cr-card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.cr-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.10), 0 0 0 1px rgba(31, 78, 216, 0.10) inset;
+}
+
+/* 列表项 stagger 进入 */
+.cr-stagger > * {
+  animation: cr-fade-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.cr-stagger > *:nth-child(1) { animation-delay: 0.02s; }
+.cr-stagger > *:nth-child(2) { animation-delay: 0.05s; }
+.cr-stagger > *:nth-child(3) { animation-delay: 0.08s; }
+.cr-stagger > *:nth-child(4) { animation-delay: 0.11s; }
+.cr-stagger > *:nth-child(5) { animation-delay: 0.14s; }
+.cr-stagger > *:nth-child(6) { animation-delay: 0.17s; }
+.cr-stagger > *:nth-child(7) { animation-delay: 0.20s; }
+.cr-stagger > *:nth-child(8) { animation-delay: 0.23s; }
+.cr-stagger > *:nth-child(9) { animation-delay: 0.26s; }
+.cr-stagger > *:nth-child(10) { animation-delay: 0.29s; }
+.cr-stagger > *:nth-child(n+11) { animation-delay: 0.32s; }
+
+/* 数字 count-up 字体微调 */
+.cr-count-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, currentColor 0%, currentColor 100%);
+  -webkit-background-clip: text;
+  display: inline-block;
+}
+
+/* 偏好减弱动效 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .cr-aurora { display: none; }
+}
+
+/* Theme-aware ambient bands override the legacy background blobs. */
+.cr-aurora {
+  filter: blur(42px);
+  opacity: 0.34;
+  transform-origin: center;
+  mix-blend-mode: multiply;
+}
+
+.cr-aurora-1 {
+  top: -18%; left: -16%;
+  width: 76vw; height: 18vw;
+  min-height: 180px;
+  background: linear-gradient(90deg, transparent, var(--cr-ambient-1), transparent);
+  rotate: -8deg;
+  animation: cr-blob-move 24s ease-in-out infinite;
+}
+
+.cr-aurora-2 {
+  bottom: -10%; right: -18%;
+  width: 82vw; height: 20vw;
+  min-height: 200px;
+  background: linear-gradient(90deg, transparent, var(--cr-ambient-2), transparent);
+  rotate: 9deg;
+  animation: cr-blob-move 28s ease-in-out infinite reverse;
+}
+
+.cr-aurora-3 {
+  top: 34%; left: 42%;
+  width: 54vw; height: 16vw;
+  min-height: 160px;
+  background: linear-gradient(90deg, transparent, var(--cr-ambient-3), transparent);
+  rotate: -18deg;
+  animation: cr-blob-move 32s ease-in-out infinite;
+}
