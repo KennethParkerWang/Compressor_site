@@ -1,338 +1,467 @@
-// Algorithm Board - compression pipeline module taxonomy and implementation status.
+// Algorithm Board - lossless compressor system map.
 import React, {useMemo, useState} from 'react';
 import Layout from '@theme/Layout';
 import {useLocation} from '@docusaurus/router';
 import WorkbenchShell from '../components/workbench/WorkbenchShell';
-import {Card, CardContent} from '../components/ui/card';
-import {Button} from '../components/ui/button';
 import {Badge} from '../components/ui/badge';
-import {Input} from '../components/ui/input';
-import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription} from '../components/ui/sheet';
-import {MetricTile, ResearchPanel} from '../components/research-console/ResearchConsole';
-import {algorithmModules, pipelineOrder, categoryLabels, moduleStatusLabels, type AlgorithmModule} from '../data/algorithmModules';
-import {literatureData} from '../data/literatureData';
-import {experimentAssets as experimentData} from '../data/experimentData';
-import {useTasks} from '../stores/workbench';
-import {Boxes, ExternalLink, Plus, ArrowRight, Cpu, Layers, Zap, Code2, Activity, Search, Filter} from 'lucide-react';
+import {Button} from '../components/ui/button';
+import {algorithmModules, type AlgorithmModule} from '../data/algorithmModules';
+import {
+  Activity,
+  ArrowDown,
+  ArrowRight,
+  Boxes,
+  CheckCircle2,
+  ChevronDown,
+  ChevronRight,
+  FileArchive,
+  FlaskConical,
+  Layers3,
+  Network,
+  PackageCheck,
+  Search,
+  Shuffle,
+  Sparkles,
+  SplitSquareHorizontal,
+} from 'lucide-react';
 import styles from './algorithm-board.module.css';
 
+type ViewMode = 'novice' | 'expert';
+type RequirementLevel = '必选' | '可选' | '研究增强';
+
+interface PipelineLayer {
+  id: string;
+  title: string;
+  plain: string;
+  moduleIds: readonly string[];
+  tone: string;
+  icon: React.ComponentType<{size?: number}>;
+}
+
+interface RouteCase {
+  name: string;
+  summary: string;
+  tone: string;
+  steps: readonly string[];
+  modules: readonly string[];
+}
+
 const CN = {
-  addToTask: '加入任务',
-  alternatives: '替代方案',
-  category: '分类',
-  difficulty: '难度',
-  expStatus: '实验状态',
-  experiments: '实验',
-  hint: '压缩器架构设计板,按模块职责组织输入识别、领域适配、字典匹配、概率建模、熵编码、容器和评测闭环。',
-  impact: '影响',
-  modules: '模块',
-  pipeline: '流程',
-  problem: '问题',
-  papers: '文献',
-  references: '参考文献',
-  status: '状态',
-  title: '算法模块 / Algorithm Board',
-  input: '输入',
-  output: '输出',
-  notes: '笔记',
-  viewInLibrary: '在文献库查看',
-  runExperiment: '运行实验',
-  risk: '风险',
-  openLit: '打开文献',
-  openExp: '打开实验',
-  related: '相关',
-  readPaper: '阅读文献',
-  searchPh: '搜索关键词',
-  all: '全部',
+  title: '压缩器模块 / Compressor System Map',
+  hint: '把无损压缩器理解成一条可逆信息处理流水线,而不是 14 个孤立任务卡片。',
 };
 
-const STATUS_COLORS: Record<string, string> = {
-  spec: '#94a3b8', prototype: '#f59e0b', runnable: '#3b82f6', verified: '#10b981', production: '#059669', deferred: '#6b7280',
+const PIPELINE_LAYERS: readonly PipelineLayer[] = [
+  {
+    id: 'input',
+    title: '输入与分流',
+    plain: '判断输入是什么类型,决定后面走哪条压缩路线。',
+    moduleIds: ['M01', 'M09'],
+    tone: 'blue',
+    icon: SplitSquareHorizontal,
+  },
+  {
+    id: 'preprocess',
+    title: '可逆预处理',
+    plain: '把数据变得更容易压缩,但必须能完全还原。',
+    moduleIds: ['M02', 'M06', 'M08', 'M14'],
+    tone: 'cyan',
+    icon: Shuffle,
+  },
+  {
+    id: 'modeling',
+    title: '冗余发现 / 建模',
+    plain: '寻找重复、规律或概率分布,这是压缩率的核心。',
+    moduleIds: ['M10', 'M11', 'M03', 'M04'],
+    tone: 'emerald',
+    icon: Network,
+  },
+  {
+    id: 'coding',
+    title: '概率融合与熵编码',
+    plain: '把模型判断转成真正的 bitstream。',
+    moduleIds: ['M05', 'M07'],
+    tone: 'violet',
+    icon: Layers3,
+  },
+  {
+    id: 'packaging',
+    title: '工程封装',
+    plain: '把压缩结果保存成可传输、可校验、可解压的文件格式。',
+    moduleIds: ['M12'],
+    tone: 'slate',
+    icon: PackageCheck,
+  },
+  {
+    id: 'evaluation',
+    title: '评测闭环',
+    plain: '持续测试压缩率、速度、内存、延迟和 bit-exact 解压正确性。',
+    moduleIds: ['M13'],
+    tone: 'amber',
+    icon: FlaskConical,
+  },
+];
+
+const ROUTE_CASES: readonly RouteCase[] = [
+  {
+    name: 'Zstd 路线',
+    summary: '工程压缩器路线:用分块和 LZ 匹配拿到速度/压缩率平衡,再用 Huff0 / FSE 写成 zstd frame。',
+    tone: 'blue',
+    steps: ['原始数据', '分块 / 字典', 'LZ 匹配', 'Huff0 / FSE', 'zstd frame'],
+    modules: ['M01', 'M08', 'M10', 'M11', 'M07', 'M12'],
+  },
+  {
+    name: 'PAQ8px 路线',
+    summary: '高压缩率路线:多个上下文模型同时预测,由 mixer 融合概率,再交给算术编码或 range coding。',
+    tone: 'amber',
+    steps: ['原始数据', '上下文模型', '概率混合', '算术编码 / Range Coding', '压缩文件'],
+    modules: ['M03', 'M05', 'M07', 'M12'],
+  },
+  {
+    name: 'NNCP 路线',
+    summary: '神经预测路线:把文本或符号序列交给 Transformer 预测概率,用更准的概率换更短的 bitstream。',
+    tone: 'violet',
+    steps: ['文本输入', '符号化 / 可逆预处理', 'Transformer 预测下一个 symbol 概率', '算术编码', 'bitstream'],
+    modules: ['M02', 'M04', 'M05', 'M07'],
+  },
+];
+
+const REQUIRED_MODULES = new Set(['M01', 'M07', 'M12']);
+const RESEARCH_MODULES = new Set(['M03', 'M04', 'M05', 'M06', 'M14']);
+
+const MODULE_OVERRIDES: Record<string, {role: string; required: RequirementLevel; reps: string[]; risk: string}> = {
+  M01: {
+    role: '识别输入类型和基本元数据,给后续模块选择路线。',
+    required: '必选',
+    reps: ['libmagic', 'MIME sniffing', 'Zstd dictionary training'],
+    risk: '误判类型会让后续预处理和模型选择全部偏掉。',
+  },
+  M09: {
+    role: '把大文件或在线输入切成可处理的块流。',
+    required: '可选',
+    reps: ['streaming zstd', 'pipelined PAQ'],
+    risk: '流式边界会影响上下文连续性和内存上限。',
+  },
+  M02: {
+    role: '做可逆变换,让后面的模型看到更规则的数据。',
+    required: '可选',
+    reps: ['BWT', 'Delta coding', 'JPEG-LS residual'],
+    risk: '必须保存逆变换信息,否则无法 bit-exact 解压。',
+  },
+  M06: {
+    role: '把高位、低位或残差拆开,让规律更容易被模型捕捉。',
+    required: '研究增强',
+    reps: ['Bitshuffle', 'fpzip', 'ZFP', 'JPEG-LS residual'],
+    risk: '低位噪声和浮点格式会让收益不稳定。',
+  },
+  M08: {
+    role: '按块选择策略,避免整文件只用一套压缩路线。',
+    required: '可选',
+    reps: ['Zstd block design', 'Brotli meta-block'],
+    risk: '块太小会损失上下文,块太大会增加内存和延迟。',
+  },
+  M14: {
+    role: '针对图像、日志、科学数组等领域结构做可逆适配。',
+    required: '研究增强',
+    reps: ['CRAM', 'bitshuffle', 'JPEG-LS', 'LogHub'],
+    risk: '格式依赖强,泛化和解码兼容性是主要难点。',
+  },
+  M10: {
+    role: '从历史窗口里找重复片段,输出 literal 或 match token。',
+    required: '可选',
+    reps: ['LZ77', 'DEFLATE', 'Zstd', 'Brotli'],
+    risk: '匹配搜索越强通常越慢,还会增加内存。',
+  },
+  M11: {
+    role: '把 token 或符号转成频率表 / CDF / 概率估计。',
+    required: '可选',
+    reps: ['Huffman', 'ANS', 'Arithmetic Coding'],
+    risk: '概率估计不稳会直接损失码长。',
+  },
+  M03: {
+    role: '用多个上下文专家预测当前符号的概率。',
+    required: '研究增强',
+    reps: ['PPM', 'CTW', 'PAQ8px', 'cmix'],
+    risk: '上下文越复杂,稀疏性、内存和解码延迟越难控。',
+  },
+  M04: {
+    role: '用神经网络预测下一个 symbol 的概率。',
+    required: '研究增强',
+    reps: ['NNCP', 'TRACE', 'Language Modeling Is Compression'],
+    risk: '压缩率可能高,但推理速度和复现成本很高。',
+  },
+  M05: {
+    role: '融合多个模型的预测,得到最终概率。',
+    required: '研究增强',
+    reps: ['PAQ mixer', 'cmix mixer', 'SSE'],
+    risk: '在线更新必须和解码端完全同步。',
+  },
+  M07: {
+    role: '把符号和概率真正写成更短的 bitstream。',
+    required: '必选',
+    reps: ['ANS', 'FSE', 'Huffman', 'Arithmetic Coding', 'Range Coding'],
+    risk: '编码精度、速度和解码同步都容易出错。',
+  },
+  M12: {
+    role: '记录格式版本、参数、块索引、校验和和边信息。',
+    required: '必选',
+    reps: ['Zstandard frame', 'gzip header', 'xz container'],
+    risk: '缺少元数据会导致无法解码、不可复现或不可校验。',
+  },
+  M13: {
+    role: '验证压缩率、速度、内存、延迟和 bit-exact 正确性。',
+    required: '必选',
+    reps: ['lzbench', 'ACM Artifact Review', 'Silesia benchmark'],
+    risk: '如果没有统一脚本,实验比较很容易不可复现。',
+  },
 };
-const DIFF_LABEL: Record<string, string> = {intro: '入门', medium: '中级', hard: '困难'};
-const RISK_LABEL: Record<string, string> = {low: '低', medium: '中', high: '高'};
-const CATEGORY_ICON: Record<string, any> = {
-  input: Boxes,
-  orchestration: Activity,
-  transform: Filter,
-  probability: Cpu,
-  neural: Zap,
-  fusion: Layers,
-  entropy: Code2,
-  io: Activity,
-};
+
+function byId(id: string): AlgorithmModule {
+  const module = algorithmModules.find((item) => item.id === id);
+  if (!module) throw new Error(`Missing algorithm module ${id}`);
+  return module;
+}
+
+function getModuleMeta(module: AlgorithmModule) {
+  return MODULE_OVERRIDES[module.id] ?? {
+    role: module.why || module.problem,
+    required: REQUIRED_MODULES.has(module.id) ? '必选' : RESEARCH_MODULES.has(module.id) ? '研究增强' : '可选',
+    reps: [...(module.alternatives ?? []), ...(module.references ?? [])].slice(0, 5),
+    risk: module.notes || module.problem,
+  };
+}
 
 export default function AlgorithmBoardPage(): React.ReactElement {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const focus = params.get('module');
+  const [mode, setMode] = useState<ViewMode>('novice');
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set(focus ? [focus] : []));
 
-  const {addTask} = useTasks();
-  const [filter, setFilter] = useState<string>('all');
-  const [query, setQuery] = useState('');
-  const [detail, setDetail] = useState<AlgorithmModule | null>(null);
+  const layerModules = useMemo(() => {
+    return PIPELINE_LAYERS.map((layer) => ({
+      ...layer,
+      modules: layer.moduleIds.map(byId),
+    }));
+  }, []);
 
-  React.useEffect(() => {
-    if (focus) {
-      const m = algorithmModules.find((x) => x.id === focus);
-      if (m) setDetail(m);
-    }
-  }, [focus]);
-
-  const ordered = useMemo(() => pipelineOrder.map((id) => algorithmModules.find((m) => m.id === id)).filter(Boolean) as AlgorithmModule[], []);
-
-  const filtered = useMemo(() => {
-    let arr = ordered;
-    if (filter !== 'all') arr = arr.filter((m) => m.category === filter);
-    if (query.trim()) {
-      const q = query.toLowerCase();
-      arr = arr.filter((m) => m.id.includes(q) || (m.nameZh ?? '').toLowerCase().includes(q) || (m.problem ?? '').toLowerCase().includes(q));
-    }
-    return arr;
-  }, [ordered, filter, query]);
+  function toggleModule(id: string) {
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
 
   return (
     <Layout title={CN.title} description={CN.hint}>
       <WorkbenchShell pageTitle={CN.title} pageHint={CN.hint}>
-        <section className={styles.boardHero}>
+        <section className={styles.heroMap}>
           <div>
-              <span className={styles.kicker}>Codec Architecture Board</span>
-              <h2>压缩器架构模块板</h2>
-              <p>
-              将算法族、论文方法和工程实现映射到压缩器可替换组件，明确每个模块的输入、输出、依赖、风险和指标影响。
-              </p>
-            </div>
-          <div className={styles.boardHeroMeta}>
-            <span>传统算法族</span>
-            <strong>字典匹配 / 变换预测 / 概率建模 / 熵编码 / 学习式压缩 / 领域专用压缩</strong>
+            <span className={styles.kicker}>Lossless Compressor System Map</span>
+            <h2>无损压缩器系统地图</h2>
+            <p>
+              无损压缩器可以理解为一条可逆的信息处理流水线：先识别和整理输入，再发现数据冗余，随后通过熵编码生成更短的 bitstream，最后封装成可校验、可解压的工程格式。
+            </p>
+          </div>
+          <div className={styles.modeSwitch} role="tablist" aria-label="视图切换">
+            <Button variant={mode === 'novice' ? 'default' : 'outline'} onClick={() => setMode('novice')}>
+              <Search size={14} /> 新手视图
+            </Button>
+            <Button variant={mode === 'expert' ? 'default' : 'outline'} onClick={() => setMode('expert')}>
+              <Boxes size={14} /> 专家视图
+            </Button>
           </div>
         </section>
 
-        <section className={styles.moduleMetrics}>
-          <MetricTile label="Modules" value={ordered.length} hint="当前实现地图" icon={Boxes} tone="blue" />
-          <MetricTile label="Categories" value={Object.keys(categoryLabels).length} hint="流水线职责" icon={Layers} tone="purple" />
-          <MetricTile label="Runnable" value={ordered.filter((m) => m.status === 'runnable' || m.status === 'verified' || m.status === 'production').length} hint="可进入实验" icon={Activity} tone="green" />
-          <MetricTile label="Papers" value={new Set(ordered.flatMap((m) => m.references ?? [])).size} hint="关联证据" icon={ExternalLink} tone="cyan" />
+        <section className={styles.pipelineShell} aria-label="无损压缩器主流程">
+          <div className={styles.streamEndpoint} data-side="input">
+            <FileArchive size={22} />
+            <span>原始数据</span>
+          </div>
+          <div className={styles.pipelineTrack}>
+            {layerModules.slice(0, 5).map((layer, index) => (
+              <React.Fragment key={layer.id}>
+                <LayerNode layer={layer} mode={mode} expanded={expanded} onToggle={toggleModule} />
+                {index < 4 ? <ArrowRight className={styles.flowConnector} size={20} /> : null}
+              </React.Fragment>
+            ))}
+          </div>
+          <div className={styles.streamEndpoint} data-side="output">
+            <CheckCircle2 size={22} />
+            <span>压缩文件</span>
+          </div>
+          <EvaluationRing layer={layerModules[5]} mode={mode} expanded={expanded} onToggle={toggleModule} />
         </section>
 
-        <ResearchPanel
-          eyebrow="Operating Model"
-          title="模块页的定位"
-            description="模块板服务算法方案设计和复现实验拆解；历史关系进入 Evolution，性能名次进入 SOTA，算法条目进入 Catalog。"
-        >
-          <div className={styles.readingModel}>
-            <div><strong>设计视角</strong><span>把完整压缩器拆成可替换组件。</span></div>
-            <div><strong>工程视角</strong><span>定位实现风险、接口输入输出和复现实验入口。</span></div>
-            <div><strong>研究视角</strong><span>连接模块背后的论文、算法族与评估指标。</span></div>
+        <section className={styles.readingGuide}>
+          <div>
+            <strong>怎么看这张图</strong>
+            <span>主线表示数据流；外环表示研发评测闭环。模块不是全部必选，不同压缩器会在同一张地图上选择不同组合。</span>
           </div>
-        </ResearchPanel>
-
-        {/* 流程图 */}
-        <Card className={styles.flowCard}>
-          <CardContent>
-            <h3 className={styles.flowTitle}><Boxes size={16} /> {CN.pipeline}</h3>
-            <div className={styles.flowRow}>
-              {ordered.map((m, i) => (
-                <React.Fragment key={m.id}>
-                  <button type="button" className={styles.flowNode} onClick={() => setDetail(m)}>
-                    <span className={styles.flowNodeId}>{m.id}</span>
-                    <span className={styles.flowNodeName}>{m.nameZh ?? m.id}</span>
-                    <span className={styles.flowNodeCat}>{categoryLabels[m.category]}</span>
-                    <span className={styles.flowNodeStatus} style={{background: STATUS_COLORS[m.status]}}>{moduleStatusLabels[m.status]}</span>
-                  </button>
-                  {i < ordered.length - 1 ? <ArrowRight size={14} className={styles.flowArrow} /> : null}
-                </React.Fragment>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        <div className={styles.filterRow}>
-          <div className={styles.searchWrap}>
-            <Search size={13} />
-            <Input placeholder={CN.searchPh} value={query} onChange={(e) => setQuery(e.target.value)} className={styles.searchInput} />
+          <div>
+            <strong>科研改进入口</strong>
+            <span>压缩率通常改建模、预处理和概率融合；速度通常改匹配搜索、熵编码和分块；可交付性看容器和评测闭环。</span>
           </div>
-          <select value={filter} onChange={(e) => setFilter(e.target.value)} className={styles.select}>
-            <option value="all">{CN.category} · {CN.all}</option>
-            {Object.entries(categoryLabels).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
-          </select>
-        </div>
+        </section>
 
-        <Card className={styles.gridCard}>
-          <CardContent>
-            <h3 className={styles.gridTitle}>{CN.modules} <span style={{color: '#64748b', fontWeight: 400, fontSize: 12, marginLeft: 8}}>· {filtered.length} / {ordered.length} 个模块</span></h3>
-            <div className={styles.grid}>
-              {filtered.map((m) => (
-                <ModuleCard key={m.id} m={m} onOpen={() => setDetail(m)} />
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Sheet open={!!detail} onOpenChange={(o) => !o && setDetail(null)}>
-          <SheetContent side="right" className={styles.sheet}>
-            {detail ? <ModuleDetail m={detail} onAdd={(title) => addTask({
-              title: `[算法 ${detail.id}] ${title}`,
-              status: 'todo',
-              lane: 'this-week',
-              refs: [{kind: 'algo-module', refId: detail.id, label: detail.nameZh}],
-              estimatedMinutes: 120,
-              priority: 'normal',
-            })} /> : null}
-          </SheetContent>
-        </Sheet>
+        <section className={styles.routesSection}>
+          <div className={styles.sectionHead}>
+            <span className={styles.kicker}>Route Comparison</span>
+            <h3>真实压缩器路线对照</h3>
+            <p>不同压缩器不是完全不同的东西，而是在同一张系统地图上选择了不同模块组合。</p>
+          </div>
+          <div className={styles.routeGrid}>
+            {ROUTE_CASES.map((route) => (
+              <RouteCard key={route.name} route={route} />
+            ))}
+          </div>
+        </section>
       </WorkbenchShell>
     </Layout>
   );
 }
 
-function ModuleCard({m, onOpen}: {m: AlgorithmModule; onOpen: () => void}) {
-  const Icon = CATEGORY_ICON[m.category] ?? Cpu;
+function LayerNode({
+  layer,
+  mode,
+  expanded,
+  onToggle,
+}: {
+  layer: PipelineLayer & {modules: AlgorithmModule[]};
+  mode: ViewMode;
+  expanded: Set<string>;
+  onToggle: (id: string) => void;
+}) {
+  const Icon = layer.icon;
   return (
-    <article className={styles.modCard}>
-      <header className={styles.modHead}>
-        <div className={styles.modIdGroup}>
-          <span className={styles.modIcon} style={{background: STATUS_COLORS[m.status] + '22', color: STATUS_COLORS[m.status]}}>
-            <Icon size={14} />
-          </span>
-          <span className={styles.modId}>{m.id}</span>
+    <article className={styles.layerNode} data-tone={layer.tone}>
+      <header className={styles.layerHeader}>
+        <span className={styles.layerIcon}><Icon size={18} /></span>
+        <div>
+          <h3>{layer.title}</h3>
+          <p>{layer.plain}</p>
         </div>
-        <Badge variant="outline" className={styles.modCategoryBadge}>{categoryLabels[m.category]}</Badge>
       </header>
-      <h4 className={styles.modName} onClick={onOpen}>{m.nameZh ?? m.id}</h4>
-      <p className={styles.modProblem}><span className={styles.modProblemLabel}>问题</span>{m.problem}</p>
-      <div className={styles.modIOTags}>
-        <span className={styles.modIOTag} data-io="in">入 {(m.inputs ?? [m.input])[0]}</span>
-        <span className={styles.modIOTag} data-io="out">出 {(m.outputs ?? [m.output])[0]}</span>
-      </div>
-      <div className={styles.modTags}>
-        {(m.impact ?? []).slice(0, 3).map((t) => <Badge key={t} variant="outline" className={styles.modImpactBadge}>{t}</Badge>)}
-      </div>
-      <footer className={styles.modFoot}>
-        <span className={styles.modDiff} data-level={m.difficulty}>{DIFF_LABEL[m.difficulty]}</span>
-        <span className={styles.modRisk}>风险 {RISK_LABEL[m.risk]}</span>
-        <span className={styles.modStatus} style={{background: STATUS_COLORS[m.status]}}>{moduleStatusLabels[m.status]}</span>
-      </footer>
-      <button type="button" onClick={onOpen} className={styles.modOpenBtn}>展开 →</button>
+      {mode === 'novice' ? (
+        <div className={styles.layerSummary}>
+          <span>{layer.modules.length} 个可用模块</span>
+          <em>{layer.moduleIds.join(' / ')}</em>
+        </div>
+      ) : (
+        <div className={styles.moduleStack}>
+          {layer.modules.map((module) => (
+            <ExpertModuleCard
+              key={module.id}
+              module={module}
+              isOpen={expanded.has(module.id)}
+              onToggle={() => onToggle(module.id)}
+            />
+          ))}
+        </div>
+      )}
     </article>
   );
 }
 
-function ModuleDetail({m, onAdd}: {m: AlgorithmModule; onAdd: (title: string) => void}) {
-  const refs = (m.references ?? []).map((id) => literatureData.find((l) => l.id === id)).filter(Boolean);
-  const exp = (m.experiments ?? []).map((id) => experimentData.find((e) => e.id === id)).filter(Boolean);
+function EvaluationRing({
+  layer,
+  mode,
+  expanded,
+  onToggle,
+}: {
+  layer: PipelineLayer & {modules: AlgorithmModule[]};
+  mode: ViewMode;
+  expanded: Set<string>;
+  onToggle: (id: string) => void;
+}) {
+  const module = layer.modules[0];
   return (
-    <div className={styles.detail}>
-      <SheetHeader>
-        <span className={styles.detailId}>{m.id} · {categoryLabels[m.category]}</span>
-        <SheetTitle className={styles.detailTitle}>{m.nameZh ?? m.id}</SheetTitle>
-        <SheetDescription className={styles.detailMeta}>{m.name}</SheetDescription>
-      </SheetHeader>
-
-      <div className={styles.detailHeadBadges}>
-        <span className={styles.modStatus} style={{background: STATUS_COLORS[m.status]}}>{moduleStatusLabels[m.status]}</span>
-        <Badge variant="outline">难度 {DIFF_LABEL[m.difficulty]}</Badge>
-        <Badge variant="outline">风险 {RISK_LABEL[m.risk]}</Badge>
-      </div>
-
-      <section className={styles.detailSection}>
-        <h4 className={styles.detailH4}>{CN.problem}</h4>
-        <p>{m.problem}</p>
-        {m.why ? <p style={{marginTop: 8, fontSize: 13, color: '#64748b'}}>{m.why}</p> : null}
-      </section>
-
-      <section className={styles.detailSection}>
-        <h4 className={styles.detailH4}>输入 / 输出</h4>
-        <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12}}>
+    <aside className={styles.evaluationRing} data-tone={layer.tone}>
+      <div className={styles.loopLine}><ArrowDown size={18} /></div>
+      <div className={styles.evaluationCard}>
+        <header className={styles.layerHeader}>
+          <span className={styles.layerIcon}><FlaskConical size={18} /></span>
           <div>
-            <div style={{fontSize: 11, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em'}}>{CN.input}</div>
-            <ul style={{margin: '6px 0 0', paddingLeft: 16}}>
-              {(m.inputs ?? [m.input]).map((s, i) => <li key={i} style={{fontSize: 13}}>{s}</li>)}
-            </ul>
+            <h3>{layer.title}</h3>
+            <p>{layer.plain}</p>
           </div>
-          <div>
-            <div style={{fontSize: 11, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em'}}>{CN.output}</div>
-            <ul style={{margin: '6px 0 0', paddingLeft: 16}}>
-              {(m.outputs ?? [m.output]).map((s, i) => <li key={i} style={{fontSize: 13}}>{s}</li>)}
-            </ul>
-          </div>
+        </header>
+        <div className={styles.evalMetrics}>
+          {['压缩率', '速度', '内存', '延迟', 'bit-exact'].map((item) => <span key={item}>{item}</span>)}
         </div>
-      </section>
-
-      <section className={styles.detailSection}>
-        <h4 className={styles.detailH4}>{CN.alternatives}</h4>
-        <div className={styles.altRow}>
-          {(m.alternatives ?? []).map((a) => <Badge key={a} variant="outline">{a}</Badge>)}
-        </div>
-      </section>
-
-      <section className={styles.detailSection}>
-        <h4 className={styles.detailH4}>{CN.impact}</h4>
-        <div className={styles.altRow}>
-          {(m.impact ?? []).map((a) => <Badge key={a}>{a}</Badge>)}
-        </div>
-      </section>
-
-      {refs.length > 0 ? (
-        <section className={styles.detailSection}>
-          <h4 className={styles.detailH4}>{CN.papers}</h4>
-          <ul className={styles.refList}>
-            {refs.map((l: any) => (
-              <li key={l.id}>
-                <a
-                  href={`/library?lit=${l.id}`}
-                  className={styles.refLinkBtn}
-                  onClick={(e) => { e.preventDefault(); window.location.assign(`/library?lit=${l.id}`); }}
-                >
-                  <ExternalLink size={11} /> {l.title} <span className={styles.refMeta}>{l.year}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {exp.length > 0 ? (
-        <section className={styles.detailSection}>
-          <h4 className={styles.detailH4}>{CN.experiments}</h4>
-          <ul className={styles.refList}>
-            {exp.map((e: any) => (
-              <li key={e.id}>
-                <a
-                  href={`/experiments?exp=${e.id}`}
-                  className={styles.refLinkBtn}
-                  onClick={(e2) => { e2.preventDefault(); window.location.assign(`/experiments?exp=${e.id}`); }}
-                >
-                  <ExternalLink size={11} /> {e.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {m.notes ? (
-        <section className={styles.detailSection}>
-          <h4 className={styles.detailH4}>{CN.notes}</h4>
-          <p style={{fontSize: 13}}>{m.notes}</p>
-        </section>
-      ) : null}
-
-      <div className={styles.detailActions}>
-        <Button onClick={() => onAdd(`阅读 / 笔记 ${m.nameZh ?? m.id} 模块`)}>
-          <Plus size={14} /> {CN.addToTask}
-        </Button>
-        {refs[0] ? (
-          <Button variant="outline" onClick={() => window.location.assign(`/library?lit=${(refs[0] as any).id}`)}>
-            <ExternalLink size={14} /> {CN.openLit}
-          </Button>
-        ) : null}
-        {exp[0] ? (
-          <Button variant="outline" onClick={() => window.location.assign(`/experiments?exp=${(exp[0] as any).id}`)}>
-            <Zap size={14} /> {CN.openExp}
-          </Button>
+        {mode === 'expert' ? (
+          <ExpertModuleCard module={module} isOpen={expanded.has(module.id)} onToggle={() => onToggle(module.id)} compact />
         ) : null}
       </div>
+    </aside>
+  );
+}
+
+function ExpertModuleCard({
+  module,
+  isOpen,
+  onToggle,
+  compact = false,
+}: {
+  module: AlgorithmModule;
+  isOpen: boolean;
+  onToggle: () => void;
+  compact?: boolean;
+}) {
+  const meta = getModuleMeta(module);
+  return (
+    <article className={styles.expertCard} data-open={isOpen} data-compact={compact}>
+      <button type="button" className={styles.expertCardMain} onClick={onToggle}>
+        <span className={styles.smallId}>{module.id}</span>
+        <span className={styles.moduleTitle}>{module.nameZh}</span>
+        <Badge variant="outline" className={styles.requirementBadge}>{meta.required}</Badge>
+        {isOpen ? <ChevronDown size={15} /> : <ChevronRight size={15} />}
+      </button>
+      <p>{meta.role}</p>
+      {isOpen ? (
+        <div className={styles.expertDetails}>
+          <InfoPair label="输入" value={(module.inputs ?? [module.input]).join(' / ')} />
+          <InfoPair label="输出" value={(module.outputs ?? [module.output]).join(' / ')} />
+          <InfoPair label="代表算法或系统" value={meta.reps.join(' / ')} />
+          <InfoPair label="风险或难点" value={meta.risk} />
+        </div>
+      ) : null}
+    </article>
+  );
+}
+
+function InfoPair({label, value}: {label: string; value: string}) {
+  return (
+    <div className={styles.infoPair}>
+      <span>{label}</span>
+      <strong>{value}</strong>
     </div>
+  );
+}
+
+function RouteCard({route}: {route: RouteCase}) {
+  return (
+    <article className={styles.routeCard} data-tone={route.tone}>
+      <header>
+        <h4>{route.name}</h4>
+        <p>{route.summary}</p>
+      </header>
+      <div className={styles.routeSteps}>
+        {route.steps.map((step, index) => (
+          <React.Fragment key={step}>
+            <span>{step}</span>
+            {index < route.steps.length - 1 ? <ArrowRight size={14} /> : null}
+          </React.Fragment>
+        ))}
+      </div>
+      <div className={styles.routeModules}>
+        {route.modules.map((id) => {
+          const module = byId(id);
+          return <Badge key={id} variant="outline">{id} · {module.nameZh}</Badge>;
+        })}
+      </div>
+    </article>
   );
 }
