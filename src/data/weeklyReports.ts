@@ -1,4 +1,12 @@
-export type WeeklyReportStatus = 'scheduled' | 'done';
+export type WeeklyReportStatus = 'scheduled' | 'done' | 'pending';
+
+export interface WeeklyReportSubmission {
+  presenterZh: string;
+  presenterEn: string;
+  submittedAt: string;
+  pdfPath: string;
+  pptxPath: string;
+}
 
 export interface WeeklyReportItem {
   id: string;
@@ -11,136 +19,110 @@ export interface WeeklyReportItem {
   status: WeeklyReportStatus;
   titleZh: string;
   titleEn: string;
-  summaryZh: string;
-  summaryEn: string;
+  expectedSubmissionCount: number;
+  submissions: readonly WeeklyReportSubmission[];
+}
+
+interface WeeklyReportOverride {
+  expectedSubmissionCount?: number;
+  submissions?: readonly WeeklyReportSubmission[];
 }
 
 export const FIRST_WEEKLY_REPORT_DATE = '2026-07-10';
+export const WEEKLY_REPORT_INTERVAL_DAYS = 14;
 
 export const WEEKLY_REPORT_CADENCE = {
   zh: {
     fixedTime: '每两周周五 14:30-15:30',
     first: '首次汇报：2026-07-10（周五）14:30-15:30',
-    rule: '这里只保留汇报周期和每期入口，具体内容进入对应汇报后再整理。',
+    rule: '自首次汇报起，每 14 天自动生成一个汇报周期。',
   },
   en: {
     fixedTime: 'Every other Friday 14:30-15:30',
     first: 'First briefing: 2026-07-10 (Friday) 14:30-15:30',
-    rule: 'This page only keeps the cadence and entry points. Content is organized inside each briefing.',
+    rule: 'A new briefing cycle is generated every 14 days from the first briefing.',
   },
 } as const;
 
-export const weeklyReports: readonly WeeklyReportItem[] = [
-  {
-    id: 'WR-2026-07-10',
-    no: 1,
-    date: '2026-07-10',
-    weekdayZh: '周五',
-    weekdayEn: 'Friday',
+const REPORT_OVERRIDES: Readonly<Record<string, WeeklyReportOverride>> = {
+  'WR-2026-07-10': {
+    expectedSubmissionCount: 2,
+    submissions: [
+      {
+        presenterZh: '王坤鹏',
+        presenterEn: 'Wang Kunpeng',
+        submittedAt: '2026-07-10',
+        pdfPath: 'reports/2026-07-10/WR-2026-07-10-wang-kunpeng.pdf',
+        pptxPath: 'reports/2026-07-10/WR-2026-07-10-wang-kunpeng.pptx',
+      },
+    ],
+  },
+};
+
+const FIRST_REPORT_UTC = Date.UTC(2026, 6, 10);
+const REPORT_END_TIME = '15:30:00+08:00';
+const WEEKDAY_ZH = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+const WEEKDAY_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+function reportDateAt(index: number): Date {
+  return new Date(FIRST_REPORT_UTC + index * WEEKLY_REPORT_INTERVAL_DAYS * 86400000);
+}
+
+function formatDate(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}
+
+function reportEndTimestamp(index: number): number {
+  return Date.parse(`${formatDate(reportDateAt(index))}T${REPORT_END_TIME}`);
+}
+
+export function getNextWeeklyReportIndex(now = new Date()): number {
+  const firstEnd = reportEndTimestamp(0);
+  const interval = WEEKLY_REPORT_INTERVAL_DAYS * 86400000;
+  const elapsed = now.getTime() - firstEnd;
+  return elapsed <= 0 ? 0 : Math.ceil(elapsed / interval);
+}
+
+export function getWeeklyReportAt(index: number, now = new Date()): WeeklyReportItem {
+  if (!Number.isInteger(index) || index < 0) {
+    throw new Error(`Invalid biweekly report index: ${index}`);
+  }
+
+  const date = reportDateAt(index);
+  const dateString = formatDate(date);
+  const id = `WR-${dateString}`;
+  const override = REPORT_OVERRIDES[id];
+  const no = index + 1;
+
+  return {
+    id,
+    no,
+    date: dateString,
+    weekdayZh: WEEKDAY_ZH[date.getUTCDay()],
+    weekdayEn: WEEKDAY_EN[date.getUTCDay()],
     time: '14:30-15:30',
     durationMinutes: 60,
-    status: 'scheduled',
-    titleZh: '双周汇报 01',
-    titleEn: 'Biweekly Briefing 01',
-    summaryZh: '',
-    summaryEn: '',
-  },
-  {
-    id: 'WR-2026-07-24',
-    no: 2,
-    date: '2026-07-24',
-    weekdayZh: '周五',
-    weekdayEn: 'Friday',
-    time: '14:30-15:30',
-    durationMinutes: 60,
-    status: 'scheduled',
-    titleZh: '双周汇报 02',
-    titleEn: 'Biweekly Briefing 02',
-    summaryZh: '',
-    summaryEn: '',
-  },
-  {
-    id: 'WR-2026-08-07',
-    no: 3,
-    date: '2026-08-07',
-    weekdayZh: '周五',
-    weekdayEn: 'Friday',
-    time: '14:30-15:30',
-    durationMinutes: 60,
-    status: 'scheduled',
-    titleZh: '双周汇报 03',
-    titleEn: 'Biweekly Briefing 03',
-    summaryZh: '',
-    summaryEn: '',
-  },
-  {
-    id: 'WR-2026-08-21',
-    no: 4,
-    date: '2026-08-21',
-    weekdayZh: '周五',
-    weekdayEn: 'Friday',
-    time: '14:30-15:30',
-    durationMinutes: 60,
-    status: 'scheduled',
-    titleZh: '双周汇报 04',
-    titleEn: 'Biweekly Briefing 04',
-    summaryZh: '',
-    summaryEn: '',
-  },
-  {
-    id: 'WR-2026-09-04',
-    no: 5,
-    date: '2026-09-04',
-    weekdayZh: '周五',
-    weekdayEn: 'Friday',
-    time: '14:30-15:30',
-    durationMinutes: 60,
-    status: 'scheduled',
-    titleZh: '双周汇报 05',
-    titleEn: 'Biweekly Briefing 05',
-    summaryZh: '',
-    summaryEn: '',
-  },
-  {
-    id: 'WR-2026-09-18',
-    no: 6,
-    date: '2026-09-18',
-    weekdayZh: '周五',
-    weekdayEn: 'Friday',
-    time: '14:30-15:30',
-    durationMinutes: 60,
-    status: 'scheduled',
-    titleZh: '双周汇报 06',
-    titleEn: 'Biweekly Briefing 06',
-    summaryZh: '',
-    summaryEn: '',
-  },
-  {
-    id: 'WR-2026-10-09',
-    no: 7,
-    date: '2026-10-09',
-    weekdayZh: '周五',
-    weekdayEn: 'Friday',
-    time: '14:30-15:30',
-    durationMinutes: 60,
-    status: 'scheduled',
-    titleZh: '双周汇报 07',
-    titleEn: 'Biweekly Briefing 07',
-    summaryZh: '',
-    summaryEn: '',
-  },
-  {
-    id: 'WR-2026-10-23',
-    no: 8,
-    date: '2026-10-23',
-    weekdayZh: '周五',
-    weekdayEn: 'Friday',
-    time: '14:30-15:30',
-    durationMinutes: 60,
-    status: 'scheduled',
-    titleZh: '双周汇报 08',
-    titleEn: 'Biweekly Briefing 08',
-    summaryZh: '',
-    summaryEn: '',
-  },
-];
+    status: now.getTime() > reportEndTimestamp(index) ? 'done' : 'scheduled',
+    titleZh: `双周汇报 ${String(no).padStart(2, '0')}`,
+    titleEn: `Biweekly Briefing ${String(no).padStart(2, '0')}`,
+    expectedSubmissionCount: override?.expectedSubmissionCount ?? 2,
+    submissions: override?.submissions ?? [],
+  };
+}
+
+export function getWeeklyReportIndex(id: string | null): number | null {
+  const match = /^WR-(\d{4}-\d{2}-\d{2})$/.exec(id ?? '');
+  if (!match) return null;
+
+  const timestamp = Date.parse(`${match[1]}T00:00:00Z`);
+  const interval = WEEKLY_REPORT_INTERVAL_DAYS * 86400000;
+  const delta = timestamp - FIRST_REPORT_UTC;
+
+  if (!Number.isFinite(timestamp) || delta < 0 || delta % interval !== 0) return null;
+  return delta / interval;
+}
+
+export function getWeeklyReportsAround(centerIndex: number, before = 7, after = 16, now = new Date()): WeeklyReportItem[] {
+  const start = Math.max(0, centerIndex - before);
+  return Array.from({length: before + after + 1}, (_, offset) => getWeeklyReportAt(start + offset, now));
+}

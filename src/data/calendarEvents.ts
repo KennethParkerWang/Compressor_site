@@ -18,7 +18,11 @@ import type {ResearchTask, TaskRef, TaskLane} from './researchTasks';
 import type {ReadingNote} from './readingNotes';
 import {literatureData} from './literatureData';
 import type {LiteratureItem} from './literatureData';
-import {weeklyReports} from './weeklyReports';
+import {
+  FIRST_WEEKLY_REPORT_DATE,
+  WEEKLY_REPORT_INTERVAL_DAYS,
+  getWeeklyReportsAround,
+} from './weeklyReports';
 
 export type CalendarEventType =
   | 'task-todo'      // 待办
@@ -167,12 +171,20 @@ export function buildMilestoneEvents(): CalendarEvent[] {
 
 // 一次 merge
 export function buildWeeklyReportEvents(): CalendarEvent[] {
-  return weeklyReports.map((report) => ({
+  const firstTimestamp = Date.parse(`${FIRST_WEEKLY_REPORT_DATE}T00:00:00Z`);
+  const interval = WEEKLY_REPORT_INTERVAL_DAYS * 86400000;
+  const currentIndex = Math.max(0, Math.floor((Date.now() - firstTimestamp) / interval));
+  const centerIndex = Math.max(7, currentIndex);
+  const reports = getWeeklyReportsAround(centerIndex, centerIndex, 18);
+
+  return reports.map((report) => ({
     id: `weekly-report-${report.id}`,
     type: 'weekly-report',
     title: `\u5468\u6c47\u62a5 ${String(report.no).padStart(2, '0')} \u00b7 ${report.titleZh}`,
     start: report.date,
-    description: report.summaryZh,
+    description: report.submissions.length > 0
+      ? `\u5df2\u6536\u5230 ${report.submissions.length} / ${report.expectedSubmissionCount} \u4efd\u6c47\u62a5\u6750\u6599`
+      : undefined,
     time: report.time,
     meta: {
       minutes: report.durationMinutes,
