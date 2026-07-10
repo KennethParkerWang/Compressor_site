@@ -1,4 +1,5 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {Check, ChevronDown, Palette} from 'lucide-react';
 import {themePresets, type CrTheme, type ThemePreset} from '@site/src/data/themePresets';
 import styles from './styles.module.css';
@@ -18,10 +19,6 @@ function readStored(): CrTheme {
   if (typeof window === 'undefined') return 'light';
   const value = window.localStorage.getItem(STORAGE_KEY);
   return themePresets.some((preset) => preset.id === value) ? (value as CrTheme) : 'light';
-}
-
-function isEnglishPath(pathname: string): boolean {
-  return pathname === '/en' || pathname.startsWith('/en/');
 }
 
 function themeName(theme: ThemePreset, lang: 'zh' | 'en'): string {
@@ -45,8 +42,8 @@ function Swatch({theme}: {theme: ThemePreset}): React.ReactElement {
 }
 
 export default function ThemeSwitcher(): React.ReactElement {
-  const [pathname, setPathname] = useState('/');
-  const lang: 'zh' | 'en' = isEnglishPath(pathname) ? 'en' : 'zh';
+  const {i18n} = useDocusaurusContext();
+  const lang: 'zh' | 'en' = i18n.currentLocale === 'en' ? 'en' : 'zh';
   const [open, setOpen] = useState(false);
   const [theme, setTheme] = useState<CrTheme>('light');
   const wrapRef = useRef<HTMLDivElement | null>(null);
@@ -55,15 +52,6 @@ export default function ThemeSwitcher(): React.ReactElement {
     const stored = readStored();
     setTheme(stored);
     applyTheme(stored);
-    setPathname(window.location.pathname);
-
-    const updatePathname = (): void => setPathname(window.location.pathname);
-    window.addEventListener('popstate', updatePathname);
-    window.addEventListener('cr:route-end', updatePathname);
-    return () => {
-      window.removeEventListener('popstate', updatePathname);
-      window.removeEventListener('cr:route-end', updatePathname);
-    };
   }, []);
 
   useEffect(() => {

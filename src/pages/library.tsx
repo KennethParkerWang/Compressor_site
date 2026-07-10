@@ -373,7 +373,7 @@ export default function LibraryPage(): React.ReactElement {
 
             <div className={styles.assetTabs} title={CN.assetFilter}>
               {([
-                {k: 'all', label: CN.assetAll, emoji: '🗂'},
+                {k: 'all', label: CN.assetAll, emoji: ''},
                 {k: 'paper', label: CN.assetPdf, emoji: ''},
                 {k: 'standard', label: CN.assetStandard, emoji: ''},
                 {k: 'code', label: CN.assetCode, emoji: ''},

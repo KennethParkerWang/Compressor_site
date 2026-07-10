@@ -932,3 +932,86 @@
     font-size: 21px;
   }
 }
+
+/* Document-first library header and controls. */
+.libraryBrief {
+  margin-bottom: 18px;
+  padding: 8px 0 20px;
+  border: 0;
+  border-bottom: 1px solid var(--cr-border-strong-color);
+  border-radius: 0;
+  background: transparent;
+}
+
+.kicker,
+.citationAudit span {
+  letter-spacing: 0;
+}
+
+.libraryBrief h2 {
+  font-size: 28px;
+  font-weight: 740;
+}
+
+.libraryMetrics {
+  gap: 0;
+  margin-bottom: 18px;
+}
+
+.libraryMetrics > * {
+  border-right: 0;
+  border-radius: 0;
+}
+
+.libraryMetrics > *:first-child {
+  border-radius: 5px 0 0 5px;
+}
+
+.libraryMetrics > *:last-child {
+  border-right: 1px solid var(--cr-border-color);
+  border-radius: 0 5px 5px 0;
+}
+
+.citationAudit {
+  padding: 14px 16px;
+  border: 0;
+  border-top: 1px solid var(--cr-border-color);
+  border-bottom: 1px solid var(--cr-border-color);
+  border-left: 3px solid var(--cr-accent);
+  border-radius: 0;
+  background: var(--cr-card-bg);
+}
+
+.filterBar,
+.searchWrap,
+.assetTabs,
+.citationTabs {
+  border-radius: 5px;
+}
+
+.assetTab,
+.citationTab,
+.citationTabOn {
+  border-radius: 4px;
+}
+
+@media (max-width: 980px) {
+  .libraryMetrics > * {
+    border-right: 1px solid var(--cr-border-color);
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 620px) {
+  .libraryBrief {
+    padding: 6px 0 18px;
+  }
+
+  .libraryBrief h2 {
+    font-size: 23px;
+  }
+
+  .libraryMetrics > * {
+    border-radius: 0;
+  }
+}

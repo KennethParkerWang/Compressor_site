@@ -848,3 +848,98 @@ footer.footer .footer__items a:hover {
     display: none;
   }
 }
+
+/* 2026 research-site rebuild: quiet, document-first visual system. */
+:root,
+[data-cr-theme='light'],
+[data-cr-theme='paper'],
+[data-cr-theme='graph'] {
+  --ifm-color-primary: #175cd3;
+  --ifm-color-primary-dark: #1849a9;
+  --ifm-color-primary-darker: #194185;
+  --ifm-color-primary-darkest: #102a56;
+  --ifm-color-primary-light: #2e90fa;
+  --cr-bg: #f4f5f6;
+  --cr-card-bg: #ffffff;
+  --cr-surface: #f7f8f9;
+  --cr-surface-soft: #eef1f4;
+  --cr-surface-strong: #e4e7ec;
+  --cr-border-color: #e1e5ea;
+  --cr-border-strong-color: #cfd5dc;
+  --cr-border: 1px solid var(--cr-border-color);
+  --cr-border-strong: 1px solid var(--cr-border-strong-color);
+  --cr-text-primary: #182230;
+  --cr-text-secondary: #475467;
+  --cr-text-muted: #667085;
+  --cr-text-faint: #98a2b3;
+  --cr-accent: #175cd3;
+  --cr-accent-dark: #1849a9;
+  --cr-accent-soft: rgba(23, 92, 211, 0.10);
+  --cr-cyan: #0e7090;
+  --cr-green: #067647;
+  --cr-amber: #b54708;
+  --cr-red: #b42318;
+  --cr-purple: #6941c6;
+  --cr-slate: #475467;
+  --cr-grid-line: #edf0f2;
+  --cr-main-bg: #f4f5f6;
+  --cr-shadow-card: none;
+  --cr-shadow-elevated: 0 18px 45px rgba(16, 24, 40, 0.14);
+  --cr-radius: 6px;
+}
+
+[data-theme='dark'] {
+  --cr-bg: #11161d;
+  --cr-card-bg: #171d25;
+  --cr-surface: #1d2530;
+  --cr-surface-soft: #232d39;
+  --cr-surface-strong: #2b3745;
+  --cr-border-color: #2d3947;
+  --cr-border-strong-color: #435164;
+  --cr-text-primary: #f2f4f7;
+  --cr-text-secondary: #c7ced8;
+  --cr-text-muted: #98a2b3;
+  --cr-text-faint: #667085;
+  --cr-accent: #84adff;
+  --cr-accent-dark: #b2ccff;
+  --cr-accent-soft: rgba(132, 173, 255, 0.12);
+  --cr-main-bg: #11161d;
+  --cr-shadow-card: none;
+  --cr-shadow-elevated: 0 22px 55px rgba(0, 0, 0, 0.34);
+}
+
+html,
+body {
+  background: var(--cr-bg);
+}
+
+body {
+  background-image: none !important;
+  background-attachment: initial;
+}
+
+body::before,
+body::after,
+.cr-aurora {
+  display: none !important;
+  animation: none !important;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  letter-spacing: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

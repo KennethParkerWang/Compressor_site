@@ -1,17 +1,12 @@
 .hero {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: 16px;
-  min-height: 74px;
-  margin-bottom: 14px;
-  padding: 14px 16px;
-  border: var(--cr-border);
-  border-radius: 8px;
-  background:
-    linear-gradient(90deg, color-mix(in srgb, var(--cr-accent) 7%, transparent), color-mix(in srgb, var(--cr-cyan) 4%, transparent)),
-    var(--cr-card-bg);
-  box-shadow: var(--cr-shadow-card);
+  gap: 24px;
+  min-height: 88px;
+  margin-bottom: 18px;
+  padding: 8px 0 18px;
+  border-bottom: 1px solid var(--cr-border-strong-color);
 }
 
 .titleBlock {
@@ -24,7 +19,7 @@
   color: var(--cr-accent);
   font-size: 11px;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   line-height: 1;
   text-transform: uppercase;
 }
@@ -32,8 +27,8 @@
 .hero h2 {
   margin: 0;
   color: var(--cr-text-primary);
-  font-size: 22px;
-  font-weight: 800;
+  font-size: 27px;
+  font-weight: 740;
   line-height: 1.2;
 }
 
@@ -63,7 +58,7 @@
   min-height: 32px;
   padding: 5px 9px;
   border: var(--cr-border);
-  border-radius: 6px;
+  border-radius: 5px;
   background: var(--cr-card-bg);
   color: var(--cr-text-secondary);
   font-size: 12px;

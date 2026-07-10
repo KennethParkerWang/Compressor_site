@@ -3,14 +3,14 @@
 .emptyState {
   background: var(--cr-card-bg);
   border: var(--cr-border);
-  border-radius: var(--cr-radius);
+  border-radius: 5px;
   box-shadow: var(--cr-shadow-card);
 }
 
 .metricTile {
-  min-height: 112px;
-  padding: 14px 15px;
-  border-top: 3px solid var(--tone-color, var(--cr-accent));
+  min-height: 104px;
+  padding: 13px 14px;
+  border-top: 2px solid var(--tone-color, var(--cr-accent));
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -36,7 +36,7 @@
   color: var(--cr-text-muted);
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
@@ -45,7 +45,7 @@
   height: 28px;
   display: inline-grid;
   place-items: center;
-  border-radius: 6px;
+  border-radius: 4px;
   background: color-mix(in srgb, var(--tone-color) 11%, transparent);
   color: var(--tone-color);
 }
@@ -132,7 +132,7 @@
 }
 
 .panel {
-  padding: 16px;
+  padding: 17px;
 }
 
 .panelHead {
@@ -148,7 +148,7 @@
   color: var(--cr-accent);
   font-size: 11px;
   font-weight: 750;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
@@ -181,9 +181,7 @@
   gap: 10px;
   text-align: center;
   border-style: dashed;
-  background:
-    linear-gradient(180deg, rgba(37, 99, 235, 0.035), transparent 42%),
-    var(--cr-card-bg);
+  background: var(--cr-surface);
 }
 
 .emptyIcon {
