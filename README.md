@@ -65,7 +65,42 @@ https://KennethParkerWang.github.io/Compressor_site/
 
 ### 双周汇报中心
 
-用于管理双周汇报排期、汇报内容、待讨论问题和全屏展示。页面内置 Markdown 可编辑草稿、实时预览、复制草稿、保存草稿和图片拖拽插入功能。
+用于管理双周汇报排期和每期入口。当前页面只保留汇报周期与入口，不预填汇报题目、规划、大纲和材料；每期实际内容、两位同学的 PPT、截图证据和实验结果按当期日期单独沉淀。
+
+#### 双周汇报 PPT 存放约定
+
+每次双周汇报固定上传两份 PPT，分别来自两位同学。源文件建议放在 `static/reports/` 下，按汇报日期建目录：
+
+```text
+static/reports/
+└── 2026-07-10/
+    ├── WR-2026-07-10-student-a.pptx
+    ├── WR-2026-07-10-student-b.pptx
+    ├── WR-2026-07-10-student-a.pdf
+    ├── WR-2026-07-10-student-b.pdf
+    └── images/
+        ├── student-a-01.png
+        └── student-b-01.png
+```
+
+命名规则：
+
+- 目录名使用汇报日期：`YYYY-MM-DD`，例如 `2026-07-10`。
+- 文件名前缀使用汇报 ID：`WR-YYYY-MM-DD`，和 `src/data/weeklyReports.ts` 里的 `id` 保持一致。
+- 两位同学用稳定代号区分：`student-a`、`student-b`；如果后续确定姓名，可以改成拼音或英文名，例如 `wang-xx`、`li-xx`。
+- 原始可编辑文件保留 `.pptx`；网页展示优先使用导出的 `.pdf` 或逐页 `.png`。
+
+网站展示方式建议：
+
+- 最稳方案：在汇报页提供 `.pptx` 下载链接，同时嵌入 `.pdf` 预览或展示逐页 `.png`。这种方式不需要额外前端组件，Docusaurus 静态站点即可支持。
+- 推荐方案：每份 PPT 同步导出一份 PDF，网页用 `<iframe>` 或链接打开 PDF，兼顾可看和可下载。
+- 精细方案：把 PPT 每页导出为 PNG，页面做缩略图网格和全屏查看，适合汇报现场展示，但需要多维护一份图片。
+- 不建议直接在浏览器解析 `.pptx`。如果必须在线预览 PPTX，需要额外引入 Office 在线预览、OnlyOffice、LibreOffice 转换服务，或构建时用脚本把 PPTX 转成 PDF/PNG；这会增加部署和维护复杂度。
+
+新增某一期汇报时，至少需要改两处：
+
+1. 把文件放入 `static/reports/YYYY-MM-DD/`。
+2. 在 `src/data/weeklyReports.ts` 中确认对应 `id`、日期、周几和入口存在；后续如果页面要显示附件，再给数据结构增加 `attachments` 字段。
 
 ### 教程资源
 

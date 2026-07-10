@@ -2,6 +2,7 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import Fuse from 'fuse.js';
 import {useLocation} from '@docusaurus/router';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {literatureData} from '../../data/literatureData';
 import {readingPaths} from '../../data/readingPaths';
 import {readingNotes} from '../../data/readingNotes';
@@ -89,9 +90,9 @@ const PALETTE_COPY = {
   },
 };
 
-function buildIndex(lang: 'zh' | 'en'): PaletteItem[] {
+function buildIndex(lang: 'zh' | 'en', baseUrl: string): PaletteItem[] {
   const items: PaletteItem[] = [];
-  const href = (value: string) => localizeHref(value, lang);
+  const href = (value: string) => localizeHref(value, lang, baseUrl);
   for (const l of literatureData) {
     items.push({
       id: l.id,
@@ -188,7 +189,10 @@ const KIND_COLOR: Record<PaletteItem['kind'], string> = {
 
 export default function CommandPalette(): React.ReactElement | null {
   const location = useLocation();
-  const lang: 'zh' | 'en' = location.pathname === '/en' || location.pathname.startsWith('/en/') ? 'en' : 'zh';
+  const {siteConfig, i18n} = useDocusaurusContext();
+  const baseUrl = stripLocaleFromBaseUrl(siteConfig.baseUrl);
+  const pathWithoutBase = stripBasePath(location.pathname, baseUrl);
+  const lang: 'zh' | 'en' = i18n.currentLocale === 'en' ? 'en' : 'zh';
   const copy = PALETTE_COPY[lang];
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -196,7 +200,7 @@ export default function CommandPalette(): React.ReactElement | null {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
 
-  const items = useMemo(() => buildIndex(lang), [lang]);
+  const items = useMemo(() => buildIndex(lang, baseUrl), [baseUrl, lang]);
   const fuse = useMemo(
     () =>
       new Fuse(items, {
@@ -318,7 +322,26 @@ export default function CommandPalette(): React.ReactElement | null {
   );
 }
 
-function localizeHref(href: string, lang: 'zh' | 'en'): string {
-  if (lang === 'zh' || !href.startsWith('/')) return href;
-  return href === '/' ? '/en/' : `/en${href}`;
+function stripBasePath(pathname: string, baseUrl: string): string {
+  const basePath = baseUrl.replace(/\/+$/, '');
+  if (!basePath) return pathname || '/';
+  if (pathname === basePath) return '/';
+  if (pathname.startsWith(`${basePath}/`)) return pathname.slice(basePath.length) || '/';
+  return pathname || '/';
+}
+
+function withBasePath(pathname: string, baseUrl: string): string {
+  const basePath = baseUrl.replace(/\/+$/, '');
+  if (!basePath) return pathname;
+  return pathname === '/' ? `${basePath}/` : `${basePath}${pathname}`;
+}
+
+function stripLocaleFromBaseUrl(baseUrl: string): string {
+  return baseUrl.replace(/\/en\/?$/, '/');
+}
+
+function localizeHref(href: string, lang: 'zh' | 'en', baseUrl: string): string {
+  if (!href.startsWith('/')) return href;
+  const localized = lang === 'zh' ? href : href === '/' ? '/en/' : `/en${href}`;
+  return withBasePath(localized, baseUrl);
 }

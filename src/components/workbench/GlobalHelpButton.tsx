@@ -1,6 +1,7 @@
 // GlobalHelpButton - 全站浮动帮助入口
 import React, {useState} from 'react';
 import {useLocation} from '@docusaurus/router';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription} from '../ui/dialog';
 import {HelpCircle, BookOpen, Map, FileText, Target, NotebookPen, ClipboardList, CalendarDays, Presentation, FlaskConical, Database, Boxes, GitBranch, Rss, Settings, ChevronRight} from 'lucide-react';
 
@@ -66,7 +67,10 @@ const HELP_COPY = {
 
 export default function GlobalHelpButton(): React.ReactElement {
   const location = useLocation();
-  const lang: 'zh' | 'en' = location.pathname === '/en' || location.pathname.startsWith('/en/') ? 'en' : 'zh';
+  const {siteConfig, i18n} = useDocusaurusContext();
+  const baseUrl = stripLocaleFromBaseUrl(siteConfig.baseUrl);
+  const pathWithoutBase = stripBasePath(location.pathname, baseUrl);
+  const lang: 'zh' | 'en' = i18n.currentLocale === 'en' ? 'en' : 'zh';
   const copy = HELP_COPY[lang];
   const [open, setOpen] = useState(false);
 
@@ -109,7 +113,7 @@ export default function GlobalHelpButton(): React.ReactElement {
                   {GUIDE.filter((x) => x.group === g).map((it) => {
                     const Icon = it.icon;
                     return (
-                      <a key={it.url} href={localizeHref(it.url, lang)} style={{
+                      <a key={it.url} href={localizeHref(it.url, lang, baseUrl)} style={{
                         display: 'flex', alignItems: 'flex-start', gap: 10, padding: '8px 10px',
                         borderRadius: 6, textDecoration: 'none', color: 'inherit',
                         border: '1px solid #f1f5f9', background: '#fff', transition: 'background .12s',
@@ -143,7 +147,26 @@ export default function GlobalHelpButton(): React.ReactElement {
   );
 }
 
-function localizeHref(href: string, lang: 'zh' | 'en'): string {
-  if (lang === 'zh' || !href.startsWith('/')) return href;
-  return href === '/' ? '/en/' : `/en${href}`;
+function stripBasePath(pathname: string, baseUrl: string): string {
+  const basePath = baseUrl.replace(/\/+$/, '');
+  if (!basePath) return pathname || '/';
+  if (pathname === basePath) return '/';
+  if (pathname.startsWith(`${basePath}/`)) return pathname.slice(basePath.length) || '/';
+  return pathname || '/';
+}
+
+function withBasePath(pathname: string, baseUrl: string): string {
+  const basePath = baseUrl.replace(/\/+$/, '');
+  if (!basePath) return pathname;
+  return pathname === '/' ? `${basePath}/` : `${basePath}${pathname}`;
+}
+
+function stripLocaleFromBaseUrl(baseUrl: string): string {
+  return baseUrl.replace(/\/en\/?$/, '/');
+}
+
+function localizeHref(href: string, lang: 'zh' | 'en', baseUrl: string): string {
+  if (!href.startsWith('/')) return href;
+  const localized = lang === 'zh' ? href : href === '/' ? '/en/' : `/en${href}`;
+  return withBasePath(localized, baseUrl);
 }

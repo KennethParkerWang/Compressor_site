@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useLocation} from '@docusaurus/router';
 import {
   BarChart3,
@@ -163,7 +163,8 @@ export default function WorkbenchShell({
   fullBleed = false,
 }: WorkbenchShellProps): React.ReactElement {
   const location = useLocation();
-  const baseUrl = useBaseUrl('/');
+  const {siteConfig, i18n} = useDocusaurusContext();
+  const baseUrl = stripLocaleFromBaseUrl(siteConfig.baseUrl);
   const stats = useWorkbenchStats();
   const tasks = useTasks((s) => s.tasks);
   const [sidebarWidth, setSidebarWidth] = React.useState(DEFAULT_SIDEBAR_WIDTH);
@@ -171,7 +172,7 @@ export default function WorkbenchShell({
   const openTasks = tasks.filter((t) => t.status === 'todo' || t.status === 'doing').length;
   const pathWithoutBase = stripBasePath(location.pathname, baseUrl);
   const normalizedPath = stripLocalePrefix(pathWithoutBase);
-  const isEnglishLocale = pathWithoutBase === '/en' || pathWithoutBase.startsWith('/en/');
+  const isEnglishLocale = i18n.currentLocale === 'en';
   const lang: 'zh' | 'en' = isEnglishLocale ? 'en' : 'zh';
   const copy = isEnglishLocale ? SHELL_COPY.en : SHELL_COPY.zh;
   const localePath = isEnglishLocale ? normalizedPath : addEnglishPrefix(normalizedPath);
@@ -273,7 +274,7 @@ export default function WorkbenchShell({
 
       <aside className={styles.sidebar} aria-hidden={sidebarCollapsed}>
         <div className={styles.brandRow}>
-          <Link to={lang === 'en' ? '/en/' : '/'} className={styles.brand}>
+          <Link to="/" className={styles.brand}>
             <span className={styles.brandMark}>CR</span>
             <span className={styles.brandText}>
               <strong>{copy.brandTitle}</strong>
@@ -342,7 +343,7 @@ export default function WorkbenchShell({
                 {group.items.map((item) => {
                   const Icon = item.icon;
                   const active = isActive(item.to);
-                  const navTo = lang === 'en' ? addEnglishPrefix(item.to) : item.to;
+                  const navTo = item.to;
                   const navLabel = lang === 'zh' ? item.zh : item.label;
                   const navSub = lang === 'zh' ? item.zhSub : item.en;
                   return (
@@ -428,6 +429,10 @@ function withBasePath(pathname: string, baseUrl: string): string {
   const basePath = baseUrl.replace(/\/+$/, '');
   if (!basePath) return pathname;
   return pathname === '/' ? `${basePath}/` : `${basePath}${pathname}`;
+}
+
+function stripLocaleFromBaseUrl(baseUrl: string): string {
+  return baseUrl.replace(/\/en\/?$/, '/');
 }
 
 function addEnglishPrefix(pathname: string): string {

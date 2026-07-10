@@ -1,4 +1,5 @@
 import React, {useMemo} from 'react';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useLocation} from '@docusaurus/router';
 import {ArrowUp, Globe2, Search} from 'lucide-react';
 import ThemeSwitcher from '../ThemeSwitcher';
@@ -21,6 +22,24 @@ function addEnglishPrefix(pathname: string): string {
   return normalized === '/' ? '/en/' : `/en${normalized}`;
 }
 
+function stripBasePath(pathname: string, baseUrl: string): string {
+  const basePath = baseUrl.replace(/\/+$/, '');
+  if (!basePath) return pathname || '/';
+  if (pathname === basePath) return '/';
+  if (pathname.startsWith(`${basePath}/`)) return pathname.slice(basePath.length) || '/';
+  return pathname || '/';
+}
+
+function withBasePath(pathname: string, baseUrl: string): string {
+  const basePath = baseUrl.replace(/\/+$/, '');
+  if (!basePath) return pathname;
+  return pathname === '/' ? `${basePath}/` : `${basePath}${pathname}`;
+}
+
+function stripLocaleFromBaseUrl(baseUrl: string): string {
+  return baseUrl.replace(/\/en\/?$/, '/');
+}
+
 function openSearch(): void {
   const opener = (window as unknown as {__openCommandPalette__?: () => void}).__openCommandPalette__;
   opener?.();
@@ -32,12 +51,15 @@ function scrollToTop(): void {
 
 export default function FloatingActionDock(): React.ReactElement {
   const location = useLocation();
-  const lang: Lang = isEnglishPath(location.pathname) ? 'en' : 'zh';
+  const {siteConfig, i18n} = useDocusaurusContext();
+  const baseUrl = stripLocaleFromBaseUrl(siteConfig.baseUrl);
+  const pathWithoutBase = stripBasePath(location.pathname, baseUrl);
+  const lang: Lang = i18n.currentLocale === 'en' ? 'en' : 'zh';
   const localeTarget = useMemo(() => {
-    const normalized = stripLocalePrefix(location.pathname);
+    const normalized = stripLocalePrefix(pathWithoutBase);
     const targetPath = lang === 'en' ? normalized : addEnglishPrefix(normalized);
-    return `${targetPath}${location.search}${location.hash}`;
-  }, [lang, location.hash, location.pathname, location.search]);
+    return `${withBasePath(targetPath, baseUrl)}${location.search}${location.hash}`;
+  }, [baseUrl, lang, location.hash, location.search, pathWithoutBase]);
 
   const copy = lang === 'zh'
     ? {
