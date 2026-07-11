@@ -3,13 +3,9 @@
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 18px;
   align-items: end;
-  margin-bottom: 14px;
-  padding: 18px 20px;
-  border: var(--cr-border);
-  border-radius: 10px;
-  background:
-    linear-gradient(90deg, rgba(31, 78, 216, 0.08), rgba(8, 145, 178, 0.04) 52%, transparent),
-    var(--cr-paper, #ffffff);
+  margin-bottom: 20px;
+  padding: 8px 0 22px;
+  border-bottom: 1px solid var(--cr-border-strong-color);
 }
 
 .kicker {
@@ -44,9 +40,9 @@
 .modeSwitch {
   display: inline-flex;
   gap: 8px;
-  padding: 6px;
+  padding: 4px;
   border: 1px solid var(--cr-line, #dbe3ef);
-  border-radius: 10px;
+  border-radius: 6px;
   background: var(--cr-paper, #fff);
 }
 
@@ -58,26 +54,26 @@
 .pipelineShell {
   position: relative;
   display: grid;
-  grid-template-columns: 118px minmax(0, 1fr) 118px;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 14px;
-  padding: 18px;
+  grid-template-columns: 86px minmax(0, 1fr) 86px;
+  gap: 10px;
+  align-items: stretch;
+  margin-bottom: 18px;
+  padding: 14px;
   border: 1px solid var(--cr-line, #dbe3ef);
-  border-radius: 10px;
+  border-radius: 6px;
   background: var(--cr-paper, #fff);
   box-shadow: var(--cr-shadow-card, 0 10px 26px rgba(15, 23, 42, 0.06));
 }
 
 .streamEndpoint {
-  min-height: 116px;
+  min-height: 100px;
   display: grid;
   place-items: center;
   align-content: center;
   gap: 9px;
   border: 1px solid #cbd5e1;
-  border-radius: 9px;
-  background: #f8fafc;
+  border-radius: 4px;
+  background: var(--cr-surface);
   color: #334155;
   text-align: center;
   font-size: 13px;
@@ -86,13 +82,13 @@
 
 .streamEndpoint[data-side="input"] {
   border-color: #bfdbfe;
-  background: #eff6ff;
+  background: color-mix(in srgb, #eff6ff 62%, var(--cr-card-bg));
   color: #1d4ed8;
 }
 
 .streamEndpoint[data-side="output"] {
   border-color: #bbf7d0;
-  background: #f0fdf4;
+  background: color-mix(in srgb, #f0fdf4 62%, var(--cr-card-bg));
   color: #166534;
 }
 
@@ -100,7 +96,7 @@
   display: grid;
   grid-template-columns: repeat(9, minmax(0, auto));
   align-items: stretch;
-  gap: 8px;
+  gap: 6px;
   overflow-x: auto;
   padding: 2px 0 8px;
 }
@@ -113,12 +109,12 @@
 
 .layerNode,
 .evaluationCard {
-  min-width: 188px;
+  min-width: 142px;
   border: 1px solid var(--layer-border, #dbe3ef);
-  border-top: 4px solid var(--layer-color, #2563eb);
-  border-radius: 9px;
-  background: linear-gradient(180deg, var(--layer-soft, #eff6ff), #fff 58%);
-  padding: 13px;
+  border-top: 3px solid var(--layer-color, #2563eb);
+  border-radius: 5px;
+  background: var(--cr-card-bg);
+  padding: 12px;
 }
 
 .layerNode[data-tone="blue"],
@@ -168,19 +164,19 @@
 }
 
 .layerIcon {
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
   display: grid;
   place-items: center;
-  border-radius: 8px;
-  background: var(--layer-color, #2563eb);
-  color: #fff;
+  border-radius: 4px;
+  background: var(--layer-soft, #eff6ff);
+  color: var(--layer-color, #2563eb);
 }
 
 .layerHeader h3 {
   margin: 0;
   color: var(--cr-ink, #0f172a);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   line-height: 1.3;
   letter-spacing: 0;
@@ -189,7 +185,7 @@
 .layerHeader p {
   margin: 5px 0 0;
   color: var(--cr-ink-2, #334155);
-  font-size: 12.5px;
+  font-size: 12px;
   line-height: 1.55;
 }
 
@@ -225,10 +221,8 @@
   margin-top: 8px;
   padding: 12px 14px 4px;
   border: 1px dashed var(--layer-border, #fde68a);
-  border-radius: 10px;
-  background:
-    linear-gradient(90deg, transparent 0, transparent 18px, rgba(217, 119, 6, 0.10) 18px, rgba(217, 119, 6, 0.10) 20px, transparent 20px),
-    var(--layer-soft, #fffbeb);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--layer-soft, #fffbeb) 54%, var(--cr-card-bg));
 }
 
 .loopLine {
@@ -279,7 +273,6 @@
 
 .expertCard[data-open="true"] {
   border-color: var(--layer-border, #bfdbfe);
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
 }
 
 .expertCard[data-compact="true"] {
@@ -366,10 +359,8 @@
 }
 
 .readingGuide div {
-  padding: 13px 14px;
-  border: 1px solid var(--cr-line, #dbe3ef);
-  border-radius: 9px;
-  background: var(--cr-paper, #fff);
+  padding: 4px 16px;
+  border-left: 2px solid var(--cr-border-strong-color);
 }
 
 .readingGuide strong {
@@ -388,10 +379,8 @@
 }
 
 .routesSection {
-  padding: 18px;
-  border: 1px solid var(--cr-line, #dbe3ef);
-  border-radius: 10px;
-  background: var(--cr-paper, #fff);
+  padding: 22px 0 0;
+  border-top: 1px solid var(--cr-border-strong-color);
 }
 
 .sectionHead {
@@ -409,9 +398,9 @@
   gap: 12px;
   padding: 14px;
   border: 1px solid var(--layer-border, #dbe3ef);
-  border-top: 4px solid var(--layer-color, #2563eb);
-  border-radius: 9px;
-  background: linear-gradient(180deg, var(--layer-soft, #eff6ff), #fff 54%);
+  border-top: 3px solid var(--layer-color, #2563eb);
+  border-radius: 5px;
+  background: var(--cr-card-bg);
 }
 
 .routeCard h4 {
@@ -467,7 +456,7 @@
   font-size: 10.5px;
 }
 
-@media (max-width: 1380px) {
+@media (max-width: 1080px) {
   .pipelineShell {
     grid-template-columns: 1fr;
   }

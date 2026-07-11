@@ -23,10 +23,10 @@ import {
 } from '../components/research-console/ResearchConsole';
 import {LB_DOMAIN_LABELS, type LeaderboardDomain, type Leaderboard} from '../data/leaderboards';
 import {loadLeaderboards} from '../data/leaderboards.loader';
-import styles from './hub.module.css';
+import styles from './sota.module.css';
 
 const CN = {
-  title: 'SOTA 榜单 / Leaderboards',
+  title: '基准结果 / Benchmarks',
   all: '全部领域',
   noResult: '未找到匹配的榜单',
   searchPh: '搜索方法、数据集、指标或来源',
@@ -87,13 +87,13 @@ export default function SotaPage(): React.ReactElement {
   }
 
   return (
-    <Layout title={CN.title} description="压缩研究 SOTA 榜单真相源">
+    <Layout title={CN.title} description="压缩算法公开基准结果与来源记录">
       <WorkbenchShell pageTitle={CN.title}>
         <div className={styles.page}>
           <section className={styles.consoleHeader}>
             <div>
-              <span className={styles.kicker}>Leaderboard Console</span>
-              <h2>压缩榜单真相源</h2>
+              <span className={styles.kicker}>Benchmark Evidence</span>
+              <h2>压缩算法基准结果</h2>
             </div>
             <div className={styles.liveBarCompact}>
               <a href="http://mattmahoney.net/dc/text.html" target="_blank" rel="noopener noreferrer">Mahoney <ExternalLink size={11} /></a>
@@ -111,7 +111,7 @@ export default function SotaPage(): React.ReactElement {
 
           <div className={styles.boardLayout}>
             <aside className={styles.boardSidebar}>
-              <ResearchPanel eyebrow="Filter" title="领域筛选">
+              <ResearchPanel eyebrow="筛选" title="数据领域">
                 <div className={styles.domainList}>
                   <button type="button" className={`${styles.domainBtn} ${domain === 'all' ? styles.domainBtnOn : ''}`} onClick={() => setDomain('all')}>
                     <Layers size={14} />

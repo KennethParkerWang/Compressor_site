@@ -17,12 +17,11 @@ import {
   GitBranch,
   Globe2,
   GraduationCap,
+  LayoutGrid,
   Library,
   Menu,
   Network,
   NotebookPen,
-  PanelLeftClose,
-  PanelLeftOpen,
   Presentation,
   RadioTower,
   Search,
@@ -42,15 +41,40 @@ interface NavItem {
   zh: string;
   en: string;
   icon: React.ComponentType<{size?: number}>;
+  matches?: readonly string[];
 }
 
 const PRIMARY_NAV: NavItem[] = [
   {to: '/', zh: '研究总览', en: 'Overview', icon: BarChart3},
-  {to: '/library', zh: '文献', en: 'Literature', icon: BookOpen},
-  {to: '/algorithm-board', zh: '算法', en: 'Algorithms', icon: Network},
-  {to: '/datasets', zh: '数据集', en: 'Datasets', icon: Database},
+  {
+    to: '/library',
+    zh: '文献库',
+    en: 'Literature',
+    icon: BookOpen,
+    matches: ['/library', '/map', '/core', '/reading-paths', '/notes', '/terms', '/research-feed'],
+  },
+  {
+    to: '/algorithm-board',
+    zh: '压缩器',
+    en: 'Codec',
+    icon: Network,
+    matches: ['/algorithm-board', '/algorithm-evolution', '/algorithm-catalog', '/neural-hub'],
+  },
+  {
+    to: '/sota',
+    zh: '基准结果',
+    en: 'Benchmarks',
+    icon: Trophy,
+    matches: ['/sota', '/datasets', '/standards'],
+  },
   {to: '/experiments', zh: '实验', en: 'Experiments', icon: FlaskConical},
-  {to: '/weekly-reports', zh: '双周汇报', en: 'Briefings', icon: Presentation},
+  {
+    to: '/weekly-reports',
+    zh: '汇报',
+    en: 'Briefings',
+    icon: Presentation,
+    matches: ['/weekly-reports', '/calendar', '/tasks', '/project-overview'],
+  },
 ];
 
 const SECONDARY_NAV: Array<{zh: string; en: string; items: NavItem[]}> = [
@@ -70,10 +94,11 @@ const SECONDARY_NAV: Array<{zh: string; en: string; items: NavItem[]}> = [
     zh: '方法与评测',
     en: 'Methods & evaluation',
     items: [
+      {to: '/datasets', zh: '数据集', en: 'Datasets', icon: Database},
       {to: '/algorithm-evolution', zh: '算法脉络', en: 'Algorithm history', icon: GitBranch},
       {to: '/algorithm-catalog', zh: '算法档案', en: 'Algorithm dossiers', icon: Archive},
       {to: '/neural-hub', zh: '神经压缩', en: 'Neural compression', icon: Brain},
-      {to: '/sota', zh: '结果对照', en: 'Results', icon: Trophy},
+      {to: '/sota', zh: '榜单结果', en: 'Leaderboard results', icon: Trophy},
       {to: '/standards', zh: '标准与场景', en: 'Standards', icon: Boxes},
     ],
   },
@@ -91,34 +116,30 @@ const SECONDARY_NAV: Array<{zh: string; en: string; items: NavItem[]}> = [
   },
 ];
 
-const PAGE_LABELS = [...PRIMARY_NAV, ...SECONDARY_NAV.flatMap((group) => group.items)];
-
 const COPY = {
   zh: {
     name: '王坤鹏',
     field: '无损压缩研究',
-    search: '搜索文献与页面',
-    allPages: '全部研究页面',
-    collapse: '收起侧栏',
-    expand: '展开侧栏',
+    search: '搜索',
+    searchLong: '搜索论文、算法与页面',
+    directory: '研究索引',
+    directoryDesc: '全部研究资料与项目页面',
     openMenu: '打开导航',
     closeMenu: '关闭导航',
     switchLocale: '切换到英文',
-    current: '当前方向',
-    currentValue: '通用无损压缩',
+    primaryNav: '主要导航',
   },
   en: {
     name: 'Kunpeng Wang',
     field: 'Lossless Compression Research',
-    search: 'Search literature and pages',
-    allPages: 'All research pages',
-    collapse: 'Collapse sidebar',
-    expand: 'Expand sidebar',
+    search: 'Search',
+    searchLong: 'Search papers, algorithms, and pages',
+    directory: 'Research index',
+    directoryDesc: 'All research material and project pages',
     openMenu: 'Open navigation',
     closeMenu: 'Close navigation',
     switchLocale: 'Switch to Chinese',
-    current: 'Current field',
-    currentValue: 'General-purpose lossless compression',
+    primaryNav: 'Primary navigation',
   },
 } as const;
 
@@ -130,11 +151,7 @@ export interface WorkbenchShellProps {
   fullBleed?: boolean;
 }
 
-export default function WorkbenchShell({
-  children,
-  pageTitle,
-  fullBleed = false,
-}: WorkbenchShellProps): React.ReactElement {
+export default function WorkbenchShell({children, fullBleed = false}: WorkbenchShellProps): React.ReactElement {
   const location = useLocation();
   const {siteConfig, i18n} = useDocusaurusContext();
   const lang: Lang = i18n.currentLocale === 'en' ? 'en' : 'zh';
@@ -142,149 +159,158 @@ export default function WorkbenchShell({
   const baseUrl = stripLocaleFromBaseUrl(siteConfig.baseUrl);
   const pathWithoutBase = stripBasePath(location.pathname, baseUrl);
   const normalizedPath = stripLocalePrefix(pathWithoutBase);
-  const [collapsed, setCollapsed] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [directoryOpen, setDirectoryOpen] = React.useState(false);
-
-  React.useEffect(() => {
-    try {
-      setCollapsed(window.localStorage.getItem('cr.sidebarCollapsed') === 'true');
-    } catch {
-      // Ignore unavailable local storage.
-    }
-  }, []);
+  const directoryRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     setMobileOpen(false);
     setDirectoryOpen(false);
   }, [location.pathname]);
 
-  const toggleCollapsed = (): void => {
-    setCollapsed((value) => {
-      const next = !value;
-      try {
-        window.localStorage.setItem('cr.sidebarCollapsed', String(next));
-      } catch {
-        // Ignore unavailable local storage.
-      }
-      return next;
-    });
+  React.useEffect(() => {
+    if (!directoryOpen) return undefined;
+
+    const closeOnOutsideClick = (event: MouseEvent): void => {
+      if (directoryRef.current && !directoryRef.current.contains(event.target as Node)) setDirectoryOpen(false);
+    };
+    const closeOnEscape = (event: KeyboardEvent): void => {
+      if (event.key === 'Escape') setDirectoryOpen(false);
+    };
+
+    document.addEventListener('mousedown', closeOnOutsideClick);
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('mousedown', closeOnOutsideClick);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [directoryOpen]);
+
+  const isActive = (item: NavItem): boolean => {
+    if (item.to === '/') return normalizedPath === '/' || normalizedPath === '';
+    const paths = item.matches ?? [item.to];
+    return paths.some((path) => normalizedPath === path || normalizedPath.startsWith(`${path}/`));
   };
 
-  const isActive = (to: string): boolean => {
-    if (to === '/') return normalizedPath === '/' || normalizedPath === '';
-    return normalizedPath === to || normalizedPath.startsWith(`${to}/`);
-  };
-
-  const activeMeta = PAGE_LABELS.find((item) => isActive(item.to));
-  const displayTitle = activeMeta ? (lang === 'zh' ? activeMeta.zh : activeMeta.en) : pageTitle ?? copy.field;
   const localePath = lang === 'en' ? normalizedPath : addEnglishPrefix(normalizedPath);
   const localeTarget = `${withBasePath(localePath, baseUrl)}${location.search}${location.hash}`;
-  const today = new Intl.DateTimeFormat(lang === 'zh' ? 'zh-CN' : 'en-GB', {
-    year: 'numeric',
-    month: 'short',
-    day: '2-digit',
-  }).format(new Date());
 
   return (
-    <div className={`${styles.shell} ${collapsed ? styles.collapsed : ''}`}>
-      <header className={styles.mobileHeader}>
-        <Link to="/" className={styles.mobileBrand}>
-          <span>KW</span>
-          <strong>{copy.field}</strong>
-        </Link>
-        <button type="button" onClick={() => setMobileOpen((value) => !value)} aria-label={mobileOpen ? copy.closeMenu : copy.openMenu}>
-          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      </header>
-
-      {mobileOpen ? <button type="button" className={styles.mobileScrim} onClick={() => setMobileOpen(false)} aria-label={copy.closeMenu} /> : null}
-
-      <aside className={`${styles.sidebar} ${mobileOpen ? styles.sidebarMobileOpen : ''}`}>
-        <div className={styles.brandRow}>
-          <Link to="/" className={styles.brand} title={`${copy.name} · ${copy.field}`}>
+    <div className={styles.shell}>
+      <header className={styles.siteHeader}>
+        <div className={styles.headerInner}>
+          <Link to="/" className={styles.brand}>
             <span className={styles.brandMark}>KW</span>
             <span className={styles.brandText}>
               <strong>{copy.name}</strong>
               <span>{copy.field}</span>
             </span>
           </Link>
-          <button type="button" className={styles.collapseButton} onClick={toggleCollapsed} aria-label={collapsed ? copy.expand : copy.collapse} title={collapsed ? copy.expand : copy.collapse}>
-            {collapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}
-          </button>
-        </div>
 
-        <button type="button" className={styles.searchButton} onClick={() => (window as {__openCommandPalette__?: () => void}).__openCommandPalette__?.()}>
-          <Search size={16} />
-          <span>{copy.search}</span>
-          <kbd>Ctrl K</kbd>
-        </button>
-
-        <nav className={styles.primaryNav} aria-label={lang === 'zh' ? '主要导航' : 'Primary navigation'}>
-          {PRIMARY_NAV.map((item) => {
-            const Icon = item.icon;
-            return (
-              <Link key={item.to} to={item.to} className={styles.navItem} data-active={isActive(item.to)} title={lang === 'zh' ? item.zh : item.en}>
-                <Icon size={18} />
-                <span>{lang === 'zh' ? item.zh : item.en}</span>
+          <nav className={styles.desktopNav} aria-label={copy.primaryNav}>
+            {PRIMARY_NAV.map((item) => (
+              <Link key={item.to} to={item.to} data-active={isActive(item)}>
+                {lang === 'zh' ? item.zh : item.en}
               </Link>
-            );
-          })}
-        </nav>
+            ))}
+          </nav>
 
-        <div className={styles.directoryWrap}>
-          <button type="button" className={styles.directoryButton} onClick={() => setDirectoryOpen((value) => !value)} aria-expanded={directoryOpen} title={copy.allPages}>
-            <Archive size={17} />
-            <span>{copy.allPages}</span>
-            <ChevronDown size={15} />
-          </button>
-
-          {directoryOpen ? (
-            <div className={styles.directoryPanel}>
-              {SECONDARY_NAV.map((group) => (
-                <section key={group.zh}>
-                  <h2>{lang === 'zh' ? group.zh : group.en}</h2>
-                  <div>
-                    {group.items.map((item) => {
-                      const Icon = item.icon;
-                      return (
-                        <Link key={item.to} to={item.to} data-active={isActive(item.to)}>
-                          <Icon size={15} />
-                          <span>{lang === 'zh' ? item.zh : item.en}</span>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </section>
-              ))}
-            </div>
-          ) : null}
-        </div>
-
-        <div className={styles.sidebarFooter}>
-          <span>{copy.current}</span>
-          <strong>{copy.currentValue}</strong>
-        </div>
-      </aside>
-
-      <main className={styles.main}>
-        <header className={styles.topbar}>
-          <div className={styles.pageContext}>
-            <span>{copy.field}</span>
-            <strong>{displayTitle}</strong>
-          </div>
-          <div className={styles.topActions}>
-            <time dateTime={new Date().toISOString().slice(0, 10)}>{today}</time>
-            <button type="button" className={styles.iconButton} onClick={() => (window as {__openCommandPalette__?: () => void}).__openCommandPalette__?.()} title={copy.search} aria-label={copy.search}>
-              <Search size={17} />
+          <div className={styles.headerActions}>
+            <button
+              type="button"
+              className={styles.searchButton}
+              onClick={() => (window as {__openCommandPalette__?: () => void}).__openCommandPalette__?.()}
+              aria-label={copy.searchLong}
+              title={copy.searchLong}
+            >
+              <Search size={16} />
+              <span>{copy.search}</span>
+              <kbd>Ctrl K</kbd>
             </button>
+
+            <div className={styles.directoryWrap} ref={directoryRef}>
+              <button
+                type="button"
+                className={styles.directoryButton}
+                onClick={() => setDirectoryOpen((value) => !value)}
+                aria-expanded={directoryOpen}
+                title={copy.directory}
+              >
+                <LayoutGrid size={17} />
+                <span>{copy.directory}</span>
+                <ChevronDown size={14} />
+              </button>
+
+              {directoryOpen ? (
+                <div className={styles.directoryPanel}>
+                  <header>
+                    <div>
+                      <strong>{copy.directory}</strong>
+                      <span>{copy.directoryDesc}</span>
+                    </div>
+                    <span>{SECONDARY_NAV.reduce((sum, group) => sum + group.items.length, 0)}</span>
+                  </header>
+                  <div className={styles.directoryGrid}>
+                    {SECONDARY_NAV.map((group) => (
+                      <section key={group.zh}>
+                        <h2>{lang === 'zh' ? group.zh : group.en}</h2>
+                        <div>
+                          {group.items.map((item) => {
+                            const Icon = item.icon;
+                            return (
+                              <Link key={item.to} to={item.to} data-active={isActive(item)}>
+                                <Icon size={15} />
+                                <span>{lang === 'zh' ? item.zh : item.en}</span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </section>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+
             <ThemeSwitcher />
             <a href={localeTarget} className={styles.localeButton} title={copy.switchLocale} aria-label={copy.switchLocale}>
               <Globe2 size={16} />
               <span>{lang === 'zh' ? 'EN' : '中'}</span>
             </a>
+            <button type="button" className={styles.mobileMenuButton} onClick={() => setMobileOpen((value) => !value)} aria-label={mobileOpen ? copy.closeMenu : copy.openMenu}>
+              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
-        </header>
+        </div>
+      </header>
+
+      {mobileOpen ? (
+        <div className={styles.mobilePanel}>
+          <nav aria-label={copy.primaryNav}>
+            {PRIMARY_NAV.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link key={item.to} to={item.to} data-active={isActive(item)}>
+                  <Icon size={17} />
+                  <span>{lang === 'zh' ? item.zh : item.en}</span>
+                </Link>
+              );
+            })}
+          </nav>
+          <div className={styles.mobileDirectory}>
+            {SECONDARY_NAV.map((group) => (
+              <section key={group.zh}>
+                <h2>{lang === 'zh' ? group.zh : group.en}</h2>
+                {group.items.map((item) => (
+                  <Link key={item.to} to={item.to}>{lang === 'zh' ? item.zh : item.en}</Link>
+                ))}
+              </section>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      <main className={styles.main}>
         <div className={`${styles.content} ${fullBleed ? styles.contentFull : ''}`}>{children}</div>
       </main>
 
