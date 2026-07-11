@@ -119,7 +119,7 @@ const SECONDARY_NAV: Array<{zh: string; en: string; items: NavItem[]}> = [
 const COPY = {
   zh: {
     name: '无损压缩研究',
-    field: '研究档案与实验记录',
+    field: '文献 · 数据集 · 实验 · 汇报',
     search: '搜索',
     searchLong: '搜索论文、算法与页面',
     directory: '研究索引',
@@ -131,7 +131,7 @@ const COPY = {
   },
   en: {
     name: 'Lossless Compression',
-    field: 'Research Archive',
+    field: 'Literature · Data · Experiments',
     search: 'Search',
     searchLong: 'Search papers, algorithms, and pages',
     directory: 'Research index',
