@@ -36,8 +36,8 @@ const PIPELINE = [
 const COPY = {
   zh: {
     layoutTitle: '无损压缩研究',
-    description: '王坤鹏的无损压缩研究记录：文献、算法、数据集、实验与阶段汇报。',
-    identity: '王坤鹏 / Lossless Compression Research',
+    description: '无损压缩研究项目记录：文献、算法、数据集、实验与阶段汇报。',
+    eyebrow: '研究计划 / Lossless Compression Research',
     title: '无损压缩研究',
     lede: '围绕通用无损压缩，整理可核验的文献证据，理解压缩器内部机制，并在统一数据集上完成可复现实验。',
     search: '搜索研究资料',
@@ -56,6 +56,7 @@ const COPY = {
     track3: '神经预测',
     track3Body: 'NNCP、Transformer 概率模型与模型成本',
     mapTitle: '压缩器系统主线',
+    mapLabel: '方法系统',
     mapBody: '所有方法都可以放回同一条可逆信息处理流水线中比较。',
     openMap: '查看系统地图',
     readingTitle: '当前阅读集',
@@ -75,11 +76,14 @@ const COPY = {
     protocolItems: ['压缩后字节数与 bits/byte', '压缩与解压吞吐', '峰值内存与硬件环境', 'bit-exact 解压校验'],
     scopeTitle: '本阶段边界',
     scopeBody: '先完成文献筛选、核心方法讲清楚和基线协议固定，再讨论算法改进。',
+    evidenceTitle: '研究证据与进展',
+    evidenceLabel: '阶段输出',
+    evidenceBody: '把当前阅读材料、实验协议和阶段输出放在同一条证据链中持续更新。',
   },
   en: {
     layoutTitle: 'Lossless Compression Research',
-    description: 'Kunpeng Wang\'s lossless compression research record: literature, algorithms, datasets, experiments, and briefings.',
-    identity: 'Kunpeng Wang / Lossless Compression Research',
+    description: 'A lossless compression research record covering literature, algorithms, datasets, experiments, and briefings.',
+    eyebrow: 'Research Program / Lossless Compression',
     title: 'Lossless Compression Research',
     lede: 'A working record for general-purpose lossless compression: verifiable literature, codec mechanisms, and reproducible experiments on shared datasets.',
     search: 'Search research material',
@@ -98,6 +102,7 @@ const COPY = {
     track3: 'Neural prediction',
     track3Body: 'NNCP, Transformer probability models, model cost',
     mapTitle: 'Codec system path',
+    mapLabel: 'Method system',
     mapBody: 'Each compressor can be compared on the same reversible information-processing pipeline.',
     openMap: 'Open system map',
     readingTitle: 'Current reading set',
@@ -117,6 +122,9 @@ const COPY = {
     protocolItems: ['Compressed bytes and bits/byte', 'Compression and decompression throughput', 'Peak memory and hardware', 'Bit-exact decompression check'],
     scopeTitle: 'Current scope',
     scopeBody: 'Finish screening, explain the core methods, and freeze the baseline protocol before proposing algorithm changes.',
+    evidenceTitle: 'Evidence and progress',
+    evidenceLabel: 'Stage outputs',
+    evidenceBody: 'Keep reading material, experiment protocols, and stage outputs in one continuously updated evidence chain.',
   },
 } as const;
 
@@ -141,7 +149,7 @@ export default function Home(): React.ReactElement {
         <div className={styles.page}>
           <header className={styles.intro}>
             <div>
-              <span className={styles.identity}>{copy.identity}</span>
+              <span className={styles.eyebrow}>{copy.eyebrow}</span>
               <h1>{copy.title}</h1>
               <p>{copy.lede}</p>
             </div>
@@ -164,16 +172,19 @@ export default function Home(): React.ReactElement {
             <div><strong>{firstReport.submissions.length} / {firstReport.expectedSubmissionCount}</strong><span>{copy.submissions}</span></div>
           </section>
 
-          <div className={styles.leadGrid}>
-            <section className={styles.researchQuestion}>
-              <span className={styles.sectionLabel}>{copy.question}</span>
-              <h2>{copy.questionText}</h2>
-              <div className={styles.trackList}>
-                <ResearchTrack index="01" title={copy.track1} body={copy.track1Body} />
-                <ResearchTrack index="02" title={copy.track2} body={copy.track2Body} />
-                <ResearchTrack index="03" title={copy.track3} body={copy.track3Body} />
+          <section className={styles.focusSection}>
+            <header className={styles.focusHeader}>
+              <span className={styles.sectionNumber}>01</span>
+              <div>
+                <span className={styles.sectionLabel}>{copy.question}</span>
+                <h2>{copy.questionText}</h2>
               </div>
-            </section>
+            </header>
+            <div className={styles.trackList}>
+              <ResearchTrack index="01" title={copy.track1} body={copy.track1Body} />
+              <ResearchTrack index="02" title={copy.track2} body={copy.track2Body} />
+              <ResearchTrack index="03" title={copy.track3} body={copy.track3Body} />
+            </div>
 
             <aside className={styles.reportBlock}>
               <div className={styles.reportHead}>
@@ -192,13 +203,17 @@ export default function Home(): React.ReactElement {
                 <ArrowRight size={15} />
               </Link>
             </aside>
-          </div>
+          </section>
 
           <section className={styles.systemMap}>
             <div className={styles.sectionHeading}>
-              <div>
-                <span className={styles.sectionLabel}>{copy.mapTitle}</span>
-                <p>{copy.mapBody}</p>
+              <div className={styles.sectionLead}>
+                <span className={styles.sectionNumber}>02</span>
+                <div>
+                  <span className={styles.sectionLabel}>{copy.mapLabel}</span>
+                  <h2>{copy.mapTitle}</h2>
+                  <p>{copy.mapBody}</p>
+                </div>
               </div>
               <Link to="/algorithm-board">{copy.openMap}<ArrowRight size={14} /></Link>
             </div>
@@ -215,41 +230,55 @@ export default function Home(): React.ReactElement {
             </div>
           </section>
 
-          <div className={styles.contentGrid}>
-            <section className={styles.readingSection}>
-              <div className={styles.sectionHeading}>
+          <section className={styles.evidenceSection}>
+            <div className={styles.sectionHeading}>
+              <div className={styles.sectionLead}>
+                <span className={styles.sectionNumber}>03</span>
                 <div>
-                  <span className={styles.sectionLabel}>{copy.readingTitle}</span>
-                  <p>{copy.readingBody}</p>
+                  <span className={styles.sectionLabel}>{copy.evidenceLabel}</span>
+                  <h2>{copy.evidenceTitle}</h2>
+                  <p>{copy.evidenceBody}</p>
                 </div>
-                <Link to="/library">{copy.viewAll}<ArrowRight size={14} /></Link>
               </div>
-              <div className={styles.readingList}>
-                {featured.map((item) => (
-                  <Link key={item.id} to={`/library?lit=${item.id}`} className={styles.readingRow}>
-                    <img src={`${assetBase}/img/literature-covers/${item.id.toLowerCase()}.png`} alt="" loading="lazy" />
-                    <span className={styles.readingMain}>
-                      <span>{item.chapterId} · {lang === 'zh' ? item.chapterTitleZh : item.chapterTitleEn}</span>
-                      <strong>{item.title}</strong>
-                      <em>{[item.authors, item.year, item.venue].filter(Boolean).join(' · ')}</em>
-                    </span>
-                    <span className={styles.openLabel}>{copy.open}<ArrowRight size={13} /></span>
-                  </Link>
-                ))}
-              </div>
-            </section>
+            </div>
 
-            <aside className={styles.experimentSection}>
-              <div className={styles.experimentIcon}><FlaskConical size={18} /></div>
-              <span className={styles.sectionLabel}>{copy.experimentTitle}</span>
-              <p>{copy.experimentBody}</p>
-              <h3>{copy.protocol}</h3>
-              <ul>
-                {copy.protocolItems.map((item) => <li key={item}><Check size={14} />{item}</li>)}
-              </ul>
-              <Link to="/experiments">{copy.experimentAction}<ArrowRight size={14} /></Link>
-            </aside>
-          </div>
+            <div className={styles.contentGrid}>
+              <section className={styles.readingSection}>
+                <div className={styles.subsectionHeading}>
+                  <div>
+                    <h3>{copy.readingTitle}</h3>
+                    <p>{copy.readingBody}</p>
+                  </div>
+                  <Link to="/library">{copy.viewAll}<ArrowRight size={14} /></Link>
+                </div>
+                <div className={styles.readingList}>
+                  {featured.map((item) => (
+                    <Link key={item.id} to={`/library?lit=${item.id}`} className={styles.readingRow}>
+                      <img src={`${assetBase}/img/literature-covers/${item.id.toLowerCase()}.png`} alt="" loading="lazy" />
+                      <span className={styles.readingMain}>
+                        <span>{item.chapterId} · {lang === 'zh' ? item.chapterTitleZh : item.chapterTitleEn}</span>
+                        <strong>{item.title}</strong>
+                        <em>{[item.authors, item.year, item.venue].filter(Boolean).join(' · ')}</em>
+                      </span>
+                      <span className={styles.openLabel}>{copy.open}<ArrowRight size={13} /></span>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+
+              <aside className={styles.experimentSection}>
+                <div className={styles.experimentIcon}><FlaskConical size={19} /></div>
+                <span className={styles.sectionLabel}>{copy.experimentTitle}</span>
+                <h3>{copy.experimentTitle}</h3>
+                <p>{copy.experimentBody}</p>
+                <h4>{copy.protocol}</h4>
+                <ul>
+                  {copy.protocolItems.map((item) => <li key={item}><Check size={15} />{item}</li>)}
+                </ul>
+                <Link to="/experiments">{copy.experimentAction}<ArrowRight size={14} /></Link>
+              </aside>
+            </div>
+          </section>
 
           <footer className={styles.scopeFooter}>
             <div>

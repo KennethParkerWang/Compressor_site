@@ -118,8 +118,8 @@ const SECONDARY_NAV: Array<{zh: string; en: string; items: NavItem[]}> = [
 
 const COPY = {
   zh: {
-    name: '王坤鹏',
-    field: '无损压缩研究',
+    name: '无损压缩研究',
+    field: '研究档案与实验记录',
     search: '搜索',
     searchLong: '搜索论文、算法与页面',
     directory: '研究索引',
@@ -130,8 +130,8 @@ const COPY = {
     primaryNav: '主要导航',
   },
   en: {
-    name: 'Kunpeng Wang',
-    field: 'Lossless Compression Research',
+    name: 'Lossless Compression',
+    field: 'Research Archive',
     search: 'Search',
     searchLong: 'Search papers, algorithms, and pages',
     directory: 'Research index',
@@ -200,7 +200,7 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
       <header className={styles.siteHeader}>
         <div className={styles.headerInner}>
           <Link to="/" className={styles.brand}>
-            <span className={styles.brandMark}>KW</span>
+            <span className={styles.brandMark}>LC</span>
             <span className={styles.brandText}>
               <strong>{copy.name}</strong>
               <span>{copy.field}</span>

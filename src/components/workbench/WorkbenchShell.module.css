@@ -8,7 +8,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  height: 72px;
+  height: 76px;
   border-bottom: 1px solid var(--cr-border-color);
   background: color-mix(in srgb, var(--cr-card-bg) 96%, transparent);
   backdrop-filter: blur(16px);
@@ -17,7 +17,7 @@
 
 .headerInner {
   display: flex;
-  width: min(calc(100% - 40px), 1640px);
+  width: min(calc(100% - 48px), 1720px);
   height: 100%;
   align-items: center;
   gap: 28px;
@@ -26,7 +26,7 @@
 
 .brand {
   display: flex;
-  min-width: 220px;
+  min-width: 250px;
   align-items: center;
   gap: 10px;
   color: var(--cr-text-primary);
@@ -40,8 +40,8 @@
 
 .brandMark {
   display: grid;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   place-items: center;
   flex: 0 0 auto;
   border-radius: 5px;
@@ -60,14 +60,14 @@
 
 .brandText strong {
   color: var(--cr-text-primary);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 780;
   line-height: 1.3;
 }
 
 .brandText span {
   color: var(--cr-text-muted);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 620;
   line-height: 1.3;
 }
@@ -139,7 +139,7 @@
   color: var(--cr-text-secondary);
   cursor: pointer;
   font: inherit;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 690;
   text-decoration: none;
   white-space: nowrap;
@@ -335,9 +335,10 @@
 }
 
 .content {
-  width: min(100%, 1600px);
+  box-sizing: border-box;
+  width: min(100%, 1720px);
   margin: 0 auto;
-  padding: 38px 32px 80px;
+  padding: 44px 36px 88px;
 }
 
 .contentFull {
@@ -355,7 +356,7 @@
   }
 
   .brand {
-    min-width: 190px;
+    min-width: 220px;
   }
 
   .desktopNav a {
@@ -391,7 +392,7 @@
   }
 
   .headerInner {
-    width: min(calc(100% - 28px), 1640px);
+    width: min(calc(100% - 28px), 1720px);
   }
 
   .desktopNav,

@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 import path from 'path';
 
 const config: Config = {
-  title: '王坤鹏 · 无损压缩研究',
+  title: '无损压缩研究',
   tagline: '文献、算法与可复现实验记录',
   favicon: 'img/favicon.ico',
 
@@ -69,7 +69,7 @@ const config: Config = {
     navbar: {
       title: '无损压缩研究',
       logo: {
-        alt: '王坤鹏 · 无损压缩研究',
+        alt: '无损压缩研究',
         src: 'img/logo.svg',
       },
       items: [
@@ -165,7 +165,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} 王坤鹏 · 无损压缩研究`,
+      copyright: `Copyright © ${new Date().getFullYear()} 无损压缩研究`,
     },
     prism: {
       theme: prismThemes.github,
