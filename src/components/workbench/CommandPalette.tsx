@@ -9,6 +9,7 @@ import {readingNotes} from '../../data/readingNotes';
 import {researchTasks} from '../../data/researchTasks';
 import {treeData} from '../../data/treeData';
 import {algorithmModules} from '../../data/algorithmModules';
+import {compressionConcepts} from '../../data/compressorSystem';
 import {standardScenarios} from '../../data/standardScenarios';
 import {BookOpen, FileText, NotebookPen, Sparkles, Map as MapIcon, Target, Compass, ChevronRight, Search} from 'lucide-react';
 import styles from './CommandPalette.module.css';
@@ -144,12 +145,13 @@ function buildIndex(lang: 'zh' | 'en', baseUrl: string): PaletteItem[] {
     });
   }
   for (const m of algorithmModules) {
+    const concept = compressionConcepts.find((item) => item.id === m.id);
     items.push({
       id: m.id,
       kind: 'module',
       label: m.nameZh ?? m.id,
       hint: `${m.id} ${m.category ?? ''}`,
-      href: href(`/algorithm-board?module=${m.id}`),
+      href: href(concept ? `/algorithm-board/concepts/${concept.slug}` : '/algorithm-board'),
       icon: <MapIcon size={14} />,
     });
   }

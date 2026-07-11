@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="620" viewBox="0 0 1500 620" role="img" aria-labelledby="title desc">
+  <title id="title">Lossless compressor encoder bitstream decoder system</title>
+  <desc id="desc">A mirrored scientific diagram showing optional encoder branches, bitstream and side information, and exact decoder reconstruction.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#607084"/></marker>
+    <style>
+      .label{font:700 18px Inter,'Noto Sans SC',sans-serif;fill:#172231}.small{font:500 13px Inter,'Noto Sans SC',sans-serif;fill:#536274}.micro{font:700 11px ui-monospace,monospace;fill:#657487;letter-spacing:.5px}.box{fill:#fff;stroke:#b9c5d3;stroke-width:1.5}.soft{fill:#f3f6f9;stroke:#cbd5df;stroke-width:1.5}.line{fill:none;stroke:#607084;stroke-width:2;marker-end:url(#arrow)}.dash{fill:none;stroke:#9a6a22;stroke-width:2;stroke-dasharray:7 6;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1500" height="620" fill="#ffffff"/>
+  <text x="58" y="52" class="micro">ENCODER / 编码端</text>
+  <text x="1120" y="52" class="micro">DECODER / 解码端</text>
+  <rect x="55" y="82" width="180" height="92" rx="3" class="soft"/><text x="145" y="119" text-anchor="middle" class="label">Raw bytes</text><text x="145" y="145" text-anchor="middle" class="small">原始数据 x</text>
+  <path d="M235 128H292" class="line"/>
+  <rect x="292" y="82" width="190" height="92" rx="3" class="box"/><text x="387" y="116" text-anchor="middle" class="label">Block / segment</text><text x="387" y="143" text-anchor="middle" class="small">分块、分段、流式状态</text>
+  <path d="M482 128H540" class="line"/>
+  <rect x="540" y="70" width="255" height="116" rx="3" fill="#eef5fb" stroke="#7aa4c8" stroke-width="1.5"/><text x="667" y="105" text-anchor="middle" class="label">Select a branch</text><text x="667" y="132" text-anchor="middle" class="small">选择一种或组合若干建模路线</text><text x="667" y="158" text-anchor="middle" class="micro">NOT A SERIAL CHECKLIST</text>
+  <path d="M667 186V234" class="line"/>
+  <rect x="292" y="234" width="210" height="78" rx="3" fill="#edf6f4" stroke="#73a89e"/><text x="397" y="265" text-anchor="middle" class="label">Reversible transform</text><text x="397" y="290" text-anchor="middle" class="small">可选：delta / BWT / filters</text>
+  <rect x="520" y="234" width="210" height="78" rx="3" fill="#eef4f8" stroke="#7aa4c8"/><text x="625" y="265" text-anchor="middle" class="label">Dictionary parse</text><text x="625" y="290" text-anchor="middle" class="small">literal + length-distance</text>
+  <rect x="748" y="234" width="210" height="78" rx="3" fill="#f2f5ea" stroke="#91a76b"/><text x="853" y="265" text-anchor="middle" class="label">Context model</text><text x="853" y="290" text-anchor="middle" class="small">probability / CDF</text>
+  <rect x="976" y="234" width="210" height="78" rx="3" fill="#f4eef7" stroke="#a487b5"/><text x="1081" y="265" text-anchor="middle" class="label">Neural model</text><text x="1081" y="290" text-anchor="middle" class="small">next-symbol distribution</text>
+  <path d="M667 186L397 234" fill="none" stroke="#607084" stroke-width="1.5"/><path d="M667 186L625 234" fill="none" stroke="#607084" stroke-width="1.5"/><path d="M667 186L853 234" fill="none" stroke="#607084" stroke-width="1.5"/><path d="M667 186L1081 234" fill="none" stroke="#607084" stroke-width="1.5"/>
+  <path d="M397 312V355H760" fill="none" stroke="#607084" stroke-width="1.5"/><path d="M625 312V355" fill="none" stroke="#607084" stroke-width="1.5"/><path d="M853 312V355H760" fill="none" stroke="#607084" stroke-width="1.5"/><path d="M1081 312V355H760" fill="none" stroke="#607084" stroke-width="1.5"/>
+  <rect x="630" y="355" width="260" height="88" rx="3" fill="#f7f2e9" stroke="#b89359" stroke-width="1.5"/><text x="760" y="389" text-anchor="middle" class="label">Entropy coding</text><text x="760" y="416" text-anchor="middle" class="small">Huffman / Range / ANS</text>
+  <path d="M890 399H956" class="line"/>
+  <rect x="956" y="344" width="240" height="110" rx="3" fill="#192433" stroke="#192433"/><text x="1076" y="380" text-anchor="middle" style="font:700 18px Inter,sans-serif;fill:#fff">Bitstream</text><text x="1076" y="407" text-anchor="middle" style="font:500 13px Inter,'Noto Sans SC',sans-serif;fill:#d7e1ec">payload + syntax + side info</text><text x="1076" y="430" text-anchor="middle" style="font:500 13px Inter,'Noto Sans SC',sans-serif;fill:#d7e1ec">压缩负载、参数、表、校验</text>
+  <path d="M1196 399H1254" class="line"/>
+  <rect x="1254" y="344" width="190" height="110" rx="3" fill="#edf6f4" stroke="#73a89e" stroke-width="1.5"/><text x="1349" y="381" text-anchor="middle" class="label">Inverse process</text><text x="1349" y="407" text-anchor="middle" class="small">parse → decode → invert</text><text x="1349" y="431" text-anchor="middle" class="small">解析、解码、逆变换</text>
+  <path d="M1349 344V215" class="line"/>
+  <rect x="1254" y="123" width="190" height="92" rx="3" class="soft"/><text x="1349" y="160" text-anchor="middle" class="label">Exact bytes</text><text x="1349" y="187" text-anchor="middle" class="small">重建数据 x</text>
+  <path d="M1076 344V515H625V312" class="dash"/><text x="802" y="541" text-anchor="middle" class="micro">SIDE INFORMATION &amp; SYNCHRONIZED STATE / 边信息与同步状态</text>
+  <rect x="55" y="508" width="430" height="70" rx="3" fill="#f7f2e9" stroke="#c9ab7a" stroke-dasharray="6 5"/><text x="76" y="537" class="label">Evaluation loop / 评测外环</text><text x="76" y="560" class="small">ratio · encode/decode throughput · memory · latency · bit-exact · failures</text>
+  <path d="M485 543H590" class="dash"/>
+</svg>
+
