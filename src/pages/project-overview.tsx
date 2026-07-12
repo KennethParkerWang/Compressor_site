@@ -278,7 +278,8 @@ const STATUS_CLASS: Record<MetricStatus, string> = {
   风险中: styles.statusRisk,
 };
 
-const CURRENT_MONTH = '2026.07';
+const CURRENT_DATE = new Date();
+const CURRENT_MONTH = `${CURRENT_DATE.getFullYear()}.${String(CURRENT_DATE.getMonth() + 1).padStart(2, '0')}`;
 
 function getMonthIndex(month: string): number {
   const index = YEAR_MONTHS.indexOf(month);

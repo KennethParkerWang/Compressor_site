@@ -4,17 +4,14 @@ import Layout from '@theme/Layout';
 import WorkbenchShell from '../components/workbench/WorkbenchShell';
 import {Card, CardContent, CardHeader, CardTitle} from '../components/ui/card';
 import {Button} from '../components/ui/button';
-import {Badge} from '../components/ui/badge';
 import {Input} from '../components/ui/input';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '../components/ui/tabs';
-import {Separator} from '../components/ui/separator';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '../components/ui/select';
 import {useSettings} from '../stores/workbench';
 import {useTasks} from '../stores/workbench';
 import {useNotes} from '../stores/workbench';
 import {useFeed} from '../stores/workbench';
 import {tasksToIcs, downloadIcs} from '../utils/icalUtils';
-import {themePresets, type CrTheme} from '../data/themePresets';
 import {AlertTriangle, Calendar, Check, Download, Eye, KeyRound, Palette, Save, Upload, Zap, Database, Sparkles} from 'lucide-react';
 import styles from './settings.module.css';
 
@@ -62,7 +59,7 @@ function sourceCredentialPlaceholder(id: string): string {
 }
 
 export default function SettingsPage(): React.ReactElement {
-  const {settings, setTheme, setDensity, toggleSource, setSourceKey} = useSettings();
+  const {settings, setDensity, toggleSource, setSourceKey} = useSettings();
   const tasksCount = useTasks((s) => s.tasks.length);
   const notesCount = useNotes((s) => s.notes.length);
   const feedCount = useFeed((s) => s.items.length);
@@ -173,24 +170,8 @@ export default function SettingsPage(): React.ReactElement {
 
           <TabsContent value="appearance">
             <Card className={styles.section}>
-              <CardHeader><CardTitle><Palette size={16} /> {CN.theme}</CardTitle></CardHeader>
+              <CardHeader><CardTitle><Eye size={16} /> {CN.density}</CardTitle></CardHeader>
               <CardContent>
-                <div className={styles.themeGrid}>
-                  {themePresets.map((t) => (
-                    <button
-                      key={t.id}
-                      type="button"
-                      onClick={() => setTheme(t.id)}
-                      className={`${styles.themeCard} ${settings.theme === t.id ? styles.themeCardOn : ''}`}
-                    >
-                      <div className={styles.themeSwatch} style={{background: `linear-gradient(135deg, ${t.swatch.from}, ${t.swatch.to})`}} />
-                      <div className={styles.themeName}>{t.nameZh}</div>
-                      <div className={styles.themeBlurb}>{t.blurb}</div>
-                      <Badge variant="outline" className={styles.themeBadge}>{t.background}</Badge>
-                    </button>
-                  ))}
-                </div>
-                <Separator />
                 <div className={styles.densityRow}>
                   <label>{CN.density}</label>
                   <Select value={settings.density} onValueChange={(v) => setDensity(v as any)}>

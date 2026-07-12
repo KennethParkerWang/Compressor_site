@@ -59,15 +59,13 @@ export const useSettings = create<SettingsStore>()(
         googleCalendar: { connected: false },
       },
       setTheme: (theme) => {
-        try { window.localStorage.setItem('cr-theme', theme); } catch {}
+        const fixedTheme: CrTheme = 'light';
+        try { window.localStorage.setItem('cr-theme', fixedTheme); } catch {}
         if (typeof document !== 'undefined') {
-          document.documentElement.setAttribute('data-cr-theme', theme);
-          document.documentElement.setAttribute(
-            'data-theme',
-            theme === 'dark' || theme === 'focus' ? 'dark' : 'light',
-          );
+          document.documentElement.setAttribute('data-cr-theme', fixedTheme);
+          document.documentElement.setAttribute('data-theme', 'light');
         }
-        set((s) => ({settings: {...s.settings, theme}}));
+        set((s) => ({settings: {...s.settings, theme: fixedTheme}}));
       },
       setDensity: (density) => set((s) => ({settings: {...s.settings, density}})),
       toggleSource: (id) =>

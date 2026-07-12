@@ -14,9 +14,20 @@ import WorkbenchShell from '../components/workbench/WorkbenchShell';
 import {useWorkbenchStats} from '../components/workbench/stats';
 import {algorithmModules} from '../data/algorithmModules';
 import {getNextWeeklyReportIndex, getWeeklyReportAt} from '../data/weeklyReports';
+import {ANNUAL_PLAN_ROWS, GANTT_TASKS, YEAR_MONTHS, type GanttTask} from '../data/projectAnnualPlan';
+import {ANNUAL_PLAN_ROWS_EN, GANTT_TASKS_EN} from '../data/projectAnnualPlan.en';
 import styles from './index.module.css';
 
 type Lang = 'zh' | 'en';
+type RequirementState = 'complete' | 'active' | 'scheduled' | 'review' | 'overdue';
+
+const REQUIREMENT_SCHEDULES = [
+  {start: '2026-07-01', end: '2026-08-31', update: 'live'},
+  {start: '2026-07-10', end: '2026-08-31', update: 'biweekly'},
+  {start: '2026-08-01', end: '2026-09-30', update: 'weekly'},
+  {start: '2026-08-01', end: '2026-08-31', update: 'weekly'},
+  {start: '2026-08-16', end: '2026-12-31', update: 'monthly'},
+] as const;
 
 const COPY = {
   zh: {
@@ -33,7 +44,24 @@ const COPY = {
     nextReport: '下次汇报',
     requirementsLabel: '原始任务',
     requirementsTitle: '项目要求与当前状态',
-    requirementsBody: '以下五项来自项目任务要求。右侧状态只根据当前网站已经录入的资料判断。',
+    requirementsBody: '计划节点预先锁定；页面会按日期自动切换阶段，并依据已录入的论文、汇报和实验材料更新完成状态。',
+    requirementsHeaders: ['序号', '项目要求', '计划节点', '当前状态', '更新机制', '入口'],
+    stateRecorded: '已有记录',
+    statePartial: '部分完成',
+    statePending: '待录入',
+    stateTargetMet: '数量达标',
+    stateComplete: '已完成',
+    stateActive: '进行中',
+    stateScheduled: '计划中',
+    stateReview: '待核验',
+    stateOverdue: '已逾期',
+    planWindow: '计划周期',
+    updates: {
+      live: '自动 · 页面加载时',
+      biweekly: (date: string) => `自动 · 每 14 天\n下次 ${date}`,
+      weekly: '定期 · 每周五核验',
+      monthly: '定期 · 每月末核验',
+    },
     tasks: [
       {
         title: '搜集项目相关论文',
@@ -71,6 +99,16 @@ const COPY = {
     statusReproduction: '尚未录入可以核对的代码复现结果。',
     statusDataset: 'Silesia 与腾讯数据集的下载状态尚未登记；腾讯下载链接仍待提供。',
     statusExperiment: '实验页面和记录字段已经建立，但尚未录入真实对比结果。',
+    annualLabel: '年度计划',
+    annualTitle: '年度研发进度表',
+    annualBody: '计划内容与年度计划页使用同一份数据；当前月份会根据系统日期自动高亮。',
+    annualHeaders: ['月份', '阶段定位', '主要研发任务', '成果沉淀任务', '阶段交付物'],
+    currentMonth: '当前月份',
+    ganttLabel: '任务时间轴',
+    ganttTitle: '年度项目甘特图',
+    ganttBody: '沿用年度计划页的十二个月项目甘特样式；当前月份自动高亮，悬停任务条可查看交付物。',
+    openAnnualPlan: '查看完整年度计划',
+    ganttTask: '项目任务',
     scopeLabel: '当前整理范围',
     scopeTitle: '目前准备学习和汇报的对象',
     scopeBody: '这些名称来自当前汇报准备清单，只表示已经列入整理范围，不代表已经完成精读、复现或实验。',
@@ -108,7 +146,24 @@ const COPY = {
     nextReport: 'Next briefing',
     requirementsLabel: 'Original tasks',
     requirementsTitle: 'Project requirements and current status',
-    requirementsBody: 'These five items come from the project requirements. Status is based only on material currently recorded on the site.',
+    requirementsBody: 'Milestones are fixed in advance. The page advances phases by date and uses recorded papers, briefings, and experiment evidence to update completion.',
+    requirementsHeaders: ['No.', 'Project requirement', 'Planned window', 'Current status', 'Update rule', 'Entry'],
+    stateRecorded: 'Recorded',
+    statePartial: 'Partial',
+    statePending: 'Pending record',
+    stateTargetMet: 'Target met',
+    stateComplete: 'Complete',
+    stateActive: 'In progress',
+    stateScheduled: 'Scheduled',
+    stateReview: 'Needs review',
+    stateOverdue: 'Overdue',
+    planWindow: 'Planned window',
+    updates: {
+      live: 'Automatic · on page load',
+      biweekly: (date: string) => `Automatic · every 14 days\nNext ${date}`,
+      weekly: 'Periodic · Friday review',
+      monthly: 'Periodic · month-end review',
+    },
     tasks: [
       {
         title: 'Collect project-related papers',
@@ -146,6 +201,16 @@ const COPY = {
     statusReproduction: 'No verifiable code reproduction result has been recorded.',
     statusDataset: 'Dataset download status is not recorded; the Tencent download link is still pending.',
     statusExperiment: 'The experiment fields exist, but no real comparison result has been recorded.',
+    annualLabel: 'Annual plan',
+    annualTitle: 'Annual R&D Progress Table',
+    annualBody: 'This table uses the same data as the annual-plan page. The current month is highlighted from the system date.',
+    annualHeaders: ['Month', 'Stage positioning', 'Main R&D tasks', 'Output accumulation', 'Deliverables'],
+    currentMonth: 'Current month',
+    ganttLabel: 'Task timeline',
+    ganttTitle: 'Annual Project Gantt Chart',
+    ganttBody: 'Uses the annual-plan page\'s twelve-month project Gantt style. The current month is highlighted automatically; hover a bar for its deliverable.',
+    openAnnualPlan: 'Open full annual plan',
+    ganttTask: 'Project task',
     scopeLabel: 'Current scope',
     scopeTitle: 'Methods currently listed for study and briefing',
     scopeBody: 'These names come from the current briefing list. Inclusion does not mean the paper reading, reproduction, or experiment has been completed.',
@@ -188,6 +253,37 @@ export default function Home(): React.ReactElement {
     copy.statusDataset,
     copy.statusExperiment,
   ];
+  const annualRows = lang === 'en' ? ANNUAL_PLAN_ROWS_EN : ANNUAL_PLAN_ROWS;
+  const ganttTasks = lang === 'en' ? GANTT_TASKS_EN : GANTT_TASKS;
+  const currentMonth = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}`;
+  const requirementRows = copy.tasks.map((task, index) => {
+    const schedule = REQUIREMENT_SCHEDULES[index];
+    let state = getTimedRequirementState(now, schedule.start, schedule.end);
+    let stateLabel = getRequirementStateLabel(state, copy);
+
+    if (index === 0 && stats.totalLit > 0) {
+      state = stats.totalLit >= 80 ? 'complete' : 'active';
+      stateLabel = stats.totalLit >= 80 ? copy.stateTargetMet : copy.stateActive;
+    }
+    if (index === 1 && firstReport.submissions.length > 0) {
+      const complete = firstReport.submissions.length >= firstReport.expectedSubmissionCount;
+      state = complete ? 'complete' : 'active';
+      stateLabel = complete ? copy.stateComplete : copy.statePartial;
+    }
+
+    const updateText = schedule.update === 'biweekly'
+      ? copy.updates.biweekly(formatShortDate(nextReport.date, lang))
+      : copy.updates[schedule.update];
+
+    return {
+      ...task,
+      detail: taskStatuses[index],
+      plan: formatPlanWindow(schedule.start, schedule.end),
+      state,
+      stateLabel,
+      updateText,
+    };
+  });
 
   return (
     <Layout title={copy.layoutTitle} description={copy.description}>
@@ -220,23 +316,55 @@ export default function Home(): React.ReactElement {
 
           <section className={styles.requirementsSection}>
             <SectionHeading index="01" label={copy.requirementsLabel} title={copy.requirementsTitle} body={copy.requirementsBody} />
-            <div className={styles.taskTable}>
-              {copy.tasks.map((task, index) => (
-                <article className={styles.taskRow} key={task.title} data-state={index < 2 ? 'active' : 'pending'}>
-                  <span className={styles.rowNumber}>{String(index + 1).padStart(2, '0')}</span>
-                  <div className={styles.taskMain}>
-                    <h3>{task.title}</h3>
-                    <p>{task.requirement}</p>
-                  </div>
-                  <p className={styles.taskStatus}>{taskStatuses[index]}</p>
-                  <Link to={task.to}>{task.action}<ArrowRight size={14} /></Link>
-                </article>
-              ))}
+            <div className={styles.dataTableWrap}>
+              <table className={styles.requirementsTable}>
+                <thead><tr>{copy.requirementsHeaders.map((header) => <th key={header}>{header}</th>)}</tr></thead>
+                <tbody>
+                  {requirementRows.map((task, index) => (
+                    <tr key={task.title} data-state={task.state}>
+                      <td className={styles.rowNumber}>{String(index + 1).padStart(2, '0')}</td>
+                      <td className={styles.requirementCell}><strong>{task.title}</strong><p>{task.requirement}</p></td>
+                      <td className={styles.planCell}><span>{copy.planWindow}</span><strong>{task.plan}</strong></td>
+                      <td className={styles.statusCell}><span data-state={task.state}>{task.stateLabel}</span><p>{task.detail}</p></td>
+                      <td className={styles.updateCell}>{task.updateText}</td>
+                      <td className={styles.actionCell}><Link className={styles.tableAction} to={task.to}>{task.action}<ArrowRight size={14} /></Link></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section className={styles.annualSection}>
+            <SectionHeading index="02" label={copy.annualLabel} title={copy.annualTitle} body={copy.annualBody} />
+            <div className={styles.dataTableWrap}>
+              <table className={styles.annualPlanTable}>
+                <thead><tr>{copy.annualHeaders.map((header) => <th key={header}>{header}</th>)}</tr></thead>
+                <tbody>
+                  {annualRows.map((row) => (
+                    <tr key={row.month} data-current={row.month === currentMonth}>
+                      <td className={styles.monthCell}><span>{row.month}</span>{row.month === currentMonth ? <em>{copy.currentMonth}</em> : null}</td>
+                      <td><strong>{row.position}</strong><i data-tone={row.tone}>{row.tone}</i></td>
+                      <td>{row.mainTasks}</td>
+                      <td>{row.achievementTasks}</td>
+                      <td>{row.deliverables}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section className={styles.ganttSection}>
+            <SectionHeading index="03" label={copy.ganttLabel} title={copy.ganttTitle} body={copy.ganttBody} />
+            <div className={styles.homeGanttFrame}>
+              <header><span>PROJECT / 2026.07–2027.06</span><Link to="/project-overview">{copy.openAnnualPlan}<ArrowRight size={14} /></Link></header>
+              <HomeGantt tasks={ganttTasks} currentMonth={currentMonth} taskLabel={copy.ganttTask} />
             </div>
           </section>
 
           <section className={styles.scopeSection}>
-            <SectionHeading index="02" label={copy.scopeLabel} title={copy.scopeTitle} body={copy.scopeBody} />
+            <SectionHeading index="04" label={copy.scopeLabel} title={copy.scopeTitle} body={copy.scopeBody} />
             <div className={styles.scopeLayout}>
               <div className={styles.objectTable}>
                 {copy.objects.map((item) => (
@@ -298,6 +426,83 @@ export default function Home(): React.ReactElement {
       </WorkbenchShell>
     </Layout>
   );
+}
+
+function HomeGantt({
+  tasks,
+  currentMonth,
+  taskLabel,
+}: {
+  tasks: readonly GanttTask[];
+  currentMonth: string;
+  taskLabel: string;
+}): React.ReactElement {
+  return (
+    <div className={styles.ganttWrap}>
+      <div className={styles.ganttMonths}>
+        <span>{taskLabel}</span>
+        {YEAR_MONTHS.map((month) => (
+          <b key={month} data-current={month === currentMonth}>{month.replace('20', '')}</b>
+        ))}
+      </div>
+      {tasks.map((task) => {
+        const start = getMonthIndex(task.start);
+        const end = getMonthIndex(task.end);
+        return (
+          <div className={styles.ganttRow} key={task.id}>
+            <div className={styles.ganttLabel}>
+              <strong>{task.name}</strong>
+              <span>{task.track}</span>
+            </div>
+            <div className={styles.ganttGrid}>
+              <div
+                className={styles.ganttBar}
+                data-tone={task.tone}
+                style={{gridColumn: `${start + 1} / ${end + 2}`}}
+                title={`${task.name}\n${task.start}–${task.end}\n${task.deliverable}`}
+              >
+                <span>{task.start}–{task.end}</span>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function getMonthIndex(month: string): number {
+  const index = YEAR_MONTHS.indexOf(month as (typeof YEAR_MONTHS)[number]);
+  return index >= 0 ? index : 0;
+}
+
+function getTimedRequirementState(now: Date, start: string, end: string): RequirementState {
+  const current = now.getTime();
+  const startAt = Date.parse(`${start}T00:00:00+08:00`);
+  const endAt = Date.parse(`${end}T23:59:59+08:00`);
+  const reviewEndsAt = endAt + 7 * 86400000;
+  if (current < startAt) return 'scheduled';
+  if (current <= endAt) return 'active';
+  if (current <= reviewEndsAt) return 'review';
+  return 'overdue';
+}
+
+function getRequirementStateLabel(state: RequirementState, copy: typeof COPY.zh | typeof COPY.en): string {
+  const labels = {
+    complete: copy.stateComplete,
+    active: copy.stateActive,
+    scheduled: copy.stateScheduled,
+    review: copy.stateReview,
+    overdue: copy.stateOverdue,
+  };
+  return labels[state];
+}
+
+function formatPlanWindow(start: string, end: string): string {
+  const [startYear, startMonth, startDay] = start.split('-');
+  const [endYear, endMonth, endDay] = end.split('-');
+  const endLabel = startYear === endYear ? `${endMonth}.${endDay}` : `${endYear}.${endMonth}.${endDay}`;
+  return `${startYear}.${startMonth}.${startDay}–${endLabel}`;
 }
 
 function SectionHeading({index, label, title, body}: {index: string; label: string; title: string; body: string}): React.ReactElement {

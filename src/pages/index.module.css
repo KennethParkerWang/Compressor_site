@@ -28,7 +28,7 @@
 .intro h1 {
   margin: 9px 0 0;
   color: var(--cr-text-primary);
-  font-size: 48px;
+  font-size: 44px;
   font-weight: 760;
   line-height: 1.08;
 }
@@ -110,6 +110,8 @@
 }
 
 .requirementsSection,
+.annualSection,
+.ganttSection,
 .scopeSection {
   padding: 44px 0 48px;
   border-bottom: 1px solid var(--cr-border-strong-color);
@@ -369,6 +371,378 @@
   color: #067647;
 }
 
+.dataTableWrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--cr-border-color);
+  border-radius: 7px;
+  background: var(--cr-card-bg);
+  scrollbar-width: thin;
+}
+
+.requirementsTable,
+.annualPlanTable {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--cr-text-secondary);
+}
+
+.requirementsTable {
+  min-width: 0;
+  table-layout: fixed;
+}
+
+.requirementsTable th:nth-child(1) { width: 44px; }
+.requirementsTable th:nth-child(2) { width: 28%; }
+.requirementsTable th:nth-child(3) { width: 128px; }
+.requirementsTable th:nth-child(4) { width: 24%; }
+.requirementsTable th:nth-child(5) { width: 142px; }
+.requirementsTable th:nth-child(6) { width: 104px; }
+
+.requirementsTable th,
+.annualPlanTable th {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--cr-border-strong-color);
+  background: color-mix(in srgb, var(--cr-surface) 88%, transparent);
+  color: var(--cr-text-muted);
+  font-size: 10px;
+  font-weight: 780;
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.requirementsTable td,
+.annualPlanTable td {
+  padding: 16px 14px;
+  border-bottom: 1px solid var(--cr-border-color);
+  vertical-align: top;
+}
+
+.requirementsTable tbody tr:last-child td,
+.annualPlanTable tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.requirementsTable tbody tr {
+  background: var(--cr-card-bg);
+  transition: background 160ms ease;
+}
+
+.requirementsTable tbody tr:hover {
+  background: color-mix(in srgb, var(--cr-accent) 3%, var(--cr-card-bg));
+}
+
+.requirementsTable .rowNumber {
+  padding-top: 19px;
+}
+
+.requirementCell strong,
+.annualPlanTable strong {
+  color: var(--cr-text-primary);
+  font-size: 13px;
+  font-weight: 740;
+  line-height: 1.45;
+}
+
+.requirementCell p,
+.statusCell p {
+  margin: 6px 0 0;
+  font-size: 11.5px;
+  line-height: 1.62;
+}
+
+.planCell {
+  display: grid;
+  gap: 6px;
+}
+
+.planCell span {
+  color: var(--cr-text-faint);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.planCell strong {
+  color: var(--cr-text-primary);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 11px;
+  font-weight: 720;
+  line-height: 1.5;
+}
+
+.statusCell > span {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding: 0 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 780;
+}
+
+.statusCell > span[data-state='complete'] {
+  background: #ecfdf3;
+  color: #067647;
+}
+
+.statusCell > span[data-state='active'] {
+  background: #eff6ff;
+  color: #175cd3;
+}
+
+.statusCell > span[data-state='scheduled'] {
+  background: #f2f4f7;
+  color: #475467;
+}
+
+.statusCell > span[data-state='review'] {
+  background: #fffaeb;
+  color: #b54708;
+}
+
+.statusCell > span[data-state='overdue'] {
+  background: #fef3f2;
+  color: #b42318;
+}
+
+.updateCell {
+  color: var(--cr-text-muted);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 10.5px;
+  font-weight: 650;
+  line-height: 1.55;
+  white-space: pre-line;
+}
+
+.actionCell {
+  vertical-align: middle !important;
+}
+
+.tableAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--cr-accent);
+  font-size: 11px;
+  font-weight: 740;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.annualPlanTable {
+  min-width: 1180px;
+  table-layout: fixed;
+}
+
+.annualPlanTable th:nth-child(1) { width: 104px; }
+.annualPlanTable th:nth-child(2) { width: 22%; }
+.annualPlanTable th:nth-child(3) { width: 28%; }
+.annualPlanTable th:nth-child(4) { width: 24%; }
+.annualPlanTable th:nth-child(5) { width: 22%; }
+
+.annualPlanTable td {
+  font-size: 11px;
+  line-height: 1.62;
+}
+
+.annualPlanTable tr[data-current='true'] td {
+  background: #fffcf5;
+}
+
+.annualPlanTable tr[data-current='true'] td:first-child {
+  box-shadow: inset 3px 0 #f79009;
+}
+
+.monthCell {
+  font-family: var(--ifm-font-family-monospace);
+  font-variant-numeric: tabular-nums;
+}
+
+.monthCell span,
+.monthCell em {
+  display: block;
+}
+
+.monthCell span {
+  color: var(--cr-text-primary);
+  font-size: 12px;
+  font-weight: 780;
+}
+
+.monthCell em {
+  margin-top: 6px;
+  color: #b54708;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 760;
+}
+
+.annualPlanTable td:nth-child(2) strong,
+.annualPlanTable td:nth-child(2) i {
+  display: block;
+}
+
+.annualPlanTable td:nth-child(2) i {
+  margin-top: 6px;
+  color: var(--cr-text-faint);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 9px;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+.homeGanttFrame {
+  overflow: hidden;
+  border: 1px solid var(--cr-border-color);
+  border-radius: 7px;
+  background: var(--cr-card-bg);
+}
+
+.homeGanttFrame > header {
+  display: flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--cr-border-color);
+  background: color-mix(in srgb, var(--cr-surface) 88%, transparent);
+}
+
+.homeGanttFrame > header > span {
+  color: var(--cr-text-muted);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 10px;
+  font-weight: 760;
+  letter-spacing: 0.05em;
+}
+
+.homeGanttFrame > header a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--cr-accent);
+  font-size: 11px;
+  font-weight: 740;
+  text-decoration: none;
+}
+
+.ganttWrap {
+  width: 100%;
+  overflow-x: auto;
+  background: var(--cr-card-bg);
+  scrollbar-width: thin;
+}
+
+.ganttMonths {
+  display: grid;
+  min-width: 1120px;
+  grid-template-columns: 260px repeat(12, minmax(62px, 1fr));
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-bottom: 1px solid var(--cr-border-color);
+  background: var(--cr-surface);
+}
+
+.ganttMonths > span {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border-right: 1px solid var(--cr-border-color);
+  color: var(--cr-text-faint);
+  font-size: 10px;
+  font-weight: 760;
+  text-transform: uppercase;
+}
+
+.ganttMonths b {
+  display: flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid var(--cr-border-color);
+  color: var(--cr-text-muted);
+  font-size: 10px;
+  font-weight: 760;
+}
+
+.ganttMonths b[data-current='true'] {
+  background: #fffaeb;
+  color: #b54708;
+}
+
+.ganttRow {
+  display: grid;
+  min-width: 1120px;
+  grid-template-columns: 260px minmax(760px, 1fr);
+}
+
+.ganttRow:not(:last-child) {
+  border-bottom: 1px solid var(--cr-border-color);
+}
+
+.ganttLabel {
+  display: grid;
+  min-height: 44px;
+  align-content: center;
+  gap: 3px;
+  padding: 7px 12px;
+  border-right: 1px solid var(--cr-border-color);
+}
+
+.ganttLabel strong {
+  color: var(--cr-text-primary);
+  font-size: 11.5px;
+  font-weight: 720;
+}
+
+.ganttLabel span {
+  color: var(--cr-text-faint);
+  font-size: 9.5px;
+  font-weight: 680;
+}
+
+.ganttGrid {
+  display: grid;
+  min-height: 44px;
+  grid-template-columns: repeat(12, minmax(62px, 1fr));
+  align-items: center;
+  padding: 7px 0;
+  background-image: linear-gradient(90deg, transparent calc(100% - 1px), var(--cr-border-color) calc(100% - 1px));
+  background-size: calc(100% / 12) 100%;
+}
+
+.ganttBar {
+  display: flex;
+  min-width: 0;
+  min-height: 24px;
+  align-items: center;
+  margin: 0 5px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(var(--tone-rgb), 0.95), rgba(var(--tone-rgb), 0.68));
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(var(--tone-rgb), 0.18);
+}
+
+.ganttBar[data-tone='research'] { --tone-rgb: 37, 99, 235; }
+.ganttBar[data-tone='data'] { --tone-rgb: 8, 145, 178; }
+.ganttBar[data-tone='model'] { --tone-rgb: 124, 58, 237; }
+.ganttBar[data-tone='experiment'] { --tone-rgb: 217, 119, 6; }
+.ganttBar[data-tone='achievement'] { --tone-rgb: 5, 150, 105; }
+.ganttBar[data-tone='delivery'] { --tone-rgb: 71, 84, 103; }
+.ganttBar[data-tone='risk'] { --tone-rgb: 220, 38, 38; }
+
+.ganttBar span {
+  overflow: hidden;
+  font-size: 10px;
+  font-weight: 760;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 @media (max-width: 1180px) {
   .taskRow {
     grid-template-columns: 42px minmax(0, 1fr) minmax(260px, 0.8fr);
@@ -432,6 +806,8 @@
   }
 
   .requirementsSection,
+  .annualSection,
+  .ganttSection,
   .scopeSection {
     padding: 36px 0 40px;
   }
@@ -474,5 +850,62 @@
   .submissionRow {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .requirementsTable {
+    min-width: 0;
+  }
+
+  .requirementsTable thead {
+    display: none;
+  }
+
+  .requirementsTable,
+  .requirementsTable tbody,
+  .requirementsTable tr,
+  .requirementsTable td {
+    display: block;
+    width: 100%;
+  }
+
+  .requirementsTable tr {
+    padding: 16px;
+    border-bottom: 1px solid var(--cr-border-color);
+  }
+
+  .requirementsTable tbody tr:last-child {
+    border-bottom: 0;
+  }
+
+  .requirementsTable td {
+    padding: 0;
+    border: 0;
+  }
+
+  .requirementsTable .rowNumber {
+    margin-bottom: 10px;
+    padding: 0;
+  }
+
+  .planCell,
+  .statusCell,
+  .updateCell,
+  .actionCell {
+    margin-top: 14px;
+  }
+
+  .statusCell,
+  .updateCell {
+    padding-top: 12px !important;
+    border-top: 1px dashed var(--cr-border-color) !important;
+  }
+
+  .actionCell {
+    padding-top: 2px !important;
+  }
+
+  .ganttMonths,
+  .ganttRow {
+    min-width: 1040px;
   }
 }

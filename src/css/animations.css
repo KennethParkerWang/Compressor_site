@@ -57,6 +57,17 @@
   100% { transform: translateY(24%); opacity: 0.10; }
 }
 
+@keyframes cr-sidebar-sweep {
+  0%, 62%, 100% { transform: translateX(-140%); opacity: 0; }
+  72% { opacity: 0.8; }
+  86% { transform: translateX(360%); opacity: 0; }
+}
+
+@keyframes cr-card-edge-pulse {
+  0%, 100% { box-shadow: 0 12px 28px rgba(15, 23, 42, 0.10), 0 0 0 1px rgba(37, 99, 235, 0.12); }
+  50% { box-shadow: 0 16px 34px rgba(15, 23, 42, 0.13), 0 0 0 2px rgba(37, 99, 235, 0.20); }
+}
+
 /* 通用动效 class */
 .cr-fade-up    { animation: cr-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .cr-fade-in    { animation: cr-fade-in 0.4s ease-out both; }

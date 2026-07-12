@@ -4,16 +4,17 @@
 @import '@fontsource/noto-sans-sc/600.css';
 @import '@fontsource/noto-sans-sc/700.css';
 @import './shadcn.css';
+@import './animations.css';
 
 :root,
 [data-cr-theme='light'] {
-  --ifm-color-primary: #2563eb;
-  --ifm-color-primary-dark: #1d4ed8;
-  --ifm-color-primary-darker: #1e40af;
-  --ifm-color-primary-darkest: #1e3a8a;
-  --ifm-color-primary-light: #3b82f6;
-  --ifm-color-primary-lighter: #60a5fa;
-  --ifm-color-primary-lightest: #93c5fd;
+  --ifm-color-primary: #175cd3;
+  --ifm-color-primary-dark: #1849a9;
+  --ifm-color-primary-darker: #194185;
+  --ifm-color-primary-darkest: #102a56;
+  --ifm-color-primary-light: #2e90fa;
+  --ifm-color-primary-lighter: #53b1fd;
+  --ifm-color-primary-lightest: #b2ddff;
   --ifm-code-font-size: 92%;
   --ifm-heading-font-weight: 720;
   --ifm-font-family-base:
@@ -23,36 +24,36 @@
   --ifm-font-family-monospace:
     'JetBrains Mono', 'Fira Code', 'SF Mono', Menlo, Consolas, monospace;
 
-  --ifm-background-color: #f6f8fb;
+  --ifm-background-color: #f3f6fa;
   --ifm-background-surface-color: #ffffff;
   --docusaurus-highlighted-code-line-bg: rgba(37, 99, 235, 0.08);
 
-  --cr-bg: #f6f8fb;
-  --cr-bg-paper: #f6f8fb;
+  --cr-bg: #f3f6fa;
+  --cr-bg-paper: #f3f6fa;
   --cr-card-bg: #ffffff;
-  --cr-surface: #f8fafc;
-  --cr-surface-soft: #eef2f7;
-  --cr-surface-strong: #e2e8f0;
-  --cr-border-color: #dbe3ef;
-  --cr-border-strong-color: #b8c4d6;
+  --cr-surface: #f7f9fc;
+  --cr-surface-soft: #edf2f7;
+  --cr-surface-strong: #dde5ef;
+  --cr-border-color: #d6dee9;
+  --cr-border-strong-color: #aebccd;
   --cr-border: 1px solid var(--cr-border-color);
   --cr-border-strong: 1px solid var(--cr-border-strong-color);
-  --cr-text-primary: #0b1220;
-  --cr-text-secondary: #334155;
-  --cr-text-muted: #64748b;
-  --cr-text-faint: #94a3b8;
-  --cr-accent: #2563eb;
-  --cr-accent-dark: #1d4ed8;
-  --cr-accent-soft: rgba(37, 99, 235, 0.08);
-  --cr-cyan: #0891b2;
-  --cr-green: #059669;
-  --cr-amber: #d97706;
-  --cr-red: #dc2626;
-  --cr-purple: #7c3aed;
-  --cr-slate: #475569;
-  --cr-grid-line: rgba(15, 23, 42, 0.045);
-  --cr-bg-wash-1: rgba(37, 99, 235, 0.11);
-  --cr-bg-wash-2: rgba(8, 145, 178, 0.08);
+  --cr-text-primary: #101828;
+  --cr-text-secondary: #344054;
+  --cr-text-muted: #667085;
+  --cr-text-faint: #98a2b3;
+  --cr-accent: #175cd3;
+  --cr-accent-dark: #1849a9;
+  --cr-accent-soft: rgba(23, 92, 211, 0.08);
+  --cr-cyan: #0e7490;
+  --cr-green: #087e5b;
+  --cr-amber: #b54708;
+  --cr-red: #b42318;
+  --cr-purple: #6941c6;
+  --cr-slate: #475467;
+  --cr-grid-line: rgba(16, 24, 40, 0.04);
+  --cr-bg-wash-1: rgba(23, 92, 211, 0.08);
+  --cr-bg-wash-2: rgba(14, 116, 144, 0.06);
   --cr-body-pattern:
     linear-gradient(var(--cr-grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--cr-grid-line) 1px, transparent 1px);
@@ -78,8 +79,8 @@
   --cr-radius: 8px;
   --cr-radius-lg: 10px;
   --cr-shadow-card: 0 1px 0 rgba(15, 23, 42, 0.03);
-  --cr-shadow-elevated: 0 14px 35px rgba(15, 23, 42, 0.10);
-  --cr-shadow-focus: 0 0 0 3px rgba(37, 99, 235, 0.16);
+  --cr-shadow-elevated: 0 14px 35px rgba(16, 24, 40, 0.10);
+  --cr-shadow-focus: 0 0 0 3px rgba(23, 92, 211, 0.16);
   --cr-w-default: 1180px;
   --cr-w-wide: 1440px;
   --cr-w-database: 1536px;
@@ -522,6 +523,19 @@ select {
   border-color: color-mix(in srgb, var(--cr-accent) 44%, var(--cr-border-color));
 }
 
+/* Shared card motion for CSS-module cards across the research workbench. */
+:where(.cr-card, .wb-card, [class^='card_'], [class*=' card_']) {
+  transform: translateZ(0);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(.cr-card, .wb-card, [class^='card_'], [class*=' card_']):hover {
+    transform: translateY(-3px) scale(1.012);
+    animation: cr-card-edge-pulse 1.8s ease-in-out infinite;
+  }
+}
+
 .cr-eyebrow {
   color: var(--cr-accent);
   font-size: 11px;
@@ -622,156 +636,6 @@ select {
   background: var(--cr-surface);
 }
 
-.cr-theme-switcher {
-  display: inline-flex;
-  align-items: center;
-  position: relative;
-}
-
-.cr-theme-trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.42rem;
-  min-height: 34px;
-  padding: 0 0.58rem 0 0.64rem;
-  border: 1px solid color-mix(in srgb, var(--cr-accent) 28%, var(--cr-border-color));
-  border-radius: 8px;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--cr-card-bg) 92%, white 8%), var(--cr-surface));
-  color: var(--cr-text-secondary);
-  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.42);
-  cursor: pointer;
-  font-size: 0.76rem;
-  font-weight: 720;
-  transition:
-    transform 0.18s ease,
-    border-color 0.18s ease,
-    background 0.18s ease,
-    color 0.18s ease,
-    box-shadow 0.18s ease;
-  white-space: nowrap;
-}
-
-.cr-theme-trigger__label {
-  max-width: 170px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.cr-theme-trigger__chevron {
-  color: var(--cr-text-muted);
-  transition: transform 0.18s ease;
-}
-
-.cr-theme-trigger[aria-expanded='true'] .cr-theme-trigger__chevron {
-  transform: rotate(180deg);
-}
-
-.cr-theme-swatch {
-  display: inline-flex;
-  width: 24px;
-  height: 16px;
-  flex: 0 0 24px;
-  border: 1px solid color-mix(in srgb, var(--cr-border-color) 72%, white 28%);
-  border-radius: 5px;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.24);
-}
-
-.cr-theme-trigger:hover {
-  border-color: var(--cr-accent);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--cr-card-bg) 86%, var(--cr-accent-soft) 14%), var(--cr-surface));
-  color: var(--cr-accent);
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
-  transform: translateY(-1px);
-}
-
-.cr-theme-trigger:focus-visible {
-  outline: none;
-  box-shadow: var(--cr-shadow-focus);
-}
-
-.cr-theme-menu {
-  position: absolute;
-  top: calc(100% + 0.48rem);
-  right: 0;
-  z-index: 4500;
-  width: 280px;
-  padding: 8px;
-  border: 1px solid color-mix(in srgb, var(--cr-accent) 24%, var(--cr-border-color));
-  border-radius: 10px;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--cr-card-bg) 94%, var(--cr-accent-soft) 6%), var(--cr-card-bg));
-  box-shadow: var(--cr-shadow-elevated);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  animation: cr-scale-in 0.18s ease both;
-}
-
-.cr-theme-menu__title {
-  padding: 4px 7px 8px;
-  color: var(--cr-text-muted);
-  font-size: 11px;
-  font-weight: 780;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.cr-theme-option {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  gap: 9px;
-  min-height: 58px;
-  padding: 9px;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  background: transparent;
-  color: var(--cr-text-primary);
-  cursor: pointer;
-  text-align: left;
-  transition:
-    border-color 0.16s ease,
-    background 0.16s ease,
-    transform 0.16s ease;
-}
-
-.cr-theme-option:hover,
-.cr-theme-option.active {
-  border-color: color-mix(in srgb, var(--cr-accent) 26%, transparent);
-  background: var(--cr-accent-soft);
-}
-
-.cr-theme-option:hover {
-  transform: translateX(2px);
-}
-
-.cr-theme-option__body {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  flex: 1;
-  gap: 3px;
-}
-
-.cr-theme-option__name {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 760;
-  line-height: 1.2;
-}
-
-.cr-theme-option__desc {
-  color: var(--cr-text-muted);
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 1.25;
-}
-
 .react-flow__minimap,
 .react-flow__controls {
   overflow: hidden;
@@ -830,19 +694,6 @@ footer.footer .footer__items a:hover {
     padding: 20px 14px 56px;
   }
 
-  .cr-theme-trigger {
-    padding-inline: 0.55rem;
-  }
-
-  .cr-theme-trigger__label {
-    display: none;
-  }
-
-  .cr-theme-menu {
-    right: -42px;
-    width: min(280px, calc(100vw - 24px));
-  }
-
   .navbar-search-btn span,
   .navbar-search-btn kbd {
     display: none;
@@ -851,9 +702,7 @@ footer.footer .footer__items a:hover {
 
 /* 2026 research-site rebuild: quiet, document-first visual system. */
 :root,
-[data-cr-theme='light'],
-[data-cr-theme='paper'],
-[data-cr-theme='graph'] {
+[data-cr-theme='light'] {
   --ifm-color-primary: #175cd3;
   --ifm-color-primary-dark: #1849a9;
   --ifm-color-primary-darker: #194185;

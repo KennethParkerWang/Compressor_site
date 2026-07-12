@@ -17,6 +17,9 @@ import {
   FlaskConical,
   Gauge,
   GitCompareArrows,
+  Info,
+  Link2,
+  Map,
   Network,
   Sigma,
   Timer,
@@ -35,6 +38,11 @@ const COPY = {
     intro: '无损压缩器不是一个单独算法，而是一套可逆系统：编码端发现并表示冗余，码流携带恢复所需的语法与边信息，解码端以确定的顺序重建原始字节。',
     verified: '内容依据公开标准与实现文档整理',
     noResults: '本页不展示未经仓库实验日志支持的性能数字。',
+    guideEyebrow: 'How to read this map',
+    guideTitle: '先回答三个问题，再从总图走到证据',
+    guideIntro: '这不是算法排行榜，也不是必须逐项执行的流程清单。它用于建立无损压缩研究的系统边界。',
+    guideQuestions: ['数据从哪里进入，如何保证逐字节还原？', '哪些模块是通用约束，哪些只是可选路线？', '如何把抽象模块映射到真实压缩器并形成可复现实验？'],
+    readingOrder: '建议阅读顺序',
     architecture: '编码—解码总图',
     architectureLead: '主线展示信息如何经过编码器进入码流，再由镜像解码路径精确还原。虚线表示边信息和同步约束，不表示所有压缩器都执行同一串模块。',
     universal: '四条通用约束',
@@ -60,6 +68,11 @@ const COPY = {
     intro: 'A lossless compressor is not a single algorithm. It is a reversible system: the encoder discovers and represents redundancy, the bitstream carries syntax and side information, and the decoder reconstructs the original bytes in a deterministic order.',
     verified: 'Content grounded in public standards and implementation documentation',
     noResults: 'No performance numbers are shown without experiment logs in this repository.',
+    guideEyebrow: 'How to read this map',
+    guideTitle: 'Answer three questions, then move from architecture to evidence',
+    guideIntro: 'This is neither an algorithm ranking nor a mandatory serial checklist. It defines the system boundary for lossless-compression research.',
+    guideQuestions: ['Where does data enter, and how is byte-exact recovery guaranteed?', 'Which parts are universal constraints, and which are optional routes?', 'How do abstract modules map to real codecs and reproducible experiments?'],
+    readingOrder: 'Recommended reading order',
     architecture: 'Encoder–decoder overview',
     architectureLead: 'The main line shows information moving through the encoder into a bitstream and back through a mirrored decoder. Dashed links denote side information and synchronization, not a universal serial module chain.',
     universal: 'Four universal constraints',
@@ -162,11 +175,65 @@ const evaluationRows = [
   {icon: CheckCircle2, metric: {zh: '正确性', en: 'Correctness'}, report: {zh: '原始/解码 SHA-256、退出码、失败文件与损坏输入处理', en: 'Original/decoded SHA-256, exit codes, failed files, and corrupt-input behavior'}},
 ] as const;
 
+type SectionGuide = {
+  purpose: LocalizedText;
+  contents: LocalizedText;
+  connection: LocalizedText;
+  position: LocalizedText;
+};
+
+const SECTION_GUIDES: Record<string, SectionGuide> = {
+  architecture: {
+    purpose: {zh: '先建立完整系统边界，避免把某一个算法误当成整个压缩器。', en: 'Establish the full system boundary before treating any algorithm as a complete compressor.'},
+    contents: {zh: '原始字节、编码端分支、熵编码、码流、逆过程与精确重建。', en: 'Raw bytes, encoder branches, entropy coding, bitstream, inverse process, and exact reconstruction.'},
+    connection: {zh: '向下把总图拆成通用约束与算法家族，之后再映射到真实压缩器路线。', en: 'The following sections split this overview into universal constraints and algorithm families, then map them to real codecs.'},
+    position: {zh: '第 1/6 步：全页骨架与入口。', en: 'Step 1 of 6: the page skeleton and entry point.'},
+  },
+  universal: {
+    purpose: {zh: '说明所有无损系统都必须满足的底线，与采用哪种算法无关。', en: 'Define the invariants every lossless system must satisfy, independent of algorithm choice.'},
+    contents: {zh: '可逆性、状态同步、可解析码流语法与 bit-exact 验证。', en: 'Reversibility, synchronized state, parseable bitstream syntax, and bit-exact verification.'},
+    connection: {zh: '约束总图中的编码器、码流和解码器，并作为后续路线评测的正确性门槛。', en: 'Constrains encoder, bitstream, and decoder, and becomes the correctness gate for later evaluation.'},
+    position: {zh: '第 2/6 步：系统不可违背的基础层。', en: 'Step 2 of 6: the non-negotiable foundation.'},
+  },
+  families: {
+    purpose: {zh: '区分可替换、可组合的技术路线，避免把所有模块误读成串行流水线。', en: 'Separate interchangeable and composable routes instead of reading every module as one serial pipeline.'},
+    contents: {zh: '字典解析、可逆变换、统计建模、上下文混合、神经模型与熵编码。', en: 'Dictionary parsing, reversible transforms, statistical modeling, context mixing, neural models, and entropy coding.'},
+    connection: {zh: '承接总图中的“选择分支”，下一节会展示这些家族如何在真实压缩器中组合。', en: 'Expands the overview’s branch selection; the next section shows how real codecs combine these families.'},
+    position: {zh: '第 3/6 步：抽象方法层。', en: 'Step 3 of 6: the abstract method layer.'},
+  },
+  routes: {
+    purpose: {zh: '用真实格式和实现验证抽象分类，说明不同压缩器实际上走哪条路线。', en: 'Validate the abstraction with real formats and implementations and show the route each codec actually follows.'},
+    contents: {zh: 'gzip/DEFLATE、xz/LZMA2、Zstandard、PAQ8px、cmix 与 NNCP。', en: 'gzip/DEFLATE, xz/LZMA2, Zstandard, PAQ8px, cmix, and NNCP.'},
+    connection: {zh: '把算法家族落到工程系统；下一节对这些完整系统而非孤立模块进行评测。', en: 'Maps families to engineering systems; the next section evaluates complete systems rather than isolated modules.'},
+    position: {zh: '第 4/6 步：实例映射层。', en: 'Step 4 of 6: the implementation mapping layer.'},
+  },
+  evaluation: {
+    purpose: {zh: '定义如何公平验证路线，不把评测误画成压缩数据流中的一个模块。', en: 'Define fair validation without presenting evaluation as a module inside the compressed-data path.'},
+    contents: {zh: '大小、吞吐、延迟、资源、正确性以及可复现记录协议。', en: 'Size, throughput, latency, resources, correctness, and reproducibility records.'},
+    connection: {zh: '以通用约束中的精确重建为硬门槛，比较上一节的真实压缩器路线。', en: 'Uses exact reconstruction from the universal constraints as a hard gate when comparing real codec routes.'},
+    position: {zh: '第 5/6 步：系统外部的验证闭环。', en: 'Step 5 of 6: the validation loop outside the codec.'},
+  },
+  sources: {
+    purpose: {zh: '标明哪些结论有公开规范或实现文档支撑，并划定页面不作出的推断。', en: 'Show which claims are grounded in public specifications or implementation docs and define excluded claims.'},
+    contents: {zh: '标准、格式规范、实现仓库、评测方法与本页的声明边界。', en: 'Standards, format specifications, implementation repositories, benchmark methods, and scope limits.'},
+    connection: {zh: '反向支撑前面五层；实验结论仍需绑定版本、数据集、命令与日志。', en: 'Supports all five preceding layers; experimental claims still require versions, datasets, commands, and logs.'},
+    position: {zh: '第 6/6 步：证据与审计出口。', en: 'Step 6 of 6: the evidence and audit exit.'},
+  },
+};
+
 export default function AlgorithmBoardPage(): React.ReactElement {
   const {i18n} = useDocusaurusContext();
   const lang: Lang = i18n.currentLocale === 'en' ? 'en' : 'zh';
   const copy = COPY[lang];
   const overviewFigure = useBaseUrl('/research/compressor-system/overview/encoder-decoder-system.svg');
+  const readingSteps = [
+    {id: 'architecture', index: '01', title: copy.architecture},
+    {id: 'universal', index: '02', title: copy.universal},
+    {id: 'families', index: '03', title: copy.families},
+    {id: 'routes', index: '04', title: copy.routes},
+    {id: 'evaluation', index: '05', title: copy.evaluation},
+    {id: 'sources', index: '06', title: copy.sources},
+  ];
 
   return (
     <Layout title={copy.title} description={copy.description}>
@@ -189,8 +256,31 @@ export default function AlgorithmBoardPage(): React.ReactElement {
             </div>
           </header>
 
+          <section className={styles.readingGuide} aria-labelledby="map-reading-guide">
+            <div className={styles.guideSummary}>
+              <span><Map size={15} /> {copy.guideEyebrow}</span>
+              <h2 id="map-reading-guide">{copy.guideTitle}</h2>
+              <p>{copy.guideIntro}</p>
+              <ol>
+                {copy.guideQuestions.map((question) => <li key={question}>{question}</li>)}
+              </ol>
+            </div>
+            <nav className={styles.readingOrder} aria-label={copy.readingOrder}>
+              <strong>{copy.readingOrder}</strong>
+              <div>
+                {readingSteps.map((step) => (
+                  <a key={step.id} href={`#${step.id}`}>
+                    <span>{step.index}</span>
+                    <b>{step.title}</b>
+                    <ArrowRight size={13} />
+                  </a>
+                ))}
+              </div>
+            </nav>
+          </section>
+
           <section className={styles.section}>
-            <SectionHeading index="01" title={copy.architecture} lead={copy.architectureLead} />
+            <SectionHeading id="architecture" index="01" title={copy.architecture} lead={copy.architectureLead} guide={SECTION_GUIDES.architecture} lang={lang} />
             <figure className={styles.architectureFigure}>
               <img src={overviewFigure} alt={copy.architecture} />
               <figcaption>
@@ -202,7 +292,7 @@ export default function AlgorithmBoardPage(): React.ReactElement {
           </section>
 
           <section className={styles.section}>
-            <SectionHeading index="02" title={copy.universal} />
+            <SectionHeading id="universal" index="02" title={copy.universal} guide={SECTION_GUIDES.universal} lang={lang} />
             <div className={styles.constraintStrip}>
               {constraints.map((item) => {
                 const Icon = item.icon;
@@ -218,7 +308,7 @@ export default function AlgorithmBoardPage(): React.ReactElement {
           </section>
 
           <section className={styles.section}>
-            <SectionHeading index="03" title={copy.families} lead={copy.familiesLead} />
+            <SectionHeading id="families" index="03" title={copy.families} lead={copy.familiesLead} guide={SECTION_GUIDES.families} lang={lang} />
             <div className={styles.familyMatrix}>
               <div className={styles.familyHeader}>
                 <span>{lang === 'zh' ? '家族' : 'Family'}</span>
@@ -248,7 +338,7 @@ export default function AlgorithmBoardPage(): React.ReactElement {
           </section>
 
           <section className={styles.section}>
-            <SectionHeading index="04" title={copy.routes} lead={copy.routesLead} />
+            <SectionHeading id="routes" index="04" title={copy.routes} lead={copy.routesLead} guide={SECTION_GUIDES.routes} lang={lang} />
             <div className={styles.routeList}>
               {compressorRoutes.map((route) => (
                 <article key={route.slug} className={styles.routeRow}>
@@ -275,7 +365,7 @@ export default function AlgorithmBoardPage(): React.ReactElement {
           </section>
 
           <section className={styles.section}>
-            <SectionHeading index="05" title={copy.evaluation} lead={copy.evaluationLead} />
+            <SectionHeading id="evaluation" index="05" title={copy.evaluation} lead={copy.evaluationLead} guide={SECTION_GUIDES.evaluation} lang={lang} />
             <div className={styles.evaluationLayout}>
               <div className={styles.evaluationTable}>
                 <div className={styles.evaluationHeader}><span>{copy.metric}</span><span>{copy.report}</span></div>
@@ -300,7 +390,7 @@ export default function AlgorithmBoardPage(): React.ReactElement {
           </section>
 
           <section className={`${styles.section} ${styles.sourceSection}`}>
-            <SectionHeading index="06" title={copy.sources} lead={copy.sourcesLead} />
+            <SectionHeading id="sources" index="06" title={copy.sources} lead={copy.sourcesLead} guide={SECTION_GUIDES.sources} lang={lang} />
             <div className={styles.sourceLayout}>
               <div className={styles.sourceList}>
                 {sourceRefs.map((source, index) => (
@@ -329,11 +419,43 @@ export default function AlgorithmBoardPage(): React.ReactElement {
   );
 }
 
-function SectionHeading({index, title, lead}: {index: string; title: string; lead?: string}): React.ReactElement {
+function SectionHeading({
+  id,
+  index,
+  title,
+  lead,
+  guide,
+  lang,
+}: {
+  id: string;
+  index: string;
+  title: string;
+  lead?: string;
+  guide: SectionGuide;
+  lang: Lang;
+}): React.ReactElement {
   return (
-    <header className={styles.sectionHeading}>
+    <header id={id} className={styles.sectionHeading}>
       <span>{index}</span>
-      <div><h2>{title}</h2>{lead ? <p>{lead}</p> : null}</div>
+      <div>
+        <div className={styles.headingLinkWrap}>
+          <h2>
+            <a href={`#${id}`} aria-describedby={`${id}-guide`}>
+              {title}<Link2 size={15} />
+            </a>
+          </h2>
+          <aside id={`${id}-guide`} className={styles.sectionGuide} role="tooltip">
+            <div><Info size={15} /><strong>{lang === 'zh' ? '章节作用' : 'Purpose'}</strong></div>
+            <p>{pick(guide.purpose, lang)}</p>
+            <dl>
+              <div><dt>{lang === 'zh' ? '下面包含' : 'Contains'}</dt><dd>{pick(guide.contents, lang)}</dd></div>
+              <div><dt>{lang === 'zh' ? '前后联系' : 'Connection'}</dt><dd>{pick(guide.connection, lang)}</dd></div>
+              <div><dt>{lang === 'zh' ? '全页位置' : 'Position'}</dt><dd>{pick(guide.position, lang)}</dd></div>
+            </dl>
+          </aside>
+        </div>
+        {lead ? <p>{lead}</p> : null}
+      </div>
     </header>
   );
 }

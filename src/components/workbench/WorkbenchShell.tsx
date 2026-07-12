@@ -8,6 +8,7 @@ import {
   Boxes,
   Brain,
   CalendarDays,
+  ChevronDown,
   ClipboardList,
   Database,
   FileText,
@@ -29,7 +30,6 @@ import {
   Trophy,
   X,
 } from 'lucide-react';
-import ThemeSwitcher from '../ThemeSwitcher';
 import CommandPalette from './CommandPalette';
 import styles from './WorkbenchShell.module.css';
 
@@ -118,11 +118,9 @@ const SECONDARY_NAV: Array<{zh: string; en: string; items: NavItem[]}> = [
 const COPY = {
   zh: {
     name: '无损压缩研究',
-    field: '文献 · 数据集 · 实验 · 汇报',
     search: '搜索',
     searchLong: '搜索论文、算法与页面',
     directory: '研究索引',
-    directoryDesc: '全部研究资料与项目页面',
     collapseDirectory: '收起研究索引',
     expandDirectory: '展开研究索引',
     openMenu: '打开导航',
@@ -132,11 +130,9 @@ const COPY = {
   },
   en: {
     name: 'Lossless Compression',
-    field: 'Literature · Data · Experiments',
     search: 'Search',
     searchLong: 'Search papers, algorithms, and pages',
     directory: 'Research index',
-    directoryDesc: 'All research material and project pages',
     collapseDirectory: 'Collapse research index',
     expandDirectory: 'Expand research index',
     openMenu: 'Open navigation',
@@ -162,12 +158,27 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
   const baseUrl = stripLocaleFromBaseUrl(siteConfig.baseUrl);
   const pathWithoutBase = stripBasePath(location.pathname, baseUrl);
   const normalizedPath = stripLocalePrefix(pathWithoutBase);
+
+  const isActive = (item: NavItem): boolean => {
+    if (item.to === '/') return normalizedPath === '/' || normalizedPath === '';
+    const paths = item.matches ?? [item.to];
+    return paths.some((path) => normalizedPath === path || normalizedPath.startsWith(`${path}/`));
+  };
+
+  const isPrimaryActive = (item: NavItem): boolean => {
+    if (item.to === '/') return normalizedPath === '/' || normalizedPath === '';
+    return normalizedPath === item.to;
+  };
+
+  const activeIndexGroup = SECONDARY_NAV.find((group) => group.items.some(isActive));
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [indexCollapsed, setIndexCollapsed] = React.useState(false);
+  const [openIndexGroup, setOpenIndexGroup] = React.useState(activeIndexGroup?.zh ?? SECONDARY_NAV[0].zh);
 
   React.useEffect(() => {
     setMobileOpen(false);
-  }, [location.pathname]);
+    if (activeIndexGroup) setOpenIndexGroup(activeIndexGroup.zh);
+  }, [activeIndexGroup?.zh, location.pathname]);
 
   React.useEffect(() => {
     setIndexCollapsed(window.localStorage.getItem('cr-research-index-collapsed') === 'true');
@@ -181,12 +192,6 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
     });
   };
 
-  const isActive = (item: NavItem): boolean => {
-    if (item.to === '/') return normalizedPath === '/' || normalizedPath === '';
-    const paths = item.matches ?? [item.to];
-    return paths.some((path) => normalizedPath === path || normalizedPath.startsWith(`${path}/`));
-  };
-
   const localePath = lang === 'en' ? normalizedPath : addEnglishPrefix(normalizedPath);
   const localeTarget = `${withBasePath(localePath, baseUrl)}${location.search}${location.hash}`;
 
@@ -198,16 +203,18 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
             <span className={styles.brandMark}>LC</span>
             <span className={styles.brandText}>
               <strong>{copy.name}</strong>
-              <span>{copy.field}</span>
             </span>
           </Link>
 
           <nav className={styles.desktopNav} aria-label={copy.primaryNav}>
-            {PRIMARY_NAV.map((item) => (
-              <Link key={item.to} to={item.to} data-active={isActive(item)}>
-                {lang === 'zh' ? item.zh : item.en}
-              </Link>
-            ))}
+            {PRIMARY_NAV.map((item) => {
+              const active = isPrimaryActive(item);
+              return (
+                <Link key={item.to} to={item.to} data-active={active} aria-current={active ? 'page' : undefined}>
+                  {lang === 'zh' ? item.zh : item.en}
+                </Link>
+              );
+            })}
           </nav>
 
           <div className={styles.headerActions}>
@@ -223,7 +230,6 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
               <kbd>Ctrl K</kbd>
             </button>
 
-            <ThemeSwitcher />
             <a href={localeTarget} className={styles.localeButton} title={copy.switchLocale} aria-label={copy.switchLocale}>
               <Globe2 size={16} />
               <span>{lang === 'zh' ? 'EN' : '中'}</span>
@@ -237,37 +243,48 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
 
       <aside className={styles.researchIndex} aria-label={copy.directory}>
         <header>
-          <div>
+          <div className={styles.indexIdentity}>
+            <span className={styles.indexMark}><Network size={14} /></span>
             <strong>{copy.directory}</strong>
-            <span>{copy.directoryDesc}</span>
           </div>
           <button type="button" onClick={toggleIndex} aria-label={indexCollapsed ? copy.expandDirectory : copy.collapseDirectory} title={indexCollapsed ? copy.expandDirectory : copy.collapseDirectory}>
             {indexCollapsed ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
           </button>
         </header>
         <div className={styles.indexGroups}>
-          {SECONDARY_NAV.map((group) => (
-            <section key={group.zh}>
-              <h2>{lang === 'zh' ? group.zh : group.en}</h2>
-              <div>
-                {group.items.map((item) => {
-                  const Icon = item.icon;
-                  const label = lang === 'zh' ? item.zh : item.en;
-                  return (
-                    <Link key={item.to} to={item.to} data-active={isActive(item)} title={label}>
-                      <Icon size={16} />
-                      <span>{label}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-            </section>
-          ))}
+          {SECONDARY_NAV.map((group) => {
+            const groupActive = group.items.some(isActive);
+            const groupOpen = openIndexGroup === group.zh;
+            return (
+              <section key={group.zh} data-active={groupActive}>
+                <button
+                  type="button"
+                  className={styles.groupTrigger}
+                  aria-expanded={groupOpen}
+                  onClick={() => setOpenIndexGroup(group.zh)}
+                >
+                  <span>{lang === 'zh' ? group.zh : group.en}</span>
+                  <ChevronDown size={14} />
+                </button>
+                <div className={styles.groupItems} data-open={groupOpen}>
+                  <div>
+                    {group.items.map((item) => {
+                      const Icon = item.icon;
+                      const label = lang === 'zh' ? item.zh : item.en;
+                      const active = isActive(item);
+                      return (
+                        <Link key={item.to} to={item.to} data-active={active} aria-current={active ? 'page' : undefined} title={label}>
+                          <Icon size={16} />
+                          <span>{label}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              </section>
+            );
+          })}
         </div>
-        <footer>
-          <span>{SECONDARY_NAV.reduce((sum, group) => sum + group.items.length, 0)}</span>
-          <small>{lang === 'zh' ? '个研究入口' : 'research entries'}</small>
-        </footer>
       </aside>
 
       {mobileOpen ? (
@@ -275,8 +292,9 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
           <nav aria-label={copy.primaryNav}>
             {PRIMARY_NAV.map((item) => {
               const Icon = item.icon;
+              const active = isPrimaryActive(item);
               return (
-                <Link key={item.to} to={item.to} data-active={isActive(item)}>
+                <Link key={item.to} to={item.to} data-active={active} aria-current={active ? 'page' : undefined}>
                   <Icon size={17} />
                   <span>{lang === 'zh' ? item.zh : item.en}</span>
                 </Link>
@@ -287,9 +305,14 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
             {SECONDARY_NAV.map((group) => (
               <section key={group.zh}>
                 <h2>{lang === 'zh' ? group.zh : group.en}</h2>
-                {group.items.map((item) => (
-                  <Link key={item.to} to={item.to}>{lang === 'zh' ? item.zh : item.en}</Link>
-                ))}
+                {group.items.map((item) => {
+                  const active = isActive(item);
+                  return (
+                    <Link key={item.to} to={item.to} data-active={active} aria-current={active ? 'page' : undefined}>
+                      {lang === 'zh' ? item.zh : item.en}
+                    </Link>
+                  );
+                })}
               </section>
             ))}
           </div>

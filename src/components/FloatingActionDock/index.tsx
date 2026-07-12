@@ -2,7 +2,6 @@ import React, {useMemo} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useLocation} from '@docusaurus/router';
 import {ArrowUp, Globe2, Search} from 'lucide-react';
-import ThemeSwitcher from '../ThemeSwitcher';
 import styles from './styles.module.css';
 
 type Lang = 'zh' | 'en';
@@ -64,14 +63,12 @@ export default function FloatingActionDock(): React.ReactElement {
   const copy = lang === 'zh'
     ? {
         search: '搜索',
-        theme: '主题',
         language: '切换到英文',
         top: '返回顶部',
         localeBadge: 'EN',
       }
     : {
         search: 'Search',
-        theme: 'Theme',
         language: 'Switch to Chinese',
         top: 'Back to top',
         localeBadge: 'ZH',
@@ -83,10 +80,6 @@ export default function FloatingActionDock(): React.ReactElement {
         <Search size={18} />
         <span>{copy.search}</span>
       </button>
-
-      <div className={styles.themeSlot} title={copy.theme} aria-label={copy.theme}>
-        <ThemeSwitcher />
-      </div>
 
       <a className={styles.actionButton} href={localeTarget} title={copy.language} aria-label={copy.language}>
         <Globe2 size={18} />

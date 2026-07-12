@@ -73,7 +73,7 @@ const config: Config = {
         src: 'img/logo.svg',
       },
       items: [
-        { to: '/', label: '今日总览', position: 'left' },
+        { to: '/', label: '今日总览', position: 'left', activeBaseRegex: '^/$' },
         { to: '/library', label: '文献库', position: 'left' },
         { to: '/sota', label: 'SOTA', position: 'left' },
         { to: '/datasets', label: '数据集', position: 'left' },
@@ -105,11 +105,6 @@ const config: Config = {
           ],
         },
         { to: '/docs/intro', label: '关于', position: 'right' },
-        {
-          type: 'html',
-          position: 'right',
-          value: '<div id="cr-theme-switcher-slot"></div>',
-        },
         {
           type: 'html',
           value: '<button class="navbar-search-btn" aria-label="Search" onclick="window.__openCommandPalette__ && window.__openCommandPalette__()">🔍 <kbd>⌘K</kbd></button>',

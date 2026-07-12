@@ -36,7 +36,6 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import {
-  EvidenceBadge,
   MetricTile,
   ResearchPanel,
   StatusPill,
@@ -88,6 +87,14 @@ const GRAPH_TOP = 92;
 const GRAPH_ROW = 184;
 const GRAPH_HEIGHT = GRAPH_TOP + evolutionLanes.length * GRAPH_ROW + 54;
 const NODE_WIDTH = 146;
+const KIND_DEPTH: Record<EvolutionNode['kind'], string> = {
+  idea: '8%',
+  algorithm: '14%',
+  format: '18%',
+  codec: '22%',
+  model: '26%',
+  standard: '20%',
+};
 const GRAPH_STRETCH = {
   fit: 1,
   wide: 1.32,
@@ -189,6 +196,32 @@ function getRelation(from: string, to: string): EvolutionRelation | undefined {
   return evolutionRelations.find((relation) => relation.from === from && relation.to === to);
 }
 
+function collectLineageIds(selectedId: string, relations: readonly EvolutionRelation[]): Set<string> {
+  const ancestors = new Set<string>([selectedId]);
+  const descendants = new Set<string>([selectedId]);
+  let ancestorChanged = true;
+  while (ancestorChanged) {
+    ancestorChanged = false;
+    for (const relation of relations) {
+      if (ancestors.has(relation.to) && !ancestors.has(relation.from)) {
+        ancestors.add(relation.from);
+        ancestorChanged = true;
+      }
+    }
+  }
+  let descendantChanged = true;
+  while (descendantChanged) {
+    descendantChanged = false;
+    for (const relation of relations) {
+      if (descendants.has(relation.from) && !descendants.has(relation.to)) {
+        descendants.add(relation.to);
+        descendantChanged = true;
+      }
+    }
+  }
+  return new Set([...ancestors, ...descendants]);
+}
+
 function parseEraYears(years: string): [number, number] {
   const matches = years.match(/\d{4}/g)?.map(Number);
   return [matches?.[0] ?? 0, matches?.[1] ?? matches?.[0] ?? 0];
@@ -281,16 +314,6 @@ export default function AlgorithmEvolutionPage(): React.ReactElement {
               <p>
                 以年份为横轴、技术域为纵轴，呈现压缩算法从信息论、字典匹配、可逆变换、上下文建模到学习式压缩的主干关系。
               </p>
-              <div className={styles.heroMeta}>
-                <span>Scope · 通用无损主干</span>
-                <span>Coverage · {evolutionNodes.length} nodes / {evolutionRelations.length} relations</span>
-                <span>Use case · 研究规划 / 方案评审</span>
-              </div>
-            </div>
-            <div className={styles.heroBrief}>
-              <span>Coverage Policy</span>
-              <strong>Curated lineage atlas.</strong>
-              <p>节点按技术影响力、工程采用度与研究代表性筛选；取舍矩阵为定性研判，正式 benchmark 需绑定数据集、参数与硬件环境。</p>
             </div>
           </section>
 
@@ -362,24 +385,6 @@ export default function AlgorithmEvolutionPage(): React.ReactElement {
                 </button>
               </div>
             </div>
-            <div className={styles.readingProtocol}>
-              <div>
-                <span>Time Axis</span>
-                <strong>年份表示首次提出或形成工程影响的时间点。</strong>
-              </div>
-              <div>
-                <span>Technical Track</span>
-                <strong>纵向技术域区分理论、熵编码、字典、变换、上下文建模、工程格式和学习式路线。</strong>
-              </div>
-              <div>
-                <span>Lineage Edge</span>
-                <strong>连线表示继承、组合或关键改进，标签记录改进动力和工程收益。</strong>
-              </div>
-              <div>
-                <span>Detail Panel</span>
-                <strong>右侧面板用于核对算法角色、适用场景、影响节点和原始来源。</strong>
-              </div>
-            </div>
           </ResearchPanel>
 
           <div className={styles.workspace}>
@@ -390,7 +395,6 @@ export default function AlgorithmEvolutionPage(): React.ReactElement {
                   <h2>{activeView.label}</h2>
                 </div>
                 <div className={styles.surfaceHeaderActions}>
-                  <EvidenceBadge type="curated">Curated Atlas</EvidenceBadge>
                   {view === 'roadmap' ? (
                     <Button
                       type="button"
@@ -444,7 +448,6 @@ export default function AlgorithmEvolutionPage(): React.ReactElement {
                       <h2>{activeView.label}</h2>
                     </div>
                     <div className={styles.surfaceHeaderActions}>
-                      <EvidenceBadge type="curated">Curated Atlas</EvidenceBadge>
                       <Button
                         type="button"
                         variant="outline"
@@ -544,15 +547,24 @@ function RoadmapView({
     if (relation.from === selectedId) focusedIds.add(relation.to);
     if (relation.to === selectedId) focusedIds.add(relation.from);
   }
+  const lineageIds = collectLineageIds(selectedId, relations);
+
+  React.useEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    const node = scroller.querySelector<HTMLElement>(`[data-node-id="${CSS.escape(selectedId)}"]`);
+    if (!node) return;
+    const left = node.offsetLeft - scroller.clientWidth * 0.46;
+    const top = node.offsetTop - scroller.clientHeight * 0.46;
+    scroller.scrollTo({left: Math.max(0, left), top: Math.max(0, top), behavior: 'smooth'});
+  }, [graphWidth, selectedId]);
 
   return (
     <div className={styles.roadmapScroller} ref={scrollerRef}>
       <div className={styles.roadmapNote}>
         <strong>{scope === 'core' ? '核心主干视图' : '全部节点视图'}</strong>
         <span>
-          {scope === 'core'
-            ? '保留主干节点与关键关系,用于呈现压缩技术从理论、字典、变换、上下文建模到学习式方法的历史递进。'
-            : '展示全量节点与关系,用于收录核对、分支定位和路线补全。'}
+          点击算法聚焦完整上下游改进路径；其他节点自动降灰，路径会以流线方式高亮。
         </span>
         <div className={styles.roadmapScaleControls} aria-label="历史主线宽度">
           {([
@@ -641,6 +653,7 @@ function RoadmapView({
             const lane = getEvolutionLane(relation.route);
             const key = `${relation.from}-${relation.to}`;
             const focused = relation.from === selectedId || relation.to === selectedId;
+            const inLineage = lineageIds.has(relation.from) && lineageIds.has(relation.to);
             const showLabel = focused || (scope === 'core' && CORE_RELATION_LABELS.has(key));
             const dx = Math.max(80, Math.abs(to.x - from.x));
             const c1 = from.x + dx * 0.42;
@@ -649,7 +662,12 @@ function RoadmapView({
             return (
               <g key={`${relation.from}-${relation.to}`}>
                 <path
-                  className={cx(styles.relationPath, focused && styles.relationPathFocus)}
+                  className={cx(
+                    styles.relationPath,
+                    inLineage && styles.relationPathLineage,
+                    focused && styles.relationPathFocus,
+                    !inLineage && styles.relationPathMuted,
+                  )}
                   d={path}
                   stroke={lane.color}
                   markerEnd={`url(#arrow-${lane.id})`}
@@ -657,6 +675,7 @@ function RoadmapView({
                 {showLabel ? (
                   <text
                     className={cx(styles.relationText, focused && styles.relationTextFocus)}
+                    data-muted={!inLineage}
                     x={(from.x + to.x) / 2}
                     y={(from.y + to.y) / 2 - 8}
                     textAnchor="middle"
@@ -674,6 +693,7 @@ function RoadmapView({
           if (!position) return null;
           const lane = getEvolutionLane(node.lane);
           const related = relations.some((relation) => relation.from === node.id || relation.to === node.id);
+          const inLineage = lineageIds.has(node.id);
           return (
             <button
               key={node.id}
@@ -682,14 +702,19 @@ function RoadmapView({
                 styles.roadmapNode,
                 node.id === selectedId && styles.roadmapNodeActive,
                 focusedIds.has(node.id) && styles.roadmapNodeFocus,
+                inLineage && styles.roadmapNodeLineage,
+                !inLineage && styles.roadmapNodeDim,
                 related && styles.roadmapNodeLinked,
               )}
+              data-node-id={node.id}
+              data-kind={node.kind}
               onClick={() => onSelect(node.id)}
               style={{
                 left: position.x,
                 top: position.y,
                 '--lane-color': lane.color,
                 '--lane-soft': lane.soft,
+                '--node-depth': KIND_DEPTH[node.kind],
               } as React.CSSProperties}
               title={`${node.title}: ${node.role}`}
             >
@@ -963,6 +988,8 @@ function DetailPanel({
   const stage = getPipelineStage(selected.stage);
   const outgoing = evolutionRelations.filter((relation) => relation.from === selected.id);
   const incoming = evolutionRelations.filter((relation) => relation.to === selected.id);
+  const primaryIncoming = incoming[0];
+  const predecessor = primaryIncoming ? getEvolutionNode(primaryIncoming.from) : undefined;
   const fallbackInfluences = knownInfluences(selected).filter(
     (node) => !outgoing.some((relation) => relation.to === node.id),
   );
@@ -979,6 +1006,20 @@ function DetailPanel({
       </div>
       <h3>{selected.title}</h3>
       <p className={styles.detailSub}>{selected.subtitle}</p>
+
+      {primaryIncoming && predecessor ? (
+        <div className={styles.comparisonCard}>
+          <span>相对上一代的改进</span>
+          <strong>{predecessor.title} <ArrowRight size={13} /> {selected.title}</strong>
+          <p>{primaryIncoming.improvement ?? primaryIncoming.label}</p>
+          {primaryIncoming.driver ? <em>{primaryIncoming.driver}</em> : null}
+        </div>
+      ) : (
+        <div className={styles.originCard}>
+          <span>路线起点</span>
+          <p>该节点作为当前技术路线的理论或工程起点，没有更早的直接前驱记录。</p>
+        </div>
+      )}
 
       <div className={styles.detailBlock}>
         <strong>Function</strong>

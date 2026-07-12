@@ -6,7 +6,7 @@
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.42fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   align-items: end;
   padding: 20px;
@@ -324,6 +324,7 @@
 }
 
 .roadmapScroller {
+  max-height: min(68vh, 720px);
   overflow: auto;
   background:
     linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
@@ -334,6 +335,7 @@
 
 .mapSurfaceFullscreen .roadmapScroller {
   flex: 1 1 auto;
+  max-height: none;
   min-height: 0;
 }
 
@@ -542,11 +544,26 @@
   stroke-width: 2;
   stroke-linecap: round;
   stroke-opacity: 0.18;
+  transition: stroke-opacity 220ms ease, stroke-width 220ms ease, filter 220ms ease;
 }
 
 .relationPathFocus {
   stroke-width: 3;
   stroke-opacity: 0.76;
+}
+
+.relationPathLineage {
+  stroke-width: 3;
+  stroke-opacity: 0.86;
+  stroke-dasharray: 10 8;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--cr-accent) 28%, transparent));
+  animation: lineageFlow 1.2s linear infinite;
+}
+
+.relationPathMuted {
+  stroke: #98a2b3 !important;
+  stroke-opacity: 0.10;
+  filter: grayscale(1);
 }
 
 .relationText {
@@ -563,6 +580,11 @@
   font-size: 11px;
 }
 
+.relationText[data-muted='true'] {
+  fill: #98a2b3;
+  opacity: 0.34;
+}
+
 .roadmapNode {
   position: absolute;
   z-index: 3;
@@ -576,7 +598,7 @@
   border-left: 3px solid var(--lane-color);
   border-radius: 7px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.78)),
+    linear-gradient(180deg, color-mix(in srgb, var(--cr-card-bg) 88%, transparent), color-mix(in srgb, var(--lane-color) var(--node-depth), var(--cr-card-bg))),
     var(--lane-soft);
   color: var(--cr-text-primary);
   cursor: pointer;
@@ -596,6 +618,16 @@
 
 .roadmapNodeFocus {
   box-shadow: 0 0 0 4px var(--lane-soft);
+}
+
+.roadmapNodeLineage {
+  border-color: var(--lane-color);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--lane-color) 18%, transparent), 0 10px 24px rgba(15, 23, 42, 0.12);
+}
+
+.roadmapNodeDim {
+  filter: grayscale(1);
+  opacity: 0.38;
 }
 
 .roadmapNodeLinked {
@@ -1213,6 +1245,51 @@
   font-size: 13px;
 }
 
+.comparisonCard,
+.originCard {
+  display: grid;
+  gap: 6px;
+  margin-top: 14px;
+  padding: 11px 12px;
+  border: 1px solid color-mix(in srgb, var(--lane-color) 28%, var(--cr-border-color));
+  border-left: 3px solid var(--lane-color);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--lane-soft) 55%, var(--cr-card-bg));
+}
+
+.comparisonCard > span,
+.originCard > span {
+  color: var(--lane-color);
+  font-size: 10px;
+  font-weight: 820;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.comparisonCard > strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--cr-text-primary);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.comparisonCard p,
+.originCard p {
+  margin: 0;
+  color: var(--cr-text-secondary);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.comparisonCard em {
+  color: var(--cr-text-muted);
+  font-size: 11px;
+  font-style: normal;
+  line-height: 1.5;
+}
+
 .detailBlock {
   margin-top: 15px;
 }
@@ -1372,6 +1449,10 @@
 
 .scoreOn {
   background: var(--lane-color, var(--cr-accent)) !important;
+}
+
+@keyframes lineageFlow {
+  to { stroke-dashoffset: -36; }
 }
 
 .emptyInline {
