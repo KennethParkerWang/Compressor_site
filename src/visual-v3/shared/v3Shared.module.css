@@ -1,0 +1,38 @@
+.v3Html { scroll-behavior: smooth; }
+.v3Root { min-height: 100vh; color: #17201d; background: #f4f5f2; font-family: Inter, "Noto Sans SC", system-ui, sans-serif; letter-spacing: 0; }
+.v3Root *, .v3Root *::before, .v3Root *::after { box-sizing: border-box; }
+.v3Root button, .v3Root input { font: inherit; letter-spacing: 0; }
+.v3Root a { color: inherit; text-decoration: none; }
+.areaSwitcher { display: inline-flex; align-items: stretch; gap: 2px; padding: 3px; background: rgba(12,20,18,.82); border: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(16px); }
+.areaSwitcher a { display: flex; align-items: center; gap: 9px; min-width: 112px; padding: 8px 12px; color: rgba(255,255,255,.66); transition: 160ms ease; }
+.areaSwitcher a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.areaSwitcher a[data-active="true"] { color: #111b18; background: #d8f15a; }
+.areaSwitcher span { display: grid; line-height: 1.12; }
+.areaSwitcher b { font-size: 12px; font-weight: 720; }
+.areaSwitcher small { margin-top: 3px; font-size: 9px; opacity: .66; }
+.areaSwitcher[data-compact="true"] a { min-width: 0; }
+.commandTrigger { position: fixed; right: 18px; bottom: 18px; z-index: 90; display: flex; gap: 18px; align-items: center; border: 1px solid rgba(255,255,255,.18); background: #111a18; color: #f7faf8; padding: 10px 12px; box-shadow: 0 12px 40px rgba(0,0,0,.22); cursor: pointer; }
+.commandTrigger span { font-size: 12px; }
+.commandTrigger kbd { color: #aeb9b5; font: 10px ui-monospace, monospace; }
+.commandBackdrop { position: fixed; inset: 0; z-index: 200; display: grid; place-items: start center; padding-top: min(16vh, 160px); background: rgba(5,9,8,.58); backdrop-filter: blur(8px); }
+.commandPanel { width: min(680px, calc(100vw - 30px)); max-height: min(620px, 72vh); overflow: hidden; color: #17201d; background: #fbfcf9; border: 1px solid #b9c3be; box-shadow: 0 35px 90px rgba(0,0,0,.3); }
+.commandInput { height: 60px; display: flex; align-items: center; gap: 12px; padding: 0 16px; border-bottom: 1px solid #d9dfdb; }
+.commandInput input { flex: 1; height: 100%; border: 0; outline: 0; background: transparent; color: #101815; font-size: 15px; }
+.commandInput button { border: 0; background: transparent; cursor: pointer; color: #6c7772; }
+.commandPanel [cmdk-list] { max-height: 450px; overflow: auto; padding: 8px; }
+.commandPanel [cmdk-group-heading] { padding: 10px 10px 6px; color: #73807a; font: 10px ui-monospace, monospace; text-transform: uppercase; }
+.commandPanel [cmdk-item] { display: grid; grid-template-columns: 24px 1fr auto; align-items: center; gap: 10px; min-height: 56px; padding: 8px 10px; cursor: pointer; }
+.commandPanel [cmdk-item][data-selected="true"] { background: #e5eed6; }
+.commandPanel [cmdk-item] span { display: grid; min-width: 0; }
+.commandPanel [cmdk-item] b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+.commandPanel [cmdk-item] small { margin-top: 3px; color: #77817d; font-size: 10px; }
+.commandPanel [cmdk-item] em { color: #52605a; font: normal 9px ui-monospace, monospace; }
+.commandEmpty { padding: 40px; text-align: center; color: #727e79; }
+.commandPanel footer { display: flex; gap: 18px; padding: 9px 16px; border-top: 1px solid #e0e5e2; color: #7b8581; font: 9px ui-monospace, monospace; }
+@media (max-width: 700px) {
+  .areaSwitcher a { min-width: 0; padding: 8px 10px; }
+  .areaSwitcher small { display: none; }
+  .commandTrigger span { display: none; }
+  .commandTrigger { gap: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .v3Html { scroll-behavior: auto; } .v3Root * { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
