@@ -18,7 +18,8 @@
     "lint:tutorial-refs": "node scripts/lint-tutorial-refs.mjs",
     "new-tutorial": "node scripts/new-tutorial.mjs",
     "audit:no-fab": "node scripts/audit-no-fabrication.mjs",
-    "tutorial:progress": "node scripts/tutorial-progress.mjs"
+    "tutorial:progress": "node scripts/tutorial-progress.mjs",
+    "verify:v3": "node scripts/verify-v3.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.1",
