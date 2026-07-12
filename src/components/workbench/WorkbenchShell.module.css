@@ -330,8 +330,198 @@
   text-decoration: none;
 }
 
+.researchIndex {
+  position: fixed;
+  top: 92px;
+  bottom: 16px;
+  left: 16px;
+  z-index: 80;
+  display: flex;
+  width: 220px;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--cr-border-strong-color);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--cr-card-bg) 97%, transparent);
+  box-shadow: 0 18px 44px rgba(16, 24, 40, 0.12);
+  backdrop-filter: blur(16px);
+  transition: width 160ms ease;
+}
+
+.researchIndex > header {
+  display: grid;
+  min-height: 64px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-bottom: 1px solid var(--cr-border-color);
+  background: var(--cr-surface);
+}
+
+.researchIndex > header > div {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.researchIndex > header strong {
+  color: var(--cr-text-primary);
+  font-size: 13px;
+  font-weight: 760;
+  white-space: nowrap;
+}
+
+.researchIndex > header span {
+  overflow: hidden;
+  color: var(--cr-text-muted);
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.researchIndex > header button {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--cr-border-color);
+  border-radius: 4px;
+  background: var(--cr-card-bg);
+  color: var(--cr-text-secondary);
+  cursor: pointer;
+}
+
+.researchIndex > header button:hover {
+  color: var(--cr-accent);
+}
+
+.indexGroups {
+  display: grid;
+  min-height: 0;
+  gap: 18px;
+  overflow-y: auto;
+  padding: 16px 10px;
+  scrollbar-width: thin;
+}
+
+.indexGroups section {
+  display: grid;
+  gap: 5px;
+}
+
+.indexGroups h2 {
+  margin: 0 8px 4px;
+  color: var(--cr-text-faint);
+  font-size: 9px;
+  font-weight: 760;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.indexGroups section > div {
+  display: grid;
+  gap: 2px;
+}
+
+.indexGroups a {
+  position: relative;
+  display: grid;
+  min-height: 36px;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: center;
+  gap: 7px;
+  padding: 0 8px;
+  border-left: 2px solid transparent;
+  border-radius: 3px;
+  color: var(--cr-text-secondary);
+  font-size: 11px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.indexGroups a:hover {
+  background: var(--cr-surface);
+  color: var(--cr-text-primary);
+  text-decoration: none;
+}
+
+.indexGroups a[data-active='true'] {
+  border-left-color: var(--cr-accent);
+  background: var(--cr-accent-soft);
+  color: var(--cr-accent);
+}
+
+.indexGroups a span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.researchIndex > footer {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--cr-border-color);
+  color: var(--cr-text-muted);
+}
+
+.researchIndex > footer span {
+  color: var(--cr-text-primary);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 12px;
+  font-weight: 720;
+}
+
+.researchIndex > footer small {
+  font-size: 9px;
+}
+
+.shell[data-index-collapsed='true'] .researchIndex {
+  width: 58px;
+}
+
+.shell[data-index-collapsed='true'] .researchIndex > header {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  padding-inline: 8px;
+}
+
+.shell[data-index-collapsed='true'] .researchIndex > header > div,
+.shell[data-index-collapsed='true'] .indexGroups h2,
+.shell[data-index-collapsed='true'] .indexGroups a span,
+.shell[data-index-collapsed='true'] .researchIndex > footer small {
+  display: none;
+}
+
+.shell[data-index-collapsed='true'] .indexGroups {
+  gap: 10px;
+  padding-inline: 7px;
+}
+
+.shell[data-index-collapsed='true'] .indexGroups a {
+  min-height: 38px;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  padding: 0;
+}
+
+.shell[data-index-collapsed='true'] .researchIndex > footer {
+  justify-content: center;
+  padding-inline: 4px;
+}
+
 .main {
   min-width: 0;
+  margin-left: 252px;
+  transition: margin-left 160ms ease;
+}
+
+.shell[data-index-collapsed='true'] .main {
+  margin-left: 90px;
 }
 
 .content {
@@ -384,6 +574,18 @@
   .directoryButton svg:last-child {
     display: none;
   }
+
+  .researchIndex {
+    width: 204px;
+  }
+
+  .main {
+    margin-left: 228px;
+  }
+
+  .shell[data-index-collapsed='true'] .main {
+    margin-left: 84px;
+  }
 }
 
 @media (max-width: 1040px) {
@@ -398,6 +600,15 @@
   .desktopNav,
   .directoryWrap {
     display: none;
+  }
+
+  .researchIndex {
+    display: none;
+  }
+
+  .main,
+  .shell[data-index-collapsed='true'] .main {
+    margin-left: 0;
   }
 
   .brand {

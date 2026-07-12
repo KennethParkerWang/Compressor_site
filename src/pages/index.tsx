@@ -20,10 +20,10 @@ type Lang = 'zh' | 'en';
 
 const COPY = {
   zh: {
-    layoutTitle: '无损压缩项目资料库',
+    layoutTitle: '项目说明与研究索引',
     description: '集中存放项目相关论文、压缩器资料、数据集、实验记录和双周汇报文件。',
-    eyebrow: '项目资料与进度',
-    title: '无损压缩项目资料库',
+    eyebrow: '项目说明',
+    title: '无损压缩研究项目',
     lede: '集中存放项目相关论文、压缩器资料、数据集、实验记录和双周汇报文件。页面只展示已经录入的内容；未完成的任务直接标记为待完成。',
     search: '搜索资料',
     library: '进入文献库',
@@ -95,10 +95,10 @@ const COPY = {
     footerNote: '页面数量来自当前仓库；没有录入的论文精读、数据集下载、复现和实验结果不会用示例内容补齐。',
   },
   en: {
-    layoutTitle: 'Lossless Compression Project Archive',
+    layoutTitle: 'Project Description and Research Index',
     description: 'Project papers, codec references, datasets, experiments, and biweekly briefing files.',
-    eyebrow: 'Project material and status',
-    title: 'Lossless Compression Project Archive',
+    eyebrow: 'Project description',
+    title: 'Lossless Compression Research Project',
     lede: 'A central place for project papers, codec references, datasets, experiment records, and biweekly briefing files. Only recorded material is shown; unfinished work is marked explicitly.',
     search: 'Search material',
     library: 'Open literature library',

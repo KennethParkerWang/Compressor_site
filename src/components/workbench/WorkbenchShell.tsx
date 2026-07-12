@@ -4,12 +4,10 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useLocation} from '@docusaurus/router';
 import {
   Archive,
-  BarChart3,
   BookOpen,
   Boxes,
   Brain,
   CalendarDays,
-  ChevronDown,
   ClipboardList,
   Database,
   FileText,
@@ -17,11 +15,12 @@ import {
   GitBranch,
   Globe2,
   GraduationCap,
-  LayoutGrid,
   Library,
   Menu,
   Network,
   NotebookPen,
+  PanelLeftClose,
+  PanelLeftOpen,
   Presentation,
   RadioTower,
   Search,
@@ -45,7 +44,7 @@ interface NavItem {
 }
 
 const PRIMARY_NAV: NavItem[] = [
-  {to: '/', zh: '研究总览', en: 'Overview', icon: BarChart3},
+  {to: '/', zh: '项目说明', en: 'Project', icon: FileText},
   {
     to: '/library',
     zh: '文献库',
@@ -110,7 +109,7 @@ const SECONDARY_NAV: Array<{zh: string; en: string; items: NavItem[]}> = [
       {to: '/tasks', zh: '任务', en: 'Tasks', icon: ClipboardList},
       {to: '/tutorials', zh: '教程资料', en: 'Tutorials', icon: GraduationCap},
       {to: '/hub', zh: '资源目录', en: 'Resources', icon: Library},
-      {to: '/project-overview', zh: '项目说明', en: 'Project', icon: FileText},
+      {to: '/project-overview', zh: '年度计划', en: 'Annual plan', icon: FileText},
       {to: '/settings', zh: '设置', en: 'Settings', icon: Settings},
     ],
   },
@@ -124,6 +123,8 @@ const COPY = {
     searchLong: '搜索论文、算法与页面',
     directory: '研究索引',
     directoryDesc: '全部研究资料与项目页面',
+    collapseDirectory: '收起研究索引',
+    expandDirectory: '展开研究索引',
     openMenu: '打开导航',
     closeMenu: '关闭导航',
     switchLocale: '切换到英文',
@@ -136,6 +137,8 @@ const COPY = {
     searchLong: 'Search papers, algorithms, and pages',
     directory: 'Research index',
     directoryDesc: 'All research material and project pages',
+    collapseDirectory: 'Collapse research index',
+    expandDirectory: 'Expand research index',
     openMenu: 'Open navigation',
     closeMenu: 'Close navigation',
     switchLocale: 'Switch to Chinese',
@@ -160,31 +163,23 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
   const pathWithoutBase = stripBasePath(location.pathname, baseUrl);
   const normalizedPath = stripLocalePrefix(pathWithoutBase);
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [directoryOpen, setDirectoryOpen] = React.useState(false);
-  const directoryRef = React.useRef<HTMLDivElement | null>(null);
+  const [indexCollapsed, setIndexCollapsed] = React.useState(false);
 
   React.useEffect(() => {
     setMobileOpen(false);
-    setDirectoryOpen(false);
   }, [location.pathname]);
 
   React.useEffect(() => {
-    if (!directoryOpen) return undefined;
+    setIndexCollapsed(window.localStorage.getItem('cr-research-index-collapsed') === 'true');
+  }, []);
 
-    const closeOnOutsideClick = (event: MouseEvent): void => {
-      if (directoryRef.current && !directoryRef.current.contains(event.target as Node)) setDirectoryOpen(false);
-    };
-    const closeOnEscape = (event: KeyboardEvent): void => {
-      if (event.key === 'Escape') setDirectoryOpen(false);
-    };
-
-    document.addEventListener('mousedown', closeOnOutsideClick);
-    document.addEventListener('keydown', closeOnEscape);
-    return () => {
-      document.removeEventListener('mousedown', closeOnOutsideClick);
-      document.removeEventListener('keydown', closeOnEscape);
-    };
-  }, [directoryOpen]);
+  const toggleIndex = (): void => {
+    setIndexCollapsed((value) => {
+      const next = !value;
+      window.localStorage.setItem('cr-research-index-collapsed', String(next));
+      return next;
+    });
+  };
 
   const isActive = (item: NavItem): boolean => {
     if (item.to === '/') return normalizedPath === '/' || normalizedPath === '';
@@ -196,7 +191,7 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
   const localeTarget = `${withBasePath(localePath, baseUrl)}${location.search}${location.hash}`;
 
   return (
-    <div className={styles.shell}>
+    <div className={styles.shell} data-index-collapsed={indexCollapsed}>
       <header className={styles.siteHeader}>
         <div className={styles.headerInner}>
           <Link to="/" className={styles.brand}>
@@ -228,50 +223,6 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
               <kbd>Ctrl K</kbd>
             </button>
 
-            <div className={styles.directoryWrap} ref={directoryRef}>
-              <button
-                type="button"
-                className={styles.directoryButton}
-                onClick={() => setDirectoryOpen((value) => !value)}
-                aria-expanded={directoryOpen}
-                title={copy.directory}
-              >
-                <LayoutGrid size={17} />
-                <span>{copy.directory}</span>
-                <ChevronDown size={14} />
-              </button>
-
-              {directoryOpen ? (
-                <div className={styles.directoryPanel}>
-                  <header>
-                    <div>
-                      <strong>{copy.directory}</strong>
-                      <span>{copy.directoryDesc}</span>
-                    </div>
-                    <span>{SECONDARY_NAV.reduce((sum, group) => sum + group.items.length, 0)}</span>
-                  </header>
-                  <div className={styles.directoryGrid}>
-                    {SECONDARY_NAV.map((group) => (
-                      <section key={group.zh}>
-                        <h2>{lang === 'zh' ? group.zh : group.en}</h2>
-                        <div>
-                          {group.items.map((item) => {
-                            const Icon = item.icon;
-                            return (
-                              <Link key={item.to} to={item.to} data-active={isActive(item)}>
-                                <Icon size={15} />
-                                <span>{lang === 'zh' ? item.zh : item.en}</span>
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      </section>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-            </div>
-
             <ThemeSwitcher />
             <a href={localeTarget} className={styles.localeButton} title={copy.switchLocale} aria-label={copy.switchLocale}>
               <Globe2 size={16} />
@@ -283,6 +234,41 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
           </div>
         </div>
       </header>
+
+      <aside className={styles.researchIndex} aria-label={copy.directory}>
+        <header>
+          <div>
+            <strong>{copy.directory}</strong>
+            <span>{copy.directoryDesc}</span>
+          </div>
+          <button type="button" onClick={toggleIndex} aria-label={indexCollapsed ? copy.expandDirectory : copy.collapseDirectory} title={indexCollapsed ? copy.expandDirectory : copy.collapseDirectory}>
+            {indexCollapsed ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
+          </button>
+        </header>
+        <div className={styles.indexGroups}>
+          {SECONDARY_NAV.map((group) => (
+            <section key={group.zh}>
+              <h2>{lang === 'zh' ? group.zh : group.en}</h2>
+              <div>
+                {group.items.map((item) => {
+                  const Icon = item.icon;
+                  const label = lang === 'zh' ? item.zh : item.en;
+                  return (
+                    <Link key={item.to} to={item.to} data-active={isActive(item)} title={label}>
+                      <Icon size={16} />
+                      <span>{label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </section>
+          ))}
+        </div>
+        <footer>
+          <span>{SECONDARY_NAV.reduce((sum, group) => sum + group.items.length, 0)}</span>
+          <small>{lang === 'zh' ? '个研究入口' : 'research entries'}</small>
+        </footer>
+      </aside>
 
       {mobileOpen ? (
         <div className={styles.mobilePanel}>
