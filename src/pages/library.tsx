@@ -22,6 +22,8 @@ import {useWorkbenchStats} from '../components/workbench/stats';
 import {EvidenceBadge, MetricTile, StatusPill} from '../components/research-console/ResearchConsole';
 import CitationExportDialog from '../components/library/CitationExportDialog';
 import LocalPaperShelf from '../components/library/LocalPaperShelf';
+import PaperPdfControl from '../components/library/PaperPdfControl';
+import ReadingStatusControl from '../components/library/ReadingStatusControl';
 import {auditCitationRecords, classifyCitationItems} from '../utils/citations';
 import styles from './library.module.css';
 
@@ -723,8 +725,10 @@ function PaperCard({l, onOpen}: {l: RowVm; onOpen: () => void}) {
             <span className={styles.diffDot} style={{background: DIFF_COLORS[l.difficulty] ?? '#64748b'}}>{l.difficulty}</span>
           ) : null}
           <span className={styles.noteBadge} data-state={l.noteStatus}>{noteLabel}</span>
+          <ReadingStatusControl literatureId={l.id} />
           </div>
         <div className={styles.paperFooterActions}>
+          <PaperPdfControl paperId={l.id} paperTitle={l.title} />
           <Link to={`/paper-reading?lit=${l.id}`} className={styles.paperReadLink} onClick={(e) => e.stopPropagation()}>
             <BookOpen size={12} /> 精读
           </Link>

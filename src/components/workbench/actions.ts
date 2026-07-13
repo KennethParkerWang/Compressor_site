@@ -46,8 +46,7 @@ export function createReadTasks(litIds: string[], opts: {lane: 'this-week' | 'ne
     const ref: TaskRef = litToRef(lit);
     const due = new Date();
     due.setDate(due.getDate() + opts.dueIn);
-    const newTaskId = `t-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
-    addTask({
+    const newTaskId = addTask({
       title: opts.lane === 'needs-note' ? `写 ${lit.title} 的六问笔记` : `阅读 ${lit.title}`,
       description: opts.lane === 'needs-note' ? '在 Notes 页里完成六问模板' : '在 Library 里打开文献并标注重点',
       status: 'todo',

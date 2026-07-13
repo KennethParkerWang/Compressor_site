@@ -8,6 +8,7 @@ import {readingNotes as seedNotes, type ReadingNote} from '../data/readingNotes'
 import {researchFeedMock as seedFeed, type FeedItem, type FeedBucket, type FeedSource} from '../data/researchFeedMock';
 import {dedupeFeedItems, feedItemKey, refreshFeed, type SourceRefreshStatus} from '../data/feedApi';
 import type {CrTheme} from '../data/themePresets';
+import type {UserReadingState, UserReadingStatus} from '../data/userReadingState';
 
 // ============== Settings Store ==============
 export interface SourceConfig {
@@ -117,9 +118,24 @@ export const useSettings = create<SettingsStore>()(
 );
 
 // ============== Tasks Store ==============
+export interface PersonalDataAdapter {
+  upsertTask: (task: ResearchTask) => void;
+  deleteTask: (taskId: string) => void;
+  upsertNote: (note: ReadingNote) => void;
+  deleteNote: (noteId: string) => void;
+  upsertReadingState: (state: UserReadingState) => void;
+}
+
+let personalDataAdapter: PersonalDataAdapter | null = null;
+
+export function registerPersonalDataAdapter(adapter: PersonalDataAdapter | null): void {
+  personalDataAdapter = adapter;
+}
+
 interface TasksStore {
   tasks: ResearchTask[];
-  addTask: (t: Omit<ResearchTask, 'id' | 'createdAt'>) => void;
+  replaceTasks: (tasks: ResearchTask[]) => void;
+  addTask: (t: Omit<ResearchTask, 'id' | 'createdAt'>) => string;
   updateTask: (id: string, patch: Partial<ResearchTask>) => void;
   setStatus: (id: string, status: TaskStatus) => void;
   setLane: (id: string, lane: TaskLane) => void;
@@ -128,18 +144,26 @@ interface TasksStore {
 
 export const useTasks = create<TasksStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       tasks: [],
-      addTask: (t) =>
+      replaceTasks: (tasks) => set({tasks}),
+      addTask: (t) => {
+        const task = {...t, id: `t-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`, createdAt: new Date().toISOString()};
         set((s) => ({
           tasks: [
             ...s.tasks,
-            {...t, id: `t-${Date.now().toString(36)}`, createdAt: new Date().toISOString()},
+            task,
           ],
-        })),
-      updateTask: (id, patch) =>
-        set((s) => ({tasks: s.tasks.map((t) => (t.id === id ? {...t, ...patch} : t))})),
-      setStatus: (id, status) =>
+        }));
+        personalDataAdapter?.upsertTask(task);
+        return task.id;
+      },
+      updateTask: (id, patch) => {
+        set((s) => ({tasks: s.tasks.map((t) => (t.id === id ? {...t, ...patch} : t))}));
+        const task = get().tasks.find((item) => item.id === id);
+        if (task) personalDataAdapter?.upsertTask(task);
+      },
+      setStatus: (id, status) => {
         set((s) => ({
           tasks: s.tasks.map((t) =>
             t.id === id
@@ -150,10 +174,19 @@ export const useTasks = create<TasksStore>()(
                 }
               : t,
           ),
-        })),
-      setLane: (id, lane) =>
-        set((s) => ({tasks: s.tasks.map((t) => (t.id === id ? {...t, lane} : t))})),
-      removeTask: (id) => set((s) => ({tasks: s.tasks.filter((t) => t.id !== id)})),
+        }));
+        const task = get().tasks.find((item) => item.id === id);
+        if (task) personalDataAdapter?.upsertTask(task);
+      },
+      setLane: (id, lane) => {
+        set((s) => ({tasks: s.tasks.map((t) => (t.id === id ? {...t, lane} : t))}));
+        const task = get().tasks.find((item) => item.id === id);
+        if (task) personalDataAdapter?.upsertTask(task);
+      },
+      removeTask: (id) => {
+        set((s) => ({tasks: s.tasks.filter((t) => t.id !== id)}));
+        personalDataAdapter?.deleteTask(id);
+      },
     }),
     {
       name: 'cr-tasks',
@@ -167,6 +200,7 @@ export const useTasks = create<TasksStore>()(
 // ============== Notes Store ==============
 interface NotesStore {
   notes: ReadingNote[];
+  replaceNotes: (notes: ReadingNote[]) => void;
   updateNote: (id: string, patch: Partial<ReadingNote>) => void;
   addNote: (litId: string, title: string) => string;
   removeNote: (id: string) => void;
@@ -174,10 +208,14 @@ interface NotesStore {
 
 export const useNotes = create<NotesStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       notes: seedNotes,
-      updateNote: (id, patch) =>
-        set((s) => ({notes: s.notes.map((n) => (n.id === id ? {...n, ...patch, updatedAt: new Date().toISOString()} : n))})),
+      replaceNotes: (notes) => set({notes}),
+      updateNote: (id, patch) => {
+        set((s) => ({notes: s.notes.map((n) => (n.id === id ? {...n, ...patch, updatedAt: new Date().toISOString()} : n))}));
+        const note = get().notes.find((item) => item.id === id);
+        if (note) personalDataAdapter?.upsertNote(note);
+      },
       addNote: (litId, title) => {
         const id = `note-${Date.now().toString(36)}`;
         set((s) => ({
@@ -199,9 +237,14 @@ export const useNotes = create<NotesStore>()(
             ...s.notes,
           ],
         }));
+        const note = get().notes.find((item) => item.id === id);
+        if (note) personalDataAdapter?.upsertNote(note);
         return id;
       },
-      removeNote: (id) => set((s) => ({notes: s.notes.filter((note) => note.id !== id)})),
+      removeNote: (id) => {
+        set((s) => ({notes: s.notes.filter((note) => note.id !== id)}));
+        personalDataAdapter?.deleteNote(id);
+      },
     }),
     {
       name: 'cr-notes',
@@ -209,6 +252,29 @@ export const useNotes = create<NotesStore>()(
     },
   ),
 );
+
+// ============== Per-account reading state ==============
+interface ReadingStateStore {
+  states: Record<string, UserReadingState>;
+  replaceReadingState: (states: UserReadingState[]) => void;
+  setReadingStatus: (literatureId: string, status: UserReadingStatus) => void;
+}
+
+export const useReadingState = create<ReadingStateStore>((set, get) => ({
+  states: {},
+  replaceReadingState: (states) => set({states: Object.fromEntries(states.map((state) => [state.literatureId, state]))}),
+  setReadingStatus: (literatureId, status) => {
+    const state: UserReadingState = {
+      literatureId,
+      status,
+      progress: status === 'finished' ? 100 : status === 'unread' ? 0 : Math.max(1, get().states[literatureId]?.progress ?? 1),
+      lastReadAt: status === 'unread' ? undefined : new Date().toISOString(),
+      data: get().states[literatureId]?.data ?? {},
+    };
+    set((current) => ({states: {...current.states, [literatureId]: state}}));
+    personalDataAdapter?.upsertReadingState(state);
+  },
+}));
 
 // ============== Feed Store ==============
 interface FeedStore {

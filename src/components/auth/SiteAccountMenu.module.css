@@ -19,7 +19,8 @@
 }
 
 .loginLink:hover,
-.adminLink:hover {
+.adminLink:hover,
+.userState:hover {
   border-color: var(--cr-accent, #2563eb);
   color: var(--cr-accent, #2563eb);
   text-decoration: none;

@@ -4,6 +4,7 @@ import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import {useLocation} from '@docusaurus/router';
 import WorkbenchShell from '../components/workbench/WorkbenchShell';
+import UserGuard from '../components/account/UserGuard';
 import {Button} from '../components/ui/button';
 import {Badge} from '../components/ui/badge';
 import {Input} from '../components/ui/input';
@@ -130,6 +131,7 @@ export default function TasksPage(): React.ReactElement {
 
   return (
     <Layout title={CN.title} description={CN.hint}>
+      <UserGuard>
       <WorkbenchShell pageTitle={CN.title}>
         <section className={styles.executionHero}>
           <div>
@@ -260,6 +262,7 @@ export default function TasksPage(): React.ReactElement {
           }} />
         ) : null}
       </WorkbenchShell>
+      </UserGuard>
     </Layout>
   );
 }

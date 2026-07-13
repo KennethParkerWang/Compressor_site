@@ -4,6 +4,7 @@ import {useLocation} from '@docusaurus/router';
 import {EditorContent, useEditor} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import WorkbenchShell from '../components/workbench/WorkbenchShell';
+import UserGuard from '../components/account/UserGuard';
 import PageHero from '../components/PageHero';
 import {Button} from '../components/ui/button';
 import {Badge} from '../components/ui/badge';
@@ -415,6 +416,7 @@ export default function NotesPage(): React.ReactElement {
 
   return (
     <Layout title={copy.title} description={copy.hint}>
+      <UserGuard>
       <WorkbenchShell pageTitle={copy.title}>
         <PageHero
           kicker={copy.kicker}
@@ -643,6 +645,7 @@ export default function NotesPage(): React.ReactElement {
           </DialogContent>
         </Dialog>
       </WorkbenchShell>
+      </UserGuard>
     </Layout>
   );
 }

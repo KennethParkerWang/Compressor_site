@@ -1,0 +1,17 @@
+.status {
+  min-height: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 6px;
+  border: 1px solid #d8e0ea;
+  border-radius: 3px;
+  background: #f7f9fc;
+  color: #667085;
+  cursor: pointer;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 720;
+}
+.status[data-status='reading'] { border-color: #b9cdf7; background: #eef4ff; color: #2458b8; }
+.status[data-status='finished'] { border-color: #b9dccf; background: #edf9f4; color: #176b4d; }
