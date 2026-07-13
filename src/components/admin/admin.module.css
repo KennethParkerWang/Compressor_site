@@ -1,0 +1,165 @@
+.page {
+  min-height: calc(100vh - 60px);
+  padding: 64px 20px;
+  background: #f4f6f8;
+  color: #172033;
+}
+
+.panel {
+  width: min(100%, 520px);
+  margin: 0 auto;
+  border: 1px solid #d7dde5;
+  border-radius: 6px;
+  background: #ffffff;
+  box-shadow: 0 10px 28px rgba(23, 32, 51, 0.08);
+}
+
+.header {
+  padding: 24px 26px 18px;
+  border-bottom: 1px solid #e3e7ec;
+}
+
+.header h1 {
+  margin: 0 0 6px;
+  color: #172033;
+  font-size: 24px;
+  letter-spacing: 0;
+}
+
+.header p {
+  margin: 0;
+  color: #647084;
+  font-size: 14px;
+}
+
+.body {
+  display: grid;
+  gap: 18px;
+  padding: 24px 26px 28px;
+}
+
+.field {
+  display: grid;
+  gap: 7px;
+}
+
+.field label {
+  color: #303b4f;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.field input {
+  min-height: 44px;
+  width: 100%;
+  padding: 0 12px;
+  border: 1px solid #bdc6d2;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #172033;
+  font: inherit;
+}
+
+.field input:focus {
+  border-color: #2563eb;
+  outline: 2px solid rgba(37, 99, 235, 0.16);
+  outline-offset: 1px;
+}
+
+.button {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid #1d4ed8;
+  border-radius: 4px;
+  background: #1d4ed8;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.button:hover:not(:disabled) {
+  background: #1e40af;
+}
+
+.button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.secondaryButton {
+  border-color: #aeb8c5;
+  background: #ffffff;
+  color: #28354a;
+}
+
+.secondaryButton:hover:not(:disabled) {
+  background: #eef1f5;
+}
+
+.error {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 3px solid #c2413b;
+  background: #fff5f4;
+  color: #8f2521;
+  font-size: 13px;
+}
+
+.statusList {
+  margin: 0;
+  border-top: 1px solid #e3e7ec;
+}
+
+.statusRow {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) minmax(0, 1.2fr);
+  gap: 18px;
+  padding: 13px 0;
+  border-bottom: 1px solid #e3e7ec;
+}
+
+.statusRow dt {
+  color: #667287;
+}
+
+.statusRow dd {
+  margin: 0;
+  color: #172033;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.success {
+  color: #14704a;
+}
+
+.statePanel {
+  display: grid;
+  gap: 8px;
+  width: min(100%, 520px);
+  margin: 0 auto;
+  padding: 26px;
+  border: 1px solid #d7dde5;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #4d596c;
+}
+
+.notice {
+  margin: 0;
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 28px 12px;
+  }
+
+  .statusRow {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}

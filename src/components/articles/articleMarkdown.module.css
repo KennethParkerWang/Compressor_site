@@ -1,0 +1,16 @@
+.markdown { color: var(--cr-text-primary, #172033); font-size: 15px; line-height: 1.82; }
+.markdown > :first-child { margin-top: 0; }
+.markdown h1 { margin: 1.2em 0 .55em; font-size: 32px; }.markdown h2 { margin: 1.35em 0 .55em; padding-bottom: 8px; border-bottom: 1px solid var(--cr-border-color, #d6dee9); font-size: 25px; }.markdown h3 { margin: 1.25em 0 .45em; font-size: 20px; }
+.markdown p { margin: .85em 0; }.markdown ul,
+.markdown ol { padding-left: 1.5em; }.markdown blockquote { margin: 1.2em 0; padding: 6px 0 6px 17px; border-left: 3px solid var(--cr-accent, #2563eb); color: var(--cr-text-secondary, #475467); }
+.markdown code { border-radius: 3px; background: var(--cr-surface, #f5f7fa); padding: 2px 5px; font-size: .88em; }
+.markdown pre { overflow-x: auto; padding: 16px; border: 1px solid var(--cr-border-color, #d6dee9); border-radius: 5px; background: #111827; color: #eef2f7; }
+.markdown pre code { background: transparent; padding: 0; }
+.markdown table { width: 100%; display: block; overflow-x: auto; border-collapse: collapse; white-space: nowrap; }
+.markdown th,
+.markdown td { padding: 9px 11px; border: 1px solid var(--cr-border-color, #d6dee9); text-align: left; }.markdown th { background: var(--cr-surface, #f5f7fa); }
+.markdown hr { margin: 28px 0; border: 0; border-top: 1px solid var(--cr-border-color, #d6dee9); }
+.imageBlock { width: min(100%, 760px); display: block; margin: 24px auto; }
+.imageBlock[data-full='true'] { width: 100%; }
+.imageBlock img { width: 100%; height: auto; display: block; }
+.imageCaption { display: block; margin-top: 8px; color: var(--cr-text-muted, #667085); font-size: 12px; line-height: 1.5; text-align: center; }

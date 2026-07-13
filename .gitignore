@@ -2,6 +2,10 @@ node_modules/
 build/
 .docusaurus/
 
+.env
+.env.local
+.env*.local
+
 *.log
 build-output.log
 build-v3.log

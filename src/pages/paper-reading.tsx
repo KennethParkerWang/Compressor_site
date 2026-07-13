@@ -17,6 +17,8 @@ import {
 } from 'lucide-react';
 import {literatureData, type LiteratureItem} from '../data/literatureData';
 import {experimentAssets} from '../data/experimentData';
+import SiteAccountMenu from '../components/auth/SiteAccountMenu';
+import PublicAssetPanel from '../components/public-assets/PublicAssetPanel';
 import styles from './paper-reading.module.css';
 
 type ReaderMode = 'overview' | 'analysis';
@@ -122,6 +124,7 @@ export default function PaperReadingPage(): React.ReactElement {
                 原文 <ExternalLink size={14} />
               </a>
             ) : null}
+            <SiteAccountMenu compact />
           </div>
         </header>
 
@@ -163,6 +166,28 @@ export default function PaperReadingPage(): React.ReactElement {
             ) : (
               <EmptyExperiment />
             )}
+            <PublicAssetPanel
+              title="本地 PDF"
+              relatedType="paper-pdf"
+              relatedKey={paper.id}
+              accept=".pdf"
+              allowedMimeTypes={['application/pdf']}
+              compact
+            />
+            <PublicAssetPanel
+              title="论文笔记"
+              relatedType="paper-note"
+              relatedKey={paper.id}
+              accept=".md,.txt,.doc,.docx,.pdf"
+              allowedMimeTypes={[
+                'text/markdown',
+                'text/plain',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/pdf',
+              ]}
+              compact
+            />
           </aside>
         </div>
       </main>

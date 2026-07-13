@@ -82,13 +82,35 @@
   gap: 14px;
 }
 .chapterCard {
+  position: relative;
   background: var(--cr-paper, #ffffff);
   border: 1px solid var(--cr-line, #e2e8f0);
-  border-radius: 12px;
+  border-top: 3px solid var(--chapter-color, var(--cr-accent, #1d4ed8));
+  border-radius: 8px;
   overflow: hidden;
-  transition: box-shadow .15s, transform .15s;
+  isolation: isolate;
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
 }
-.chapterCard:hover { box-shadow: 0 6px 16px rgba(15,23,42,0.06); }
+.chapterCard::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border: 1px solid transparent;
+  border-radius: inherit;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--chapter-color) 10%, transparent), transparent 38%) border-box;
+  content: '';
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease;
+}
+.chapterCard:hover,
+.chapterCard:focus-within {
+  border-color: color-mix(in srgb, var(--chapter-color) 48%, var(--cr-line, #e2e8f0));
+  box-shadow: 0 12px 28px rgba(15, 23, 42, .10), 0 0 0 1px color-mix(in srgb, var(--chapter-color) 14%, transparent);
+  transform: translateY(-3px) scale(1.006);
+}
+.chapterCard:hover::after,
+.chapterCard:focus-within::after { opacity: 1; }
 .chapterHead {
   display: flex;
   align-items: center;
@@ -136,9 +158,14 @@
   text-align: left;
   cursor: pointer;
   font-family: inherit;
-  transition: background .12s;
+  transition: background .14s ease, color .14s ease, transform .14s ease;
 }
-.paperRow:hover { background: var(--cr-paper-2, #f8fafc); }
+.paperRow:hover,
+.paperRow:focus-visible {
+  background: color-mix(in srgb, var(--chapter-color) 8%, var(--cr-paper-2, #f8fafc));
+  outline: none;
+  transform: translateX(3px);
+}
 .paperYear {
   font-family: ui-monospace, monospace;
   font-size: 10.5px;
@@ -157,11 +184,36 @@
 }
 .paperArrow { color: var(--cr-ink-3, #cbd5e1); flex-shrink: 0; }
 .paperRow:hover .paperArrow { color: var(--cr-accent, #1d4ed8); }
-.paperMore {
-  font-size: 11px;
-  color: var(--cr-ink-3, #94a3b8);
-  text-align: center;
-  padding: 6px 0 2px;
+.chapterExpand {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 5px;
+  border: 0;
+  border-top: 1px solid var(--cr-line, #e2e8f0);
+  background: transparent;
+  color: var(--chapter-color, var(--cr-accent, #1d4ed8));
+  cursor: pointer;
+  font: 700 11px/1.2 inherit;
+  transition: background .14s ease, color .14s ease;
+}
+.chapterExpand:hover,
+.chapterExpand:focus-visible {
+  background: color-mix(in srgb, var(--chapter-color) 8%, transparent);
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapterCard,
+  .chapterCard::after,
+  .paperRow,
+  .chapterExpand { transition: none; }
+  .chapterCard:hover,
+  .chapterCard:focus-within,
+  .paperRow:hover,
+  .paperRow:focus-visible { transform: none; }
 }
 
 /* ============= 列表 ============= */

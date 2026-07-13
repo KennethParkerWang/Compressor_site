@@ -1,0 +1,191 @@
+.panel {
+  border: 1px solid var(--cr-border-color, #d6dde6);
+  border-radius: 6px;
+  background: var(--cr-card-bg, #ffffff);
+  color: var(--cr-text-primary, #172033);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--cr-border-color, #d6dde6);
+}
+
+.header span {
+  color: var(--cr-accent, #2563eb);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.header h2 {
+  margin: 4px 0 0;
+  color: var(--cr-text-primary, #172033);
+  font-size: 15px;
+  letter-spacing: 0;
+}
+
+.header p {
+  margin: 5px 0 0;
+  color: var(--cr-text-muted, #6b7280);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.header button,
+.actions a,
+.actions button {
+  width: 32px;
+  height: 32px;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 1px solid var(--cr-border-color, #d6dde6);
+  border-radius: 4px;
+  background: var(--cr-card-bg, #ffffff);
+  color: var(--cr-text-secondary, #475569);
+  cursor: pointer;
+}
+
+.header button:hover:not(:disabled),
+.actions a:hover,
+.actions button:hover {
+  border-color: var(--cr-accent, #2563eb);
+  color: var(--cr-accent, #2563eb);
+}
+
+.uploadControl {
+  position: relative;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+  margin: 12px;
+  border: 1px dashed color-mix(in srgb, var(--cr-accent, #2563eb) 55%, var(--cr-border-color, #d6dde6));
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--cr-accent-soft, #eef4ff) 70%, var(--cr-card-bg, #ffffff));
+  color: var(--cr-accent, #2563eb);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.uploadControl input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.uploadControl i {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: var(--cr-accent, #2563eb);
+}
+
+.message {
+  margin: 12px;
+  padding: 9px 10px;
+  border-left: 3px solid #18865d;
+  background: #edf9f4;
+  color: #176b4d;
+  font-size: 11px;
+}
+
+.message[data-kind='error'] {
+  border-left-color: #bd3f39;
+  background: #fff2f1;
+  color: #922f2a;
+}
+
+.state {
+  min-height: 84px;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 7px;
+  padding: 16px;
+  color: var(--cr-text-muted, #6b7280);
+  font-size: 12px;
+}
+
+.list {
+  display: grid;
+  padding: 0 12px 12px;
+}
+
+.file {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 4px;
+  border-bottom: 1px solid var(--cr-border-color, #d6dde6);
+}
+
+.file:last-child {
+  border-bottom: 0;
+}
+
+.file > div:first-child {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.file strong {
+  overflow: hidden;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file span {
+  color: var(--cr-text-muted, #6b7280);
+  font-size: 10px;
+}
+
+.actions {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.panel[data-compact='true'] .header {
+  padding: 13px;
+}
+
+.panel[data-compact='true'] .header p {
+  display: none;
+}
+
+.panel[data-embedded='true'] {
+  margin-top: 14px;
+  border-width: 1px 0 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.panel[data-embedded='true'] .header {
+  padding-inline: 0;
+}
+
+.panel[data-embedded='true'] .uploadControl {
+  margin-inline: 0;
+}
+
+.panel[data-embedded='true'] .list {
+  padding-inline: 0;
+}
+
+@media (max-width: 640px) {
+  .file {
+    grid-template-columns: 1fr;
+  }
+}

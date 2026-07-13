@@ -19,6 +19,7 @@ import {
   UserRound,
 } from 'lucide-react';
 import WorkbenchShell from '../components/workbench/WorkbenchShell';
+import WeeklyReportAssetManager from '../components/weekly-reports/WeeklyReportAssetManager';
 import {
   WEEKLY_REPORT_CADENCE,
   WEEKLY_REPORT_INTERVAL_DAYS,
@@ -59,7 +60,7 @@ const COPY = {
     previewPdf: '查看 PDF',
     downloadPptx: '下载 PPTX',
     expectedFiles: '本期预计 2 份汇报材料',
-    pendingSubmission: '另一位同学材料待补充',
+    pendingSubmission: '材料待补充',
     meetingSummary: '汇报摘要',
     summaryPending: '尚未录入。',
     recording: '会议记录',
@@ -68,6 +69,9 @@ const COPY = {
     agendaPending: '尚未设置。',
     loadEarlier: '显示更早期',
     loadLater: '显示更多后续',
+    completedGroup: '已汇报',
+    futureGroup: '后续汇报',
+    periods: '期',
     days: '天',
     hours: '小时',
     previous: '上一期',
@@ -100,7 +104,7 @@ const COPY = {
     previewPdf: 'View PDF',
     downloadPptx: 'Download PPTX',
     expectedFiles: 'Two report files expected for this cycle',
-    pendingSubmission: 'Second submission pending',
+    pendingSubmission: 'Files pending',
     meetingSummary: 'Report summary',
     summaryPending: 'Not recorded yet.',
     recording: 'Meeting record',
@@ -109,6 +113,9 @@ const COPY = {
     agendaPending: 'Not set yet.',
     loadEarlier: 'Show earlier',
     loadLater: 'Show more upcoming',
+    completedGroup: 'Completed',
+    futureGroup: 'Upcoming',
+    periods: 'periods',
     days: 'd',
     hours: 'h',
     previous: 'Previous briefing',
@@ -153,10 +160,12 @@ export default function WeeklyReportsPage(): React.ReactElement {
   const {siteConfig, i18n} = useDocusaurusContext();
   const lang: Lang = i18n.currentLocale === 'en' ? 'en' : 'zh';
   const copy = COPY[lang];
-  const initialIndex = getWeeklyReportIndex(new URLSearchParams(location.search).get('report')) ?? 0;
-  const [selectedIndex, setSelectedIndex] = useState(initialIndex);
+  const requestedIndex = getWeeklyReportIndex(new URLSearchParams(location.search).get('report'));
+  const [selectedIndex, setSelectedIndex] = useState(() => requestedIndex ?? getNextWeeklyReportIndex(new Date()));
   const [pastCount, setPastCount] = useState(10);
   const [futureCount, setFutureCount] = useState(12);
+  const [completedOpen, setCompletedOpen] = useState(false);
+  const [futureOpen, setFutureOpen] = useState(false);
   const now = useMemo(() => new Date(), []);
   const nextReportIndex = useMemo(() => getNextWeeklyReportIndex(now), [now]);
 
@@ -177,11 +186,10 @@ export default function WeeklyReportsPage(): React.ReactElement {
     const laterReports = reports
       .filter((report) => report.no > nextReportIndex + 1)
       .sort((a, b) => a.no - b.no);
-    return nextReport ? [nextReport, ...earlierReports, ...laterReports] : reports;
+    return {nextReport, earlierReports, laterReports};
   }, [futureCount, nextReportIndex, now, pastCount, selectedIndex]);
   const nextReport = useMemo(() => getWeeklyReportAt(nextReportIndex, now), [nextReportIndex, now]);
   const submissions = selected.submissions;
-  const pendingSubmissionCount = Math.max(0, selected.expectedSubmissionCount - submissions.length);
 
   return (
     <Layout title={copy.title} description={copy.description}>
@@ -211,41 +219,49 @@ export default function WeeklyReportsPage(): React.ReactElement {
             <p className={styles.timelineHint}>{copy.timelineHint}</p>
 
             <div className={styles.timelineList}>
-              {timeline.map((report) => {
-                const active = report.id === selected.id;
-                return (
-                  <Link
-                    key={report.id}
-                    to={reportHref(report)}
-                    onClick={() => setSelectedIndex(report.no - 1)}
-                    className={styles.timelineItem}
-                    data-active={active ? 'true' : 'false'}
-                    data-status={report.status}
-                  >
-                    <span className={styles.timelineDot}>
-                      {report.status === 'done' ? <Check size={13} /> : <CalendarDays size={13} />}
-                    </span>
-                    <span className={styles.timelineBody}>
-                      <span className={styles.timelineTopline}>
-                        <b>WR-{String(report.no).padStart(2, '0')}</b>
-                        <em>{statusCopy(report.status, lang)}</em>
-                      </span>
-                      <strong>{getReportTitle(report, lang)}</strong>
-                      <span>{report.date} · {lang === 'zh' ? report.weekdayZh : report.weekdayEn}</span>
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
-            <div className={styles.timelineControls}>
-              <button type="button" onClick={() => setPastCount((count) => count + 10)}>
-                <ChevronUp size={14} />
-                {copy.loadEarlier}
-              </button>
-              <button type="button" onClick={() => setFutureCount((count) => count + 10)}>
-                <ChevronDown size={14} />
-                {copy.loadLater}
-              </button>
+              {timeline.earlierReports.length > 0 ? (
+                <section className={styles.timelineGroup} data-kind="done">
+                  <button type="button" className={styles.timelineGroupToggle} aria-expanded={completedOpen} onClick={() => setCompletedOpen((open) => !open)}>
+                    <span><Check size={16} /><strong>{copy.completedGroup}</strong></span>
+                    <small>{timeline.earlierReports.length} {copy.periods}</small>
+                    {completedOpen ? <ChevronUp size={17} /> : <ChevronDown size={17} />}
+                  </button>
+                  {completedOpen ? (
+                    <div className={styles.timelineGroupItems}>
+                      {timeline.earlierReports.map((report) => (
+                        <TimelineCard key={report.id} report={report} lang={lang} active={report.id === selected.id} kind="done" onSelect={() => setSelectedIndex(report.no - 1)} />
+                      ))}
+                      <button type="button" className={styles.loadMoreButton} onClick={() => setPastCount((count) => count + 10)}>
+                        <ChevronUp size={14} />{copy.loadEarlier}
+                      </button>
+                    </div>
+                  ) : null}
+                </section>
+              ) : null}
+
+              {timeline.nextReport ? (
+                <TimelineCard report={timeline.nextReport} lang={lang} active={timeline.nextReport.id === selected.id} kind="next" onSelect={() => setSelectedIndex(timeline.nextReport!.no - 1)} />
+              ) : null}
+
+              {timeline.laterReports.length > 0 ? (
+                <section className={styles.timelineGroup} data-kind="future">
+                  <button type="button" className={styles.timelineGroupToggle} aria-expanded={futureOpen} onClick={() => setFutureOpen((open) => !open)}>
+                    <span><CalendarDays size={16} /><strong>{copy.futureGroup}</strong></span>
+                    <small>{timeline.laterReports.length} {copy.periods}</small>
+                    {futureOpen ? <ChevronUp size={17} /> : <ChevronDown size={17} />}
+                  </button>
+                  {futureOpen ? (
+                    <div className={styles.timelineGroupItems}>
+                      {timeline.laterReports.map((report) => (
+                        <TimelineCard key={report.id} report={report} lang={lang} active={report.id === selected.id} kind="future" onSelect={() => setSelectedIndex(report.no - 1)} />
+                      ))}
+                      <button type="button" className={styles.loadMoreButton} onClick={() => setFutureCount((count) => count + 10)}>
+                        <ChevronDown size={14} />{copy.loadLater}
+                      </button>
+                    </div>
+                  ) : null}
+                </section>
+              ) : null}
             </div>
           </aside>
 
@@ -315,24 +331,18 @@ export default function WeeklyReportsPage(): React.ReactElement {
                   <span>{submissions.length} / {selected.expectedSubmissionCount}</span>
                 </div>
                 <div className={styles.personList}>
-                  {submissions.map((submission) => (
-                    <div className={styles.personRow} key={submission.presenterZh}>
+                  {selected.expectedPresenters.map((presenter) => {
+                    const submission = submissions.find((item) => item.presenterZh === presenter.presenterZh);
+                    return (
+                    <div className={`${styles.personRow} ${submission ? '' : styles.pendingRow}`} key={presenter.presenterZh}>
                       <span className={styles.personIcon}><UserRound size={17} /></span>
                       <div>
-                        <strong>{lang === 'zh' ? submission.presenterZh : submission.presenterEn}</strong>
-                        <span>{copy.submitted} · {submission.submittedAt}</span>
+                        <strong>{lang === 'zh' ? presenter.presenterZh : presenter.presenterEn}</strong>
+                        <span>{submission ? `${copy.submitted} · ${submission.submittedAt}` : copy.pending}</span>
                       </div>
                     </div>
-                  ))}
-                  {Array.from({length: pendingSubmissionCount}).map((_, index) => (
-                    <div className={`${styles.personRow} ${styles.pendingRow}`} key={`pending-${index}`}>
-                      <span className={styles.personIcon}><UserRound size={17} /></span>
-                      <div>
-                        <strong>{copy.pendingSubmission}</strong>
-                        <span>{copy.pending}</span>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </section>
 
@@ -380,16 +390,17 @@ export default function WeeklyReportsPage(): React.ReactElement {
                       </div>
                     </div>
                   ))}
-                  {pendingSubmissionCount > 0 ? (
-                    <div className={`${styles.fileRow} ${styles.pendingRow}`}>
+                  {selected.expectedPresenters.filter((presenter) => !submissions.some((item) => item.presenterZh === presenter.presenterZh)).map((presenter) => (
+                    <div className={`${styles.fileRow} ${styles.pendingRow}`} key={presenter.presenterZh}>
                       <span className={styles.fileIcon}><FileText size={17} /></span>
                       <div className={styles.fileName}>
-                        <strong>{copy.pendingSubmission}</strong>
+                        <strong>{lang === 'zh' ? presenter.presenterZh : presenter.presenterEn}</strong>
                         <span>{copy.pending}</span>
                       </div>
                     </div>
-                  ) : null}
+                  ))}
                 </div>
+                <WeeklyReportAssetManager report={selected} lang={lang} />
               </section>
 
             </div>
@@ -402,4 +413,41 @@ export default function WeeklyReportsPage(): React.ReactElement {
 
 function getReportTitle(report: WeeklyReportItem, lang: Lang): string {
   return lang === 'zh' ? report.titleZh : report.titleEn;
+}
+
+function TimelineCard({
+  report,
+  lang,
+  active,
+  kind,
+  onSelect,
+}: {
+  report: WeeklyReportItem;
+  lang: Lang;
+  active: boolean;
+  kind: 'done' | 'next' | 'future';
+  onSelect: () => void;
+}): React.ReactElement {
+  return (
+    <Link
+      to={reportHref(report)}
+      onClick={onSelect}
+      className={styles.timelineItem}
+      data-active={active ? 'true' : 'false'}
+      data-kind={kind}
+      data-status={report.status}
+    >
+      <span className={styles.timelineDot}>
+        {kind === 'done' ? <Check size={16} /> : <CalendarDays size={16} />}
+      </span>
+      <span className={styles.timelineBody}>
+        <span className={styles.timelineTopline}>
+          <b>WR-{String(report.no).padStart(2, '0')}</b>
+          <em>{kind === 'next' ? (lang === 'zh' ? '即将汇报' : 'Next') : statusCopy(report.status, lang)}</em>
+        </span>
+        <strong>{getReportTitle(report, lang)}</strong>
+        <span>{report.date} · {lang === 'zh' ? report.weekdayZh : report.weekdayEn}</span>
+      </span>
+    </Link>
+  );
 }

@@ -10,10 +10,11 @@
 .modeTabs { display: inline-flex; gap: 6px; padding: 4px; border: 1px solid rgba(148, 163, 184, 0.28); border-radius: 9px; background: rgba(15, 23, 42, 0.42); }
 .modeTabs button { display: inline-flex; align-items: center; gap: 7px; min-height: 34px; padding: 0 14px; border: 0; border-radius: 7px; background: transparent; color: #cbd5e1; cursor: pointer; font-size: 13px; font-weight: 760; }
 .modeTabs button[data-active='true'] { background: #2563eb; color: #fff; box-shadow: 0 8px 26px rgba(37, 99, 235, 0.35); }
-.topActions { display: flex; justify-content: flex-end; }
+.topActions { display: flex; justify-content: flex-end; gap: 7px; }
 .shell { display: grid; grid-template-columns: minmax(260px, 320px) minmax(0, 1fr) minmax(300px, 360px); gap: 14px; height: calc(100vh - 64px); padding: 14px; }
 .leftRail, .rightRail, .centerPane { min-height: 0; overflow: auto; border: 1px solid #dbe3ef; border-radius: 10px; background: #fff; box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08); }
 .leftRail, .rightRail { padding: 16px; }
+.rightRail { display: grid; align-content: start; gap: 12px; }
 .railHead { display: grid; gap: 3px; margin-bottom: 12px; }
 .railHead span { color: #2563eb; }
 .railHead strong { font-size: 17px; }

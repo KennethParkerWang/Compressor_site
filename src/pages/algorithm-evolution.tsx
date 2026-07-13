@@ -492,8 +492,10 @@ function RoadmapView({
   onSelect: (id: string) => void;
 }): React.ReactElement {
   const scrollerRef = React.useRef<HTMLDivElement | null>(null);
+  const panState = React.useRef<{pointerId: number; x: number; y: number; left: number; top: number} | null>(null);
   const [availableWidth, setAvailableWidth] = useState(GRAPH_WIDTH);
   const [stretch, setStretch] = useState<GraphStretch>('fit');
+  const [isPanning, setIsPanning] = useState(false);
   const graphWidth = useMemo(
     () => Math.max(GRAPH_WIDTH, Math.round(availableWidth * GRAPH_STRETCH[stretch])),
     [availableWidth, stretch],
@@ -559,12 +561,54 @@ function RoadmapView({
     scroller.scrollTo({left: Math.max(0, left), top: Math.max(0, top), behavior: 'smooth'});
   }, [graphWidth, selectedId]);
 
+  const startCanvasPan = (event: React.PointerEvent<HTMLDivElement>): void => {
+    if (event.button !== 0) return;
+    const target = event.target as HTMLElement;
+    if (!target.closest(`.${styles.roadmapCanvas}`) || target.closest('button, a, input, select, textarea')) return;
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    panState.current = {
+      pointerId: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      left: scroller.scrollLeft,
+      top: scroller.scrollTop,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setIsPanning(true);
+  };
+
+  const moveCanvasPan = (event: React.PointerEvent<HTMLDivElement>): void => {
+    const pan = panState.current;
+    const scroller = scrollerRef.current;
+    if (!pan || pan.pointerId !== event.pointerId || !scroller) return;
+    scroller.scrollLeft = pan.left - (event.clientX - pan.x);
+    scroller.scrollTop = pan.top - (event.clientY - pan.y);
+    event.preventDefault();
+  };
+
+  const endCanvasPan = (event: React.PointerEvent<HTMLDivElement>): void => {
+    const pan = panState.current;
+    if (!pan || pan.pointerId !== event.pointerId) return;
+    panState.current = null;
+    setIsPanning(false);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+  };
+
   return (
-    <div className={styles.roadmapScroller} ref={scrollerRef}>
+    <div
+      className={styles.roadmapScroller}
+      ref={scrollerRef}
+      data-panning={isPanning}
+      onPointerDown={startCanvasPan}
+      onPointerMove={moveCanvasPan}
+      onPointerUp={endCanvasPan}
+      onPointerCancel={endCanvasPan}
+    >
       <div className={styles.roadmapNote}>
         <strong>{scope === 'core' ? '核心主干视图' : '全部节点视图'}</strong>
         <span>
-          点击算法聚焦完整上下游改进路径；其他节点自动降灰，路径会以流线方式高亮。
+          点击算法聚焦完整上下游改进路径；按住空白拖动总图，其他节点自动降灰并以流线高亮路径。
         </span>
         <div className={styles.roadmapScaleControls} aria-label="历史主线宽度">
           {([

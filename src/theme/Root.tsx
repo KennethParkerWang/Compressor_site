@@ -3,6 +3,7 @@
 import React from 'react';
 import {ErrorBoundary} from '@site/src/components/ErrorBoundary';
 import ProgressBar from '@site/src/components/ProgressBar';
+import LocalPersonalizationController from '@site/src/components/LocalPersonalizationController';
 
 function applyInitialTheme(): void {
   if (typeof document === 'undefined') return;
@@ -15,8 +16,11 @@ export default function Root({children}: {children: React.ReactNode}): React.Rea
 
   return (
     <ErrorBoundary>
-      {children}
-      <ProgressBar />
+      <LocalPersonalizationController />
+      <div id="cr-site-layer">
+        {children}
+        <ProgressBar />
+      </div>
     </ErrorBoundary>
   );
 }

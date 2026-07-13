@@ -226,6 +226,8 @@ export default function AlgorithmBoardPage(): React.ReactElement {
   const lang: Lang = i18n.currentLocale === 'en' ? 'en' : 'zh';
   const copy = COPY[lang];
   const overviewFigure = useBaseUrl('/research/compressor-system/overview/encoder-decoder-system.svg');
+  const [activeRouteSlug, setActiveRouteSlug] = React.useState(compressorRoutes[0].slug);
+  const activeRoute = compressorRoutes.find((route) => route.slug === activeRouteSlug) ?? compressorRoutes[0];
   const readingSteps = [
     {id: 'architecture', index: '01', title: copy.architecture},
     {id: 'universal', index: '02', title: copy.universal},
@@ -239,180 +241,186 @@ export default function AlgorithmBoardPage(): React.ReactElement {
     <Layout title={copy.title} description={copy.description}>
       <WorkbenchShell fullBleed>
         <div className={styles.page}>
-          <header className={styles.hero}>
-            <div className={styles.heroCopy}>
+          <header className={styles.codecHeader}>
+            <div>
               <span className={styles.eyebrow}>{copy.eyebrow}</span>
               <h1>{copy.title}</h1>
               <p>{copy.intro}</p>
-              <div className={styles.evidenceLine}>
-                <span><BookOpen size={14} /> {copy.verified}</span>
-                <span><FlaskConical size={14} /> {copy.noResults}</span>
-              </div>
             </div>
-            <div className={styles.equationPanel} aria-label="lossless compression equations">
-              <div><span>exact reconstruction</span><strong>D(E(x; θ), s) = x</strong></div>
-              <div><span>ideal symbol length</span><strong>ℓ(x) ≈ −log₂ p(x)</strong></div>
-              <div><span>side information</span><strong>s = tables + parameters + syntax</strong></div>
+            <div className={styles.systemLaw} aria-label="lossless compression equations">
+              <span>{lang === 'zh' ? '系统硬约束' : 'System invariant'}</span>
+              <strong>D(E(x; θ), s) = x</strong>
+              <small>{lang === 'zh' ? '逐字节恢复 · 状态同步 · 码流可解析' : 'Byte-exact recovery · synchronized state · parseable bitstream'}</small>
             </div>
           </header>
 
-          <section className={styles.readingGuide} aria-labelledby="map-reading-guide">
-            <div className={styles.guideSummary}>
-              <span><Map size={15} /> {copy.guideEyebrow}</span>
-              <h2 id="map-reading-guide">{copy.guideTitle}</h2>
-              <p>{copy.guideIntro}</p>
-              <ol>
-                {copy.guideQuestions.map((question) => <li key={question}>{question}</li>)}
-              </ol>
-            </div>
-            <nav className={styles.readingOrder} aria-label={copy.readingOrder}>
-              <strong>{copy.readingOrder}</strong>
-              <div>
+          <div className={styles.codecFactBar}>
+            <span><BookOpen size={15} />{copy.verified}</span>
+            <span><FlaskConical size={15} />{copy.noResults}</span>
+            <span><Network size={15} />{compressorRoutes.length} {lang === 'zh' ? '条实现路线' : 'implementation routes'}</span>
+          </div>
+
+          <div className={styles.codecWorkbench}>
+            <aside className={styles.codecNavigator}>
+              <span><Map size={14} />{copy.readingOrder}</span>
+              <nav>
                 {readingSteps.map((step) => (
                   <a key={step.id} href={`#${step.id}`}>
-                    <span>{step.index}</span>
-                    <b>{step.title}</b>
-                    <ArrowRight size={13} />
+                    <b>{step.index}</b>
+                    <span>{step.title}</span>
                   </a>
                 ))}
+              </nav>
+              <div className={styles.navigatorRule}>
+                <strong>{lang === 'zh' ? '阅读规则' : 'Reading rule'}</strong>
+                <p>{lang === 'zh' ? '先确认系统边界，再选择算法分支，最后比较完整压缩器。' : 'Confirm the system boundary, choose method branches, then compare complete codecs.'}</p>
               </div>
-            </nav>
-          </section>
+            </aside>
 
-          <section className={styles.section}>
-            <SectionHeading id="architecture" index="01" title={copy.architecture} lead={copy.architectureLead} guide={SECTION_GUIDES.architecture} lang={lang} />
-            <figure className={styles.architectureFigure}>
-              <img src={overviewFigure} alt={copy.architecture} />
-              <figcaption>
-                {lang === 'zh'
-                  ? '实线：压缩数据主路径；虚线：边信息、模型约定与校验。算法分支在编码端选择，解码端按码流语法执行对应逆过程。'
-                  : 'Solid: compressed-data path. Dashed: side information, model contract, and checks. The encoder selects branches; the decoder follows syntax and executes the corresponding inverse process.'}
-              </figcaption>
-            </figure>
-          </section>
+            <main className={styles.codecContent}>
+              <section className={styles.orientationPanel} aria-labelledby="map-reading-guide">
+                <div>
+                  <span>{copy.guideEyebrow}</span>
+                  <h2 id="map-reading-guide">{copy.guideTitle}</h2>
+                  <p>{copy.guideIntro}</p>
+                </div>
+                <ol>
+                  {copy.guideQuestions.map((question, index) => (
+                    <li key={question}><b>0{index + 1}</b><span>{question}</span></li>
+                  ))}
+                </ol>
+              </section>
 
-          <section className={styles.section}>
-            <SectionHeading id="universal" index="02" title={copy.universal} guide={SECTION_GUIDES.universal} lang={lang} />
-            <div className={styles.constraintStrip}>
-              {constraints.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <div key={item.title.zh}>
-                    <Icon size={18} />
-                    <strong>{pick(item.title, lang)}</strong>
-                    <span>{pick(item.body, lang)}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
+              <section className={styles.chapter}>
+                <SectionHeading id="architecture" index="01" title={copy.architecture} lead={copy.architectureLead} guide={SECTION_GUIDES.architecture} lang={lang} />
+                <div className={styles.architectureLayout}>
+                  <figure className={styles.architectureFigure}>
+                    <img src={overviewFigure} alt={copy.architecture} />
+                    <figcaption>{lang === 'zh' ? '主路径负责传输编码结果；边信息负责让解码端重现同一状态。' : 'The main path transports coded data; side information lets the decoder reproduce the same state.'}</figcaption>
+                  </figure>
+                  <ol className={styles.architectureChecklist}>
+                    <li><b>01</b><div><strong>{lang === 'zh' ? '输入' : 'Input'}</strong><span>{lang === 'zh' ? '明确字节、符号、块或张量边界' : 'Define byte, symbol, block, or tensor boundaries'}</span></div></li>
+                    <li><b>02</b><div><strong>{lang === 'zh' ? '表示冗余' : 'Represent redundancy'}</strong><span>{lang === 'zh' ? '选择匹配、变换或概率建模路线' : 'Choose matching, transforms, or probability modeling'}</span></div></li>
+                    <li><b>03</b><div><strong>{lang === 'zh' ? '写入码流' : 'Write bitstream'}</strong><span>{lang === 'zh' ? '负载与恢复所需语法一起保存' : 'Store payload with recovery syntax'}</span></div></li>
+                    <li><b>04</b><div><strong>{lang === 'zh' ? '精确还原' : 'Reconstruct exactly'}</strong><span>{lang === 'zh' ? '镜像执行逆过程并进行哈希校验' : 'Mirror the inverse path and verify hashes'}</span></div></li>
+                  </ol>
+                </div>
+              </section>
 
-          <section className={styles.section}>
-            <SectionHeading id="families" index="03" title={copy.families} lead={copy.familiesLead} guide={SECTION_GUIDES.families} lang={lang} />
-            <div className={styles.familyMatrix}>
-              <div className={styles.familyHeader}>
-                <span>{lang === 'zh' ? '家族' : 'Family'}</span>
-                <span>{lang === 'zh' ? '回答的问题' : 'Question'}</span>
-                <span>{lang === 'zh' ? '接口输出' : 'Interface output'}</span>
-                <span>{lang === 'zh' ? '代表系统' : 'Representative systems'}</span>
-                <span>{copy.concepts}</span>
-              </div>
-              {familyRows.map((row) => {
-                const Icon = row.icon;
-                return (
-                  <div className={styles.familyRow} data-family={row.key} key={row.key}>
-                    <span className={styles.familyName}><Icon size={18} /><strong>{pick(row.title, lang)}</strong></span>
-                    <span>{pick(row.question, lang)}</span>
-                    <code>{pick(row.output, lang)}</code>
-                    <span>{row.systems}</span>
-                    <span className={styles.familyLinks}>
-                      {row.concepts.map((slug) => {
-                        const concept = compressionConcepts.find((item) => item.slug === slug);
-                        return concept ? <Link key={slug} to={`/algorithm-board/concepts/${slug}`}>{concept.index}<ArrowRight size={13} /></Link> : null;
-                      })}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
+              <section className={styles.chapter}>
+                <SectionHeading id="universal" index="02" title={copy.universal} guide={SECTION_GUIDES.universal} lang={lang} />
+                <div className={styles.constraintLedger}>
+                  {constraints.map((item, index) => {
+                    const Icon = item.icon;
+                    return (
+                      <article key={item.title.zh}>
+                        <span>U{index + 1}</span><Icon size={19} />
+                        <strong>{pick(item.title, lang)}</strong>
+                        <p>{pick(item.body, lang)}</p>
+                      </article>
+                    );
+                  })}
+                </div>
+              </section>
 
-          <section className={styles.section}>
-            <SectionHeading id="routes" index="04" title={copy.routes} lead={copy.routesLead} guide={SECTION_GUIDES.routes} lang={lang} />
-            <div className={styles.routeList}>
-              {compressorRoutes.map((route) => (
-                <article key={route.slug} className={styles.routeRow}>
-                  <div className={styles.routeIdentity}>
-                    <span>{route.id}</span>
-                    <h2>{route.title}</h2>
-                    <p>{pick(route.subtitle, lang)}</p>
-                  </div>
-                  <div className={styles.routePath}>
-                    {route.steps.map((step, index) => (
-                      <React.Fragment key={`${route.slug}-${index}`}>
-                        <span>{pick(step, lang)}</span>
-                        {index < route.steps.length - 1 ? <ArrowRight size={13} /> : null}
-                      </React.Fragment>
+              <section className={styles.chapter}>
+                <SectionHeading id="families" index="03" title={copy.families} lead={copy.familiesLead} guide={SECTION_GUIDES.families} lang={lang} />
+                <div className={styles.methodTracks}>
+                  {familyRows.map((row, index) => {
+                    const Icon = row.icon;
+                    return (
+                      <article key={row.key} data-family={row.key}>
+                        <div className={styles.methodIdentity}><span>{String(index + 1).padStart(2, '0')}</span><Icon size={20} /><strong>{pick(row.title, lang)}</strong></div>
+                        <div><small>{lang === 'zh' ? '回答的问题' : 'Question'}</small><p>{pick(row.question, lang)}</p></div>
+                        <div><small>{lang === 'zh' ? '交给下一层' : 'Output'}</small><code>{pick(row.output, lang)}</code></div>
+                        <div><small>{lang === 'zh' ? '代表系统' : 'Systems'}</small><p>{row.systems}</p></div>
+                        <div className={styles.familyLinks}>
+                          {row.concepts.map((slug) => {
+                            const concept = compressionConcepts.find((item) => item.slug === slug);
+                            return concept ? <Link key={slug} to={`/algorithm-board/concepts/${slug}`}>{concept.index}<ArrowRight size={13} /></Link> : null;
+                          })}
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              </section>
+
+              <section className={styles.chapter}>
+                <SectionHeading id="routes" index="04" title={copy.routes} lead={copy.routesLead} guide={SECTION_GUIDES.routes} lang={lang} />
+                <div className={styles.routeExplorer}>
+                  <div className={styles.routeTabs} role="tablist" aria-label={copy.routes}>
+                    {compressorRoutes.map((route) => (
+                      <button key={route.slug} type="button" role="tab" aria-selected={route.slug === activeRoute.slug} onClick={() => setActiveRouteSlug(route.slug)}>
+                        <span>{route.id}</span><strong>{route.title}</strong>
+                      </button>
                     ))}
                   </div>
-                  <div className={styles.routeMeta}>
-                    <span>{pick(route.family, lang)}</span>
-                    <Link to={`/algorithm-board/routes/${route.slug}`}>{copy.openRoute}<ArrowRight size={14} /></Link>
+                  <article className={styles.activeRoute}>
+                    <header><span>{activeRoute.id}</span><div><h3>{activeRoute.title}</h3><p>{pick(activeRoute.subtitle, lang)}</p></div><Link to={`/algorithm-board/routes/${activeRoute.slug}`}>{copy.openRoute}<ArrowRight size={14} /></Link></header>
+                    <div className={styles.routeFlow}>
+                      {activeRoute.steps.map((step, index) => (
+                        <React.Fragment key={`${activeRoute.slug}-${index}`}>
+                          <span>{pick(step, lang)}</span>
+                          {index < activeRoute.steps.length - 1 ? <ArrowRight size={15} /> : null}
+                        </React.Fragment>
+                      ))}
+                    </div>
+                    <footer><b>{lang === 'zh' ? '路线归类' : 'Route family'}</b><span>{pick(activeRoute.family, lang)}</span></footer>
+                  </article>
+                </div>
+              </section>
+
+              <section className={styles.chapter}>
+                <SectionHeading id="evaluation" index="05" title={copy.evaluation} lead={copy.evaluationLead} guide={SECTION_GUIDES.evaluation} lang={lang} />
+                <div className={styles.evaluationLayout}>
+                  <div className={styles.evaluationTable}>
+                    <div className={styles.evaluationHeader}><span>{copy.metric}</span><span>{copy.report}</span></div>
+                    {evaluationRows.map((row) => {
+                      const Icon = row.icon;
+                      return <div key={row.metric.zh}><span><Icon size={17} />{pick(row.metric, lang)}</span><span>{pick(row.report, lang)}</span></div>;
+                    })}
                   </div>
-                </article>
-              ))}
-            </div>
-          </section>
+                  <aside className={styles.protocolPanel}>
+                    <span>EXPERIMENT GATE</span>
+                    <strong>{lang === 'zh' ? '结果必须回指原始记录' : 'Results must trace to raw records'}</strong>
+                    <ol>
+                      <li>{lang === 'zh' ? '锁定数据集清单与 SHA-256' : 'Lock dataset manifest and SHA-256'}</li>
+                      <li>{lang === 'zh' ? '锁定版本、命令与参数' : 'Lock version, command, and parameters'}</li>
+                      <li>{lang === 'zh' ? '分开测编码与解码' : 'Measure encode and decode separately'}</li>
+                      <li>{lang === 'zh' ? '保留失败与资源日志' : 'Retain failures and resource logs'}</li>
+                    </ol>
+                    <Link to="/algorithm-board/concepts/benchmarking">{copy.concepts}<ArrowRight size={14} /></Link>
+                  </aside>
+                </div>
+              </section>
 
-          <section className={styles.section}>
-            <SectionHeading id="evaluation" index="05" title={copy.evaluation} lead={copy.evaluationLead} guide={SECTION_GUIDES.evaluation} lang={lang} />
-            <div className={styles.evaluationLayout}>
-              <div className={styles.evaluationTable}>
-                <div className={styles.evaluationHeader}><span>{copy.metric}</span><span>{copy.report}</span></div>
-                {evaluationRows.map((row) => {
-                  const Icon = row.icon;
-                  return <div key={row.metric.zh}><span><Icon size={16} />{pick(row.metric, lang)}</span><span>{pick(row.report, lang)}</span></div>;
-                })}
-              </div>
-              <aside className={styles.protocolPanel}>
-                <span>EXPERIMENT PROTOCOL</span>
-                <strong>{lang === 'zh' ? '结果必须可追溯到原始记录' : 'Results must trace back to raw records'}</strong>
-                <ol>
-                  <li>{lang === 'zh' ? '固定 dataset manifest 与 SHA-256' : 'Fix dataset manifest and SHA-256'}</li>
-                  <li>{lang === 'zh' ? '固定 codec commit、命令与参数' : 'Fix codec commit, command, and parameters'}</li>
-                  <li>{lang === 'zh' ? '分别测 encode / decode' : 'Measure encode and decode separately'}</li>
-                  <li>{lang === 'zh' ? '保存 stdout、stderr、退出码与资源记录' : 'Store stdout, stderr, exit code, and resource logs'}</li>
-                  <li>{lang === 'zh' ? '图表仅由 CSV/JSON 生成' : 'Generate plots only from CSV/JSON'}</li>
-                </ol>
-                <Link to="/algorithm-board/concepts/benchmarking">{copy.concepts}<ArrowRight size={14} /></Link>
-              </aside>
-            </div>
-          </section>
-
-          <section className={`${styles.section} ${styles.sourceSection}`}>
-            <SectionHeading id="sources" index="06" title={copy.sources} lead={copy.sourcesLead} guide={SECTION_GUIDES.sources} lang={lang} />
-            <div className={styles.sourceLayout}>
-              <div className={styles.sourceList}>
-                {sourceRefs.map((source, index) => (
-                  <a key={source.id} href={source.url} target="_blank" rel="noreferrer">
-                    <span>{String(index + 1).padStart(2, '0')}</span>
-                    <div><strong>{source.title}</strong><small>{source.organization} · {source.kind}</small></div>
-                    <ArrowRight size={14} />
-                  </a>
-                ))}
-              </div>
-              <aside className={styles.scopeNote}>
-                <strong>{copy.doesNotClaim}</strong>
-                <ul>
-                  <li>{lang === 'zh' ? '所有压缩器都必须经过同一串模块。' : 'Every compressor passes through the same serial modules.'}</li>
-                  <li>{lang === 'zh' ? '某个算法在所有数据类型上都更好。' : 'One algorithm is superior on every data type.'}</li>
-                  <li>{lang === 'zh' ? '页面中的结构说明等同于项目已经实现。' : 'Architecture notes imply project implementation status.'}</li>
-                  <li>{lang === 'zh' ? '没有版本、数据集和日志的性能数字可信。' : 'Performance numbers without versions, datasets, and logs are trustworthy.'}</li>
-                </ul>
-                <div><strong>{sourceRefs.length}</strong><span>{copy.sourceCount}</span></div>
-              </aside>
-            </div>
-          </section>
+              <section className={`${styles.chapter} ${styles.sourceSection}`}>
+                <SectionHeading id="sources" index="06" title={copy.sources} lead={copy.sourcesLead} guide={SECTION_GUIDES.sources} lang={lang} />
+                <div className={styles.sourceLayout}>
+                  <div className={styles.sourceList}>
+                    {sourceRefs.map((source, index) => (
+                      <a key={source.id} href={source.url} target="_blank" rel="noreferrer">
+                        <span>{String(index + 1).padStart(2, '0')}</span>
+                        <div><strong>{source.title}</strong><small>{source.organization} · {source.kind}</small></div>
+                        <ArrowRight size={14} />
+                      </a>
+                    ))}
+                  </div>
+                  <aside className={styles.scopeNote}>
+                    <strong>{copy.doesNotClaim}</strong>
+                    <ul>
+                      <li>{lang === 'zh' ? '所有压缩器都经过相同串行模块。' : 'Every codec uses the same serial modules.'}</li>
+                      <li>{lang === 'zh' ? '某个算法对所有数据都更好。' : 'One algorithm is best for every dataset.'}</li>
+                      <li>{lang === 'zh' ? '结构说明等于已经实现。' : 'Architecture notes imply implementation.'}</li>
+                      <li>{lang === 'zh' ? '没有实验记录的性能数字可信。' : 'Ungrounded performance numbers are trustworthy.'}</li>
+                    </ul>
+                    <div><strong>{sourceRefs.length}</strong><span>{copy.sourceCount}</span></div>
+                  </aside>
+                </div>
+              </section>
+            </main>
+          </div>
         </div>
       </WorkbenchShell>
     </Layout>

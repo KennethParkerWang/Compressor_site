@@ -1,0 +1,9 @@
+.editor { min-height: 560px; border: 1px solid var(--cr-border-color, #d6dee9); background: #fff; color: #172033; }
+.editor :global(.mdxeditor-toolbar) { position: sticky; top: 0; z-index: 4; border-bottom: 1px solid #d6dee9; border-radius: 0; background: #f7f9fc; }
+.editorContent { min-height: 500px; padding: 28px 34px; font-size: 15px; line-height: 1.8; }
+.editorContent img { width: min(100%, 760px); display: block; height: auto; margin-inline: auto; }
+.editorContent img[title$='||full'] { width: 100%; }
+.imageToolbar { display: flex; gap: 4px; padding: 4px; border: 1px solid #d6dee9; background: #fff; box-shadow: 0 5px 14px rgba(15, 23, 42, .12); }
+.imageToolbar button { width: 30px; height: 30px; display: grid; place-items: center; border: 0; background: transparent; color: #475467; cursor: pointer; }
+.imageToolbar button:hover { background: #edf2f7; color: #175cd3; }
+@media (max-width: 760px) { .editorContent { padding: 20px 16px; } }

@@ -8,6 +8,11 @@ export interface WeeklyReportSubmission {
   pptxPath: string;
 }
 
+export interface WeeklyReportPresenter {
+  presenterZh: string;
+  presenterEn: string;
+}
+
 export interface WeeklyReportItem {
   id: string;
   no: number;
@@ -20,6 +25,7 @@ export interface WeeklyReportItem {
   titleZh: string;
   titleEn: string;
   expectedSubmissionCount: number;
+  expectedPresenters: readonly WeeklyReportPresenter[];
   submissions: readonly WeeklyReportSubmission[];
 }
 
@@ -58,6 +64,11 @@ const REPORT_OVERRIDES: Readonly<Record<string, WeeklyReportOverride>> = {
     ],
   },
 };
+
+const EXPECTED_PRESENTERS: readonly WeeklyReportPresenter[] = [
+  {presenterZh: '王坤鹏', presenterEn: 'Wang Kunpeng'},
+  {presenterZh: '韦旭刚', presenterEn: 'Wei Xugang'},
+];
 
 const FIRST_REPORT_UTC = Date.UTC(2026, 6, 10);
 const REPORT_END_TIME = '15:30:00+08:00';
@@ -106,6 +117,7 @@ export function getWeeklyReportAt(index: number, now = new Date()): WeeklyReport
     titleZh: `双周汇报 ${String(no).padStart(2, '0')}`,
     titleEn: `Biweekly Briefing ${String(no).padStart(2, '0')}`,
     expectedSubmissionCount: override?.expectedSubmissionCount ?? 2,
+    expectedPresenters: EXPECTED_PRESENTERS,
     submissions: override?.submissions ?? [],
   };
 }

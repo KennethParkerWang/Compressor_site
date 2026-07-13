@@ -385,6 +385,45 @@ body::after {
   animation: cr-light-sweep 18s ease-in-out infinite;
 }
 
+html[data-cr-wallpaper='true'] body::before {
+  display: none;
+}
+
+html[data-cr-wallpaper='true'] body::after {
+  display: none;
+}
+
+#cr-local-wallpaper-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cr-local-wallpaper-image,
+.cr-local-wallpaper-veil {
+  position: absolute;
+  inset: 0;
+}
+
+.cr-local-wallpaper-image {
+  inset: -28px;
+  background-repeat: no-repeat;
+  transform: scale(1.035);
+}
+
+.cr-local-wallpaper-veil {
+  background: linear-gradient(rgba(243, 246, 250, .22), rgba(243, 246, 250, .38));
+}
+
+#cr-site-layer {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  background: transparent;
+}
+
 h1,
 h2,
 h3,

@@ -14,7 +14,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '../
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription} from '../components/ui/dialog';
 import {literatureData, type LiteratureItem} from '../data/literatureData';
 import {treeData, type Chapter} from '../data/treeData';
-import {Grid3x3, Table2, Calendar, Network, Sun, Search, FileText, CalendarDays, BookOpen, ExternalLink} from 'lucide-react';
+import {Grid3x3, Table2, Calendar, Network, Sun, Search, FileText, CalendarDays, BookOpen, ExternalLink, ChevronDown, ChevronUp} from 'lucide-react';
 import styles from './map.module.css';
 
 const CN = {
@@ -163,14 +163,32 @@ function MapClient(): React.ReactElement {
 
 // ============= 网格视图(默认)=============
 function GridView({byChapter, onSelect}: {byChapter: Record<string, LiteratureItem[]>; onSelect: (l: LiteratureItem) => void}) {
+  const [expandedChapters, setExpandedChapters] = useState<Set<string>>(() => new Set());
+
+  const toggleChapter = (chapterId: string): void => {
+    setExpandedChapters((current) => {
+      const next = new Set(current);
+      if (next.has(chapterId)) next.delete(chapterId);
+      else next.add(chapterId);
+      return next;
+    });
+  };
+
   return (
     <div className={styles.chapterGrid}>
       {treeData.map((c) => {
         const items = byChapter[c.id] ?? [];
         if (items.length === 0) return null;
         const color = getChapterColor(c.id);
+        const expanded = expandedChapters.has(c.id);
+        const visibleItems = expanded ? items : items.slice(0, 6);
         return (
-          <Card key={c.id} className={styles.chapterCard} style={{borderTop: `3px solid ${color}`}}>
+          <Card
+            key={c.id}
+            className={styles.chapterCard}
+            data-expanded={expanded}
+            style={{'--chapter-color': color} as React.CSSProperties}
+          >
             <CardContent>
               <div className={styles.chapterHead}>
                 <span className={styles.chapterId} style={{background: color}}>{c.id}</span>
@@ -179,14 +197,24 @@ function GridView({byChapter, onSelect}: {byChapter: Record<string, LiteratureIt
               </div>
               {c.summaryZh ? <p className={styles.chapterSummary}>{c.summaryZh}</p> : null}
               <div className={styles.paperList}>
-                {items.slice(0, 6).map((l) => (
+                {visibleItems.map((l) => (
                   <button key={l.id} type="button" className={styles.paperRow} onClick={() => onSelect(l)}>
                     <span className={styles.paperYear}>{l.year ?? '-'}</span>
                     <span className={styles.paperTitle}>{l.title}</span>
                     <ExternalLink size={12} className={styles.paperArrow} />
                   </button>
                 ))}
-                {items.length > 6 ? <div className={styles.paperMore}>还有 {items.length - 6} 篇…</div> : null}
+                {items.length > 6 ? (
+                  <button
+                    type="button"
+                    className={styles.chapterExpand}
+                    onClick={() => toggleChapter(c.id)}
+                    aria-expanded={expanded}
+                  >
+                    {expanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
+                    {expanded ? '收起文献' : `展开其余 ${items.length - 6} 篇`}
+                  </button>
+                ) : null}
               </div>
             </CardContent>
           </Card>

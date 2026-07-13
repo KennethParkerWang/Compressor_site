@@ -13,6 +13,7 @@ import {useNotes} from '../stores/workbench';
 import {useFeed} from '../stores/workbench';
 import {tasksToIcs, downloadIcs} from '../utils/icalUtils';
 import {AlertTriangle, Calendar, Check, Download, Eye, KeyRound, Palette, Save, Upload, Zap, Database, Sparkles} from 'lucide-react';
+import PersonalizationPanel from '../components/settings/PersonalizationPanel';
 import styles from './settings.module.css';
 
 const CN = {
@@ -183,6 +184,10 @@ export default function SettingsPage(): React.ReactElement {
                   </Select>
                 </div>
               </CardContent>
+            </Card>
+            <Card className={styles.section}>
+              <CardHeader><CardTitle><Palette size={16} /> 本地壁纸与头像</CardTitle></CardHeader>
+              <CardContent><PersonalizationPanel /></CardContent>
             </Card>
           </TabsContent>
 

@@ -1,0 +1,85 @@
+.loginLink,
+.adminLink,
+.userState,
+.logoutButton {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 1px solid var(--cr-border-color, #d8dee8);
+  border-radius: 5px;
+  background: var(--cr-card-bg, #ffffff);
+  color: var(--cr-text-secondary, #475569);
+  font-size: 12px;
+  font-weight: 720;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.loginLink:hover,
+.adminLink:hover {
+  border-color: var(--cr-accent, #2563eb);
+  color: var(--cr-accent, #2563eb);
+  text-decoration: none;
+}
+
+.adminLink {
+  border-color: color-mix(in srgb, var(--cr-accent, #2563eb) 35%, var(--cr-border-color, #d8dee8));
+  color: var(--cr-accent, #2563eb);
+}
+
+.accountGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.adminLink span,
+.userState span {
+  max-width: 112px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.avatar {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.logoutButton {
+  width: 36px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.logoutButton:hover:not(:disabled) {
+  color: #b33c36;
+}
+
+.loading {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--cr-border-color, #d8dee8);
+  border-radius: 5px;
+  background: var(--cr-surface, #f4f6f8);
+}
+
+@media (max-width: 1180px) {
+  .loginLink span,
+  .adminLink span,
+  .userState span {
+    display: none;
+  }
+
+  .loginLink,
+  .adminLink,
+  .userState {
+    width: 36px;
+    padding: 0;
+  }
+}

@@ -2,6 +2,23 @@ import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import path from 'path';
+import {config as loadEnv} from 'dotenv';
+
+loadEnv({path: path.resolve(process.cwd(), '.env.local'), quiet: true});
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabasePublishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+const missingSupabaseConfig = [
+  !supabaseUrl ? 'NEXT_PUBLIC_SUPABASE_URL' : null,
+  !supabasePublishableKey ? 'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY' : null,
+].filter(Boolean);
+
+if (missingSupabaseConfig.length > 0) {
+  throw new Error(
+    `Supabase public configuration is missing: ${missingSupabaseConfig.join(', ')}. ` +
+    'Configure the variables in .env.local before starting or building the site.',
+  );
+}
 
 const config: Config = {
   title: '无损压缩研究',
@@ -17,6 +34,11 @@ const config: Config = {
 
   organizationName: 'KennethParkerWang',
   projectName: 'Compressor_site',
+
+  customFields: {
+    supabaseUrl,
+    supabasePublishableKey,
+  },
 
   onBrokenLinks: 'throw',
   markdown: {

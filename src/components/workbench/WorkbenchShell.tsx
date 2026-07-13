@@ -16,6 +16,7 @@ import {
   GitBranch,
   Globe2,
   GraduationCap,
+  GripVertical,
   Library,
   Menu,
   Network,
@@ -24,6 +25,7 @@ import {
   PanelLeftOpen,
   Presentation,
   RadioTower,
+  RotateCcw,
   Search,
   Settings,
   Target,
@@ -31,6 +33,7 @@ import {
   X,
 } from 'lucide-react';
 import CommandPalette from './CommandPalette';
+import SiteAccountMenu from '../auth/SiteAccountMenu';
 import styles from './WorkbenchShell.module.css';
 
 type Lang = 'zh' | 'en';
@@ -41,6 +44,13 @@ interface NavItem {
   en: string;
   icon: React.ComponentType<{size?: number}>;
   matches?: readonly string[];
+}
+
+interface NavGroup {
+  zh: string;
+  en: string;
+  icon: React.ComponentType<{size?: number}>;
+  items: NavItem[];
 }
 
 const PRIMARY_NAV: NavItem[] = [
@@ -72,14 +82,15 @@ const PRIMARY_NAV: NavItem[] = [
     zh: '汇报',
     en: 'Briefings',
     icon: Presentation,
-    matches: ['/weekly-reports', '/calendar', '/tasks', '/project-overview'],
+    matches: ['/weekly-reports', '/calendar', '/tasks', '/project-overview', '/project-files'],
   },
 ];
 
-const SECONDARY_NAV: Array<{zh: string; en: string; items: NavItem[]}> = [
+const SECONDARY_NAV: NavGroup[] = [
   {
     zh: '阅读与证据',
     en: 'Reading & evidence',
+    icon: BookOpen,
     items: [
       {to: '/map', zh: '研究图谱', en: 'Research map', icon: Network},
       {to: '/core', zh: '核心论文', en: 'Core papers', icon: FileText},
@@ -92,6 +103,7 @@ const SECONDARY_NAV: Array<{zh: string; en: string; items: NavItem[]}> = [
   {
     zh: '方法与评测',
     en: 'Methods & evaluation',
+    icon: GitBranch,
     items: [
       {to: '/datasets', zh: '数据集', en: 'Datasets', icon: Database},
       {to: '/algorithm-evolution', zh: '算法脉络', en: 'Algorithm history', icon: GitBranch},
@@ -104,12 +116,14 @@ const SECONDARY_NAV: Array<{zh: string; en: string; items: NavItem[]}> = [
   {
     zh: '项目记录',
     en: 'Project records',
+    icon: ClipboardList,
     items: [
       {to: '/calendar', zh: '日程', en: 'Calendar', icon: CalendarDays},
       {to: '/tasks', zh: '任务', en: 'Tasks', icon: ClipboardList},
       {to: '/tutorials', zh: '教程资料', en: 'Tutorials', icon: GraduationCap},
       {to: '/hub', zh: '资源目录', en: 'Resources', icon: Library},
       {to: '/project-overview', zh: '年度计划', en: 'Annual plan', icon: FileText},
+      {to: '/project-files', zh: '项目文件', en: 'Project files', icon: Archive},
       {to: '/settings', zh: '设置', en: 'Settings', icon: Settings},
     ],
   },
@@ -127,6 +141,8 @@ const COPY = {
     closeMenu: '关闭导航',
     switchLocale: '切换到英文',
     primaryNav: '主要导航',
+    dragDirectory: '拖动研究索引',
+    resetDirectory: '还原索引位置',
   },
   en: {
     name: 'Lossless Compression',
@@ -139,6 +155,8 @@ const COPY = {
     closeMenu: 'Close navigation',
     switchLocale: 'Switch to Chinese',
     primaryNav: 'Primary navigation',
+    dragDirectory: 'Drag research index',
+    resetDirectory: 'Reset index position',
   },
 } as const;
 
@@ -174,6 +192,11 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [indexCollapsed, setIndexCollapsed] = React.useState(false);
   const [openIndexGroup, setOpenIndexGroup] = React.useState(activeIndexGroup?.zh ?? SECONDARY_NAV[0].zh);
+  const [indexPosition, setIndexPosition] = React.useState({x: 16, y: 92});
+  const [indexDragging, setIndexDragging] = React.useState(false);
+  const indexRef = React.useRef<HTMLElement | null>(null);
+  const indexPositionRef = React.useRef(indexPosition);
+  const dragState = React.useRef<{pointerId: number; offsetX: number; offsetY: number} | null>(null);
 
   React.useEffect(() => {
     setMobileOpen(false);
@@ -182,7 +205,37 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
 
   React.useEffect(() => {
     setIndexCollapsed(window.localStorage.getItem('cr-research-index-collapsed') === 'true');
+    const storedPosition = window.localStorage.getItem('cr-research-index-position');
+    if (storedPosition) {
+      try {
+        const parsed = JSON.parse(storedPosition) as {x?: number; y?: number};
+        if (Number.isFinite(parsed.x) && Number.isFinite(parsed.y)) {
+          const next = {x: Math.max(8, parsed.x as number), y: Math.max(76, parsed.y as number)};
+          indexPositionRef.current = next;
+          setIndexPosition(next);
+        }
+      } catch {
+        window.localStorage.removeItem('cr-research-index-position');
+      }
+    }
   }, []);
+
+  React.useEffect(() => {
+    const keepIndexInViewport = (): void => {
+      const width = indexRef.current?.offsetWidth ?? (indexCollapsed ? 62 : 252);
+      setIndexPosition((position) => {
+        const next = {
+          x: Math.min(position.x, Math.max(8, window.innerWidth - width - 8)),
+          y: Math.min(position.y, Math.max(76, window.innerHeight - 180)),
+        };
+        indexPositionRef.current = next;
+        return next;
+      });
+    };
+    window.addEventListener('resize', keepIndexInViewport);
+    keepIndexInViewport();
+    return () => window.removeEventListener('resize', keepIndexInViewport);
+  }, [indexCollapsed]);
 
   const toggleIndex = (): void => {
     setIndexCollapsed((value) => {
@@ -192,11 +245,53 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
     });
   };
 
+  const resetIndexPosition = (): void => {
+    const next = {x: 16, y: 92};
+    indexPositionRef.current = next;
+    setIndexPosition(next);
+    window.localStorage.removeItem('cr-research-index-position');
+  };
+
+  const handleIndexPointerDown = (event: React.PointerEvent<HTMLElement>): void => {
+    if ((event.target as HTMLElement).closest('button, a')) return;
+    const bounds = indexRef.current?.getBoundingClientRect();
+    if (!bounds) return;
+    dragState.current = {
+      pointerId: event.pointerId,
+      offsetX: event.clientX - bounds.left,
+      offsetY: event.clientY - bounds.top,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setIndexDragging(true);
+  };
+
+  const handleIndexPointerMove = (event: React.PointerEvent<HTMLElement>): void => {
+    const drag = dragState.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    const width = indexRef.current?.offsetWidth ?? (indexCollapsed ? 62 : 252);
+    const height = indexRef.current?.offsetHeight ?? 180;
+    const next = {
+      x: Math.min(Math.max(8, event.clientX - drag.offsetX), Math.max(8, window.innerWidth - width - 8)),
+      y: Math.min(Math.max(76, event.clientY - drag.offsetY), Math.max(76, window.innerHeight - Math.min(height, 180))),
+    };
+    indexPositionRef.current = next;
+    setIndexPosition(next);
+  };
+
+  const handleIndexPointerUp = (event: React.PointerEvent<HTMLElement>): void => {
+    const drag = dragState.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    dragState.current = null;
+    setIndexDragging(false);
+    window.localStorage.setItem('cr-research-index-position', JSON.stringify(indexPositionRef.current));
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+  };
+
   const localePath = lang === 'en' ? normalizedPath : addEnglishPrefix(normalizedPath);
   const localeTarget = `${withBasePath(localePath, baseUrl)}${location.search}${location.hash}`;
 
   return (
-    <div className={styles.shell} data-index-collapsed={indexCollapsed}>
+    <div className={styles.shell} data-index-collapsed={indexCollapsed} data-index-moved={indexPosition.x !== 16 || indexPosition.y !== 92}>
       <header className={styles.siteHeader}>
         <div className={styles.headerInner}>
           <Link to="/" className={styles.brand}>
@@ -230,6 +325,8 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
               <kbd>Ctrl K</kbd>
             </button>
 
+            <SiteAccountMenu compact />
+
             <a href={localeTarget} className={styles.localeButton} title={copy.switchLocale} aria-label={copy.switchLocale}>
               <Globe2 size={16} />
               <span>{lang === 'zh' ? 'EN' : '中'}</span>
@@ -241,39 +338,86 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
         </div>
       </header>
 
-      <aside className={styles.researchIndex} aria-label={copy.directory}>
-        <header>
+      <aside
+        ref={indexRef}
+        className={styles.researchIndex}
+        aria-label={copy.directory}
+        data-dragging={indexDragging}
+        style={{left: indexPosition.x, top: indexPosition.y, bottom: 'auto', height: `calc(100vh - ${indexPosition.y + 16}px)`}}
+      >
+        <header
+          onPointerDown={handleIndexPointerDown}
+          onPointerMove={handleIndexPointerMove}
+          onPointerUp={handleIndexPointerUp}
+          onPointerCancel={handleIndexPointerUp}
+          title={copy.dragDirectory}
+        >
           <div className={styles.indexIdentity}>
             <span className={styles.indexMark}><Network size={14} /></span>
-            <strong>{copy.directory}</strong>
+            <span className={styles.indexIdentityCopy}>
+              <strong>{copy.directory}</strong>
+              <small>{copy.dragDirectory}</small>
+            </span>
           </div>
+          <GripVertical className={styles.dragGrip} size={16} aria-hidden="true" />
           <button type="button" onClick={toggleIndex} aria-label={indexCollapsed ? copy.expandDirectory : copy.collapseDirectory} title={indexCollapsed ? copy.expandDirectory : copy.collapseDirectory}>
             {indexCollapsed ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
           </button>
         </header>
-        <div className={styles.indexGroups}>
-          {SECONDARY_NAV.map((group) => {
+        {indexCollapsed ? (
+          <div className={styles.compactGroups}>
+            {SECONDARY_NAV.map((group, groupIndex) => {
+              const GroupIcon = group.icon;
+              const label = lang === 'zh' ? group.zh : group.en;
+              const active = group.items.some(isActive);
+              return (
+                <button
+                  type="button"
+                  key={group.zh}
+                  data-group={groupIndex}
+                  data-active={active}
+                  onClick={() => {
+                    setOpenIndexGroup(group.zh);
+                    setIndexCollapsed(false);
+                    window.localStorage.setItem('cr-research-index-collapsed', 'false');
+                  }}
+                  aria-label={label}
+                  title={label}
+                >
+                  <GroupIcon size={18} />
+                  <span>{String(groupIndex + 1).padStart(2, '0')}</span>
+                </button>
+              );
+            })}
+            <button type="button" className={styles.resetIndexButton} onClick={resetIndexPosition} aria-label={copy.resetDirectory} title={copy.resetDirectory}>
+              <RotateCcw size={17} />
+            </button>
+          </div>
+        ) : (
+          <div className={styles.indexGroups}>
+          {SECONDARY_NAV.map((group, groupIndex) => {
             const groupActive = group.items.some(isActive);
             const groupOpen = openIndexGroup === group.zh;
+            const GroupIcon = group.icon;
             return (
-              <section key={group.zh} data-active={groupActive}>
+              <section key={group.zh} data-active={groupActive} data-group={groupIndex}>
                 <button
                   type="button"
                   className={styles.groupTrigger}
                   aria-expanded={groupOpen}
-                  onClick={() => setOpenIndexGroup(group.zh)}
+                  onClick={() => setOpenIndexGroup((current) => current === group.zh ? '' : group.zh)}
                 >
-                  <span>{lang === 'zh' ? group.zh : group.en}</span>
+                  <span><GroupIcon size={16} />{lang === 'zh' ? group.zh : group.en}</span>
                   <ChevronDown size={14} />
                 </button>
-                <div className={styles.groupItems} data-open={groupOpen}>
+                <div className={styles.groupItems} data-open={groupOpen} aria-hidden={!groupOpen}>
                   <div>
                     {group.items.map((item) => {
                       const Icon = item.icon;
                       const label = lang === 'zh' ? item.zh : item.en;
                       const active = isActive(item);
                       return (
-                        <Link key={item.to} to={item.to} data-active={active} aria-current={active ? 'page' : undefined} title={label}>
+                        <Link key={item.to} to={item.to} data-active={active} aria-current={active ? 'page' : undefined} title={label} tabIndex={groupOpen ? undefined : -1}>
                           <Icon size={16} />
                           <span>{label}</span>
                         </Link>
@@ -284,7 +428,13 @@ export default function WorkbenchShell({children, fullBleed = false}: WorkbenchS
               </section>
             );
           })}
-        </div>
+          {indexPosition.x !== 16 || indexPosition.y !== 92 ? (
+            <button type="button" className={styles.resetPositionBar} onClick={resetIndexPosition}>
+              <RotateCcw size={14} /> {copy.resetDirectory}
+            </button>
+          ) : null}
+          </div>
+        )}
       </aside>
 
       {mobileOpen ? (

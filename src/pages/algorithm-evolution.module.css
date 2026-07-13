@@ -326,12 +326,23 @@
 .roadmapScroller {
   max-height: min(68vh, 720px);
   overflow: auto;
+  cursor: grab;
   background:
     linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
     linear-gradient(180deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px),
     var(--cr-card-bg);
   background-size: 32px 32px;
 }
+
+.roadmapScroller[data-panning='true'] {
+  cursor: grabbing;
+  scroll-behavior: auto;
+  user-select: none;
+}
+
+.roadmapScroller button,
+.roadmapScroller a,
+.roadmapScroller select { cursor: pointer; }
 
 .mapSurfaceFullscreen .roadmapScroller {
   flex: 1 1 auto;
