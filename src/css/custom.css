@@ -414,7 +414,7 @@ html[data-cr-wallpaper='true'] body::after {
 }
 
 .cr-local-wallpaper-veil {
-  background: linear-gradient(rgba(243, 246, 250, .22), rgba(243, 246, 250, .38));
+  background: linear-gradient(rgba(243, 246, 250, .3), rgba(243, 246, 250, .48));
 }
 
 #cr-site-layer {

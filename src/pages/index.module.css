@@ -1,4 +1,52 @@
 .page { width: min(1460px, 100%); margin: 0 auto; color: var(--cr-text-primary); }
+:global(html[data-cr-wallpaper='true']) .hero,
+:global(html[data-cr-wallpaper='true']) .metrics,
+:global(html[data-cr-wallpaper='true']) .focusSection,
+:global(html[data-cr-wallpaper='true']) .outputsSection,
+:global(html[data-cr-wallpaper='true']) .planSection,
+:global(html[data-cr-wallpaper='true']) .ganttSection,
+:global(html[data-cr-wallpaper='true']) .scopeSection,
+:global(html[data-cr-wallpaper='true']) .detailSection,
+:global(html[data-cr-wallpaper='true']) .pageFooter {
+  background: color-mix(in srgb, var(--cr-surface) 86%, transparent);
+  backdrop-filter: blur(14px) saturate(.86);
+  -webkit-backdrop-filter: blur(14px) saturate(.86);
+}
+:global(html[data-cr-wallpaper='true']) .hero {
+  margin-top: 22px;
+  padding-inline: clamp(22px, 3vw, 44px);
+  border: 1px solid color-mix(in srgb, var(--cr-border-color) 82%, transparent);
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 18px 55px rgba(15, 23, 42, .12);
+}
+:global(html[data-cr-wallpaper='true']) .metrics {
+  padding-inline: clamp(8px, 1.5vw, 22px);
+  border-inline: 1px solid color-mix(in srgb, var(--cr-border-color) 82%, transparent);
+}
+:global(html[data-cr-wallpaper='true']) .focusSection,
+:global(html[data-cr-wallpaper='true']) .outputsSection,
+:global(html[data-cr-wallpaper='true']) .planSection,
+:global(html[data-cr-wallpaper='true']) .ganttSection,
+:global(html[data-cr-wallpaper='true']) .scopeSection,
+:global(html[data-cr-wallpaper='true']) .detailSection,
+:global(html[data-cr-wallpaper='true']) .pageFooter {
+  padding-inline: clamp(22px, 3vw, 44px);
+  border-inline: 1px solid color-mix(in srgb, var(--cr-border-color) 82%, transparent);
+}
+:global(html[data-cr-wallpaper='true']) .pageFooter {
+  border-bottom: 1px solid color-mix(in srgb, var(--cr-border-color) 82%, transparent);
+  border-radius: 0 0 10px 10px;
+  margin-bottom: 44px;
+}
+:global(html[data-cr-wallpaper='true']) .heroCopy,
+:global(html[data-cr-wallpaper='true']) .systemFigure {
+  padding: 20px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--cr-card-bg) 72%, transparent);
+}
+:global(html[data-cr-wallpaper='true']) .heroCopy {
+  text-shadow: 0 1px 1px rgba(255, 255, 255, .45);
+}
 .hero { min-height: 510px; display: grid; grid-template-columns: minmax(380px, .86fr) minmax(500px, 1.14fr); align-items: center; gap: clamp(34px, 5vw, 76px); padding: 46px 0 34px; border-bottom: 1px solid var(--cr-border-color); }
 .heroCopy { max-width: 640px; }
 .eyebrow,

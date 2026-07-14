@@ -1,0 +1,31 @@
+.editTrigger { position: fixed; right: 22px; bottom: 22px; z-index: 80; min-height: 40px; display: inline-flex; align-items: center; gap: 7px; padding: 0 14px; border: 1px solid #1d4ed8; border-radius: 7px; background: #2563eb; color: #fff; box-shadow: 0 12px 32px rgba(15, 23, 42, .24); font-size: 13px; font-weight: 800; cursor: pointer; }
+.editTrigger:hover { transform: translateY(-1px); background: #1d4ed8; }
+.backdrop { position: fixed; inset: 0; z-index: 2147483600; display: grid; place-items: center; padding: 24px; background: rgba(15, 23, 42, .56); backdrop-filter: blur(6px); }
+.dialog { width: min(760px, 100%); max-height: min(880px, calc(100vh - 36px)); overflow: auto; border: 1px solid #cbd5e1; border-radius: 10px; background: #fff; color: #172033; box-shadow: 0 30px 90px rgba(15, 23, 42, .38); }
+.dialog > header { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 20px; border-bottom: 1px solid #e2e8f0; }
+.dialog > header span { color: #2563eb; font: 800 10px/1.2 var(--ifm-font-family-monospace); letter-spacing: .08em; }
+.dialog > header h2 { margin: 5px 0 0; font-size: 21px; }
+.dialog > header button { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid #dbe3ee; border-radius: 6px; background: #f8fafc; color: #475569; cursor: pointer; }
+.form { display: grid; gap: 16px; padding: 20px; }
+.form > label { display: grid; gap: 7px; }
+.form label > span { color: #334155; font-size: 12px; font-weight: 800; }
+.form input:not([type='checkbox']), .form textarea { width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; color: #172033; padding: 10px 12px; font: inherit; outline: none; }
+.form input:focus, .form textarea:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, .12); }
+.imageField { display: grid; grid-template-columns: minmax(220px, 1fr) 190px; gap: 14px; }
+.preview { min-height: 180px; display: grid; place-items: center; overflow: hidden; border: 1px solid #dbe3ee; border-radius: 7px; background: #f8fafc; color: #64748b; }
+.preview img { width: 100%; height: 220px; object-fit: contain; }
+.imageField > div:last-child { display: grid; align-content: start; gap: 9px; }
+.fileButton, .removeButton { min-height: 40px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; color: #334155; font-size: 12px; font-weight: 800; cursor: pointer; }
+.fileButton { background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8; }
+.removeButton:disabled { opacity: .45; cursor: not-allowed; }
+.publishToggle { grid-template-columns: 18px 16px minmax(0, 1fr); align-items: center; gap: 7px !important; width: max-content; }
+.publishToggle input { width: 16px; height: 16px; margin: 0; }
+.progress { display: grid; gap: 7px; color: #2563eb; font-size: 12px; font-weight: 800; }
+.progress i { height: 4px; overflow: hidden; border-radius: 99px; background: #dbeafe; }
+.progress b { height: 100%; display: block; background: #2563eb; }
+.message { margin: 0; padding: 10px 12px; border-radius: 6px; background: #ecfdf5; color: #047857; font-size: 12px; }
+.message[data-kind='error'] { background: #fef2f2; color: #b91c1c; }
+.dialog > footer { display: flex; justify-content: flex-end; gap: 8px; padding: 14px 20px; border-top: 1px solid #e2e8f0; background: #f8fafc; }
+.dialog > footer button { min-height: 38px; padding: 0 14px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; color: #334155; font-weight: 800; cursor: pointer; }
+.dialog > footer .saveButton { display: inline-flex; align-items: center; gap: 7px; border-color: #2563eb; background: #2563eb; color: #fff; }
+@media (max-width: 680px) { .imageField { grid-template-columns: 1fr; } .backdrop { padding: 8px; } .editTrigger { right: 12px; bottom: 12px; } }

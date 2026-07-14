@@ -21,7 +21,6 @@ import {bulkAddNotes, createReadTasks} from '../components/workbench/actions';
 import {useWorkbenchStats} from '../components/workbench/stats';
 import {EvidenceBadge, MetricTile, StatusPill} from '../components/research-console/ResearchConsole';
 import CitationExportDialog from '../components/library/CitationExportDialog';
-import LocalPaperShelf from '../components/library/LocalPaperShelf';
 import PaperPdfControl from '../components/library/PaperPdfControl';
 import ReadingStatusControl from '../components/library/ReadingStatusControl';
 import {auditCitationRecords, classifyCitationItems} from '../utils/citations';
@@ -322,8 +321,6 @@ export default function LibraryPage(): React.ReactElement {
             </Button>
           </div>
         </section>
-
-        <LocalPaperShelf />
 
         <section className={styles.libraryMetrics}>
           <MetricTile label="Records" value={stats.totalLit} hint="全库事实条目" icon={Database} tone="blue" />

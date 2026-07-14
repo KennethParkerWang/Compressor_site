@@ -18,6 +18,7 @@ import {
   Target,
 } from 'lucide-react';
 import WorkbenchShell from '../components/workbench/WorkbenchShell';
+import ManagedPageSection from '../components/admin/ManagedPageSection';
 import {useWorkbenchStats} from '../components/workbench/stats';
 import {algorithmModules} from '../data/algorithmModules';
 import {getNextWeeklyReportIndex, getWeeklyReportAt} from '../data/weeklyReports';
@@ -238,12 +239,19 @@ export default function Home(): React.ReactElement {
   return (
     <Layout title={copy.layoutTitle} description={copy.description}>
       <WorkbenchShell pageTitle={copy.layoutTitle}>
-        <div className={styles.page}>
+        <div className={styles.page} data-wallpaper-readable="home">
           <header className={styles.hero}>
+            <ManagedPageSection
+              pageKey="home"
+              sectionKey={lang === 'en' ? 'hero-en' : 'hero-zh'}
+              label={lang === 'en' ? 'homepage hero' : '首页主视觉'}
+              fallback={{title: copy.title, content: copy.lede, imageUrl: systemImage, imageAlt: copy.visualTitle}}
+            >
+              {(managedHero) => <>
             <div className={styles.heroCopy}>
               <span className={styles.eyebrow}>{copy.heroLabel}</span>
-              <h1>{copy.title}</h1>
-              <p className={styles.lede}>{copy.lede}</p>
+              <h1>{managedHero.title}</h1>
+              <p className={styles.lede}>{managedHero.content}</p>
               <div className={styles.objective}><Target size={18} /><div><span>{copy.objectiveLabel}</span><strong>{copy.objective}</strong></div></div>
               <div className={styles.heroActions}>
                 <Link className={styles.primaryAction} to="/library"><BookOpen size={16} />{copy.library}</Link>
@@ -253,9 +261,11 @@ export default function Home(): React.ReactElement {
             </div>
             <figure className={styles.systemFigure}>
               <div><span>{copy.visualTitle}</span><strong>ENCODE → BITSTREAM → DECODE</strong></div>
-              <img src={systemImage} alt={copy.visualTitle} />
+              <img src={managedHero.imageUrl ?? systemImage} alt={managedHero.imageAlt ?? copy.visualTitle} />
               <figcaption>{copy.visualCaption}</figcaption>
             </figure>
+              </>}
+            </ManagedPageSection>
           </header>
 
           <section className={styles.metrics} aria-label={copy.focusLabel}>

@@ -69,6 +69,21 @@ export async function listPageSections(client: SupabaseClient): Promise<PageSect
   return (data ?? []) as PageSectionRecord[];
 }
 
+export async function getPageSection(
+  client: SupabaseClient,
+  pageKey: string,
+  sectionKey: string,
+): Promise<PageSectionRecord | null> {
+  const {data, error} = await client
+    .from('page_sections')
+    .select('*')
+    .eq('page_key', pageKey)
+    .eq('section_key', sectionKey)
+    .maybeSingle();
+  if (error) throw error;
+  return data as PageSectionRecord | null;
+}
+
 export async function savePageSection(
   client: SupabaseClient,
   values: Omit<PageSectionRecord, 'created_at' | 'updated_at'>,
@@ -150,6 +165,12 @@ export async function listFiles(client: SupabaseClient): Promise<FileRecord[]> {
   const {data, error} = await client.from('files').select('*').order('created_at', {ascending: false});
   if (error) throw error;
   return (data ?? []) as FileRecord[];
+}
+
+export async function getFileById(client: SupabaseClient, id: string): Promise<FileRecord | null> {
+  const {data, error} = await client.from('files').select('*').eq('id', id).maybeSingle();
+  if (error) throw error;
+  return data as FileRecord | null;
 }
 
 export async function listFilesByRelation(client: SupabaseClient, relatedType: string, relatedId: string): Promise<FileRecord[]> {
