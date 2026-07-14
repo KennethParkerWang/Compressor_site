@@ -13,15 +13,18 @@
   -webkit-backdrop-filter: blur(14px) saturate(.86);
 }
 :global(html[data-cr-wallpaper='true']) .hero {
-  margin-top: 22px;
+  margin: 22px 0 18px;
   padding-inline: clamp(22px, 3vw, 44px);
   border: 1px solid color-mix(in srgb, var(--cr-border-color) 82%, transparent);
-  border-radius: 10px 10px 0 0;
+  border-radius: 10px;
   box-shadow: 0 18px 55px rgba(15, 23, 42, .12);
 }
 :global(html[data-cr-wallpaper='true']) .metrics {
+  margin-bottom: 18px;
   padding-inline: clamp(8px, 1.5vw, 22px);
-  border-inline: 1px solid color-mix(in srgb, var(--cr-border-color) 82%, transparent);
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--cr-border-color) 82%, transparent);
+  border-radius: 10px;
 }
 :global(html[data-cr-wallpaper='true']) .focusSection,
 :global(html[data-cr-wallpaper='true']) .outputsSection,
@@ -30,12 +33,12 @@
 :global(html[data-cr-wallpaper='true']) .scopeSection,
 :global(html[data-cr-wallpaper='true']) .detailSection,
 :global(html[data-cr-wallpaper='true']) .pageFooter {
+  margin-bottom: 18px;
   padding-inline: clamp(22px, 3vw, 44px);
-  border-inline: 1px solid color-mix(in srgb, var(--cr-border-color) 82%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cr-border-color) 82%, transparent);
+  border-radius: 10px;
 }
 :global(html[data-cr-wallpaper='true']) .pageFooter {
-  border-bottom: 1px solid color-mix(in srgb, var(--cr-border-color) 82%, transparent);
-  border-radius: 0 0 10px 10px;
   margin-bottom: 44px;
 }
 :global(html[data-cr-wallpaper='true']) .heroCopy,

@@ -22,6 +22,12 @@ export interface LocalWallpaperAsset {
   blob: Blob;
 }
 
+interface LocalWallpaperMeta {
+  id: string;
+  name: string;
+  createdAt: string;
+}
+
 export const DEFAULT_WALLPAPER_SETTINGS: WallpaperSettings = {
   enabled: false,
   activeWallpaperId: null,
@@ -35,9 +41,12 @@ export const DEFAULT_WALLPAPER_SETTINGS: WallpaperSettings = {
 
 const SETTINGS_KEY = 'cr-local-wallpaper-settings-v2';
 const WALLPAPER_LIBRARY_KEY = 'cr-local-wallpaper-library-v1';
+const WALLPAPER_INDEX_KEY = 'cr-local-wallpaper-index-v2';
+const WALLPAPER_BLOB_PREFIX = 'cr-local-wallpaper-blob-v2:';
 const LEGACY_WALLPAPER_KEY = 'cr-local-wallpaper-v1';
 const AVATAR_KEY = 'cr-local-avatar-v1';
 const CHANGE_EVENT = 'cr-local-personalization-change';
+let wallpaperMutationQueue: Promise<void> = Promise.resolve();
 
 function clamp(value: unknown, min: number, max: number, fallback: number): number {
   const numeric = Number(value);
@@ -87,20 +96,59 @@ function isWallpaperAsset(value: unknown): value is LocalWallpaperAsset {
   return typeof asset.id === 'string' && typeof asset.name === 'string' && typeof asset.createdAt === 'string' && asset.blob instanceof Blob;
 }
 
+function isWallpaperMeta(value: unknown): value is LocalWallpaperMeta {
+  if (!value || typeof value !== 'object') return false;
+  const meta = value as Partial<LocalWallpaperMeta>;
+  return typeof meta.id === 'string' && typeof meta.name === 'string' && typeof meta.createdAt === 'string';
+}
+
+function wallpaperBlobKey(id: string): string {
+  return `${WALLPAPER_BLOB_PREFIX}${id}`;
+}
+
+function queueWallpaperMutation<T>(operation: () => Promise<T>): Promise<T> {
+  const result = wallpaperMutationQueue.then(operation, operation);
+  wallpaperMutationQueue = result.then(() => undefined, () => undefined);
+  return result;
+}
+
+async function storeWallpaperLibrary(assets: LocalWallpaperAsset[]): Promise<void> {
+  for (const asset of assets) await set(wallpaperBlobKey(asset.id), asset.blob);
+  await set(WALLPAPER_INDEX_KEY, assets.map(({id, name, createdAt}) => ({id, name, createdAt})));
+}
+
 export async function getLocalWallpapers(): Promise<LocalWallpaperAsset[]> {
+  const indexed = await get<unknown>(WALLPAPER_INDEX_KEY);
+  if (Array.isArray(indexed)) {
+    const metas = indexed.filter(isWallpaperMeta);
+    const resolved = await Promise.all(metas.map(async (meta): Promise<LocalWallpaperAsset | null> => {
+      const blob = await get<unknown>(wallpaperBlobKey(meta.id));
+      return blob instanceof Blob ? {...meta, blob} : null;
+    }));
+    return resolved.filter((asset): asset is LocalWallpaperAsset => asset !== null);
+  }
+
   const stored = await get<unknown>(WALLPAPER_LIBRARY_KEY);
   const assets = Array.isArray(stored) ? stored.filter(isWallpaperAsset) : [];
-  if (assets.length > 0) return assets;
+  if (assets.length > 0) {
+    await storeWallpaperLibrary(assets);
+    await del(WALLPAPER_LIBRARY_KEY);
+    return assets;
+  }
 
   const legacy = await get<unknown>(LEGACY_WALLPAPER_KEY);
-  if (!(legacy instanceof Blob)) return [];
+  if (!(legacy instanceof Blob)) {
+    await set(WALLPAPER_INDEX_KEY, []);
+    return [];
+  }
   const migrated: LocalWallpaperAsset = {
     id: 'legacy-wallpaper',
     name: '原有壁纸',
     createdAt: new Date().toISOString(),
     blob: legacy,
   };
-  await set(WALLPAPER_LIBRARY_KEY, [migrated]);
+  await storeWallpaperLibrary([migrated]);
+  await del(LEGACY_WALLPAPER_KEY);
   return [migrated];
 }
 
@@ -109,12 +157,20 @@ export async function addLocalWallpaper(file: File): Promise<string> {
   const id = typeof crypto !== 'undefined' && 'randomUUID' in crypto
     ? crypto.randomUUID()
     : `wallpaper-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-  const asset: LocalWallpaperAsset = {id, name: file.name, createdAt: new Date().toISOString(), blob: file};
-  const assets = await getLocalWallpapers();
-  await set(WALLPAPER_LIBRARY_KEY, [asset, ...assets]);
-  const settings = getWallpaperSettings();
-  saveWallpaperSettings({...settings, enabled: true, activeWallpaperId: id});
-  return id;
+  return queueWallpaperMutation(async () => {
+    const asset: LocalWallpaperAsset = {id, name: file.name, createdAt: new Date().toISOString(), blob: file};
+    const assets = await getLocalWallpapers();
+    await set(wallpaperBlobKey(id), file);
+    try {
+      await set(WALLPAPER_INDEX_KEY, [asset, ...assets].map(({id: assetId, name, createdAt}) => ({id: assetId, name, createdAt})));
+    } catch (error) {
+      await del(wallpaperBlobKey(id));
+      throw error;
+    }
+    const settings = getWallpaperSettings();
+    saveWallpaperSettings({...settings, enabled: true, activeWallpaperId: id});
+    return id;
+  });
 }
 
 export function selectLocalWallpaper(id: string): void {
@@ -126,18 +182,21 @@ export function selectDefaultTheme(): void {
 }
 
 export async function deleteLocalWallpaper(id: string): Promise<void> {
-  const remaining = (await getLocalWallpapers()).filter((asset) => asset.id !== id);
-  await set(WALLPAPER_LIBRARY_KEY, remaining);
-  const settings = getWallpaperSettings();
-  if (settings.activeWallpaperId === id || (settings.activeWallpaperId === null && remaining.length === 0)) {
-    saveWallpaperSettings({
-      ...settings,
-      enabled: remaining.length > 0,
-      activeWallpaperId: remaining[0]?.id ?? null,
-    });
-  } else {
-    emitChange();
-  }
+  await queueWallpaperMutation(async () => {
+    const remaining = (await getLocalWallpapers()).filter((asset) => asset.id !== id);
+    await set(WALLPAPER_INDEX_KEY, remaining.map(({id: assetId, name, createdAt}) => ({id: assetId, name, createdAt})));
+    await del(wallpaperBlobKey(id));
+    const settings = getWallpaperSettings();
+    if (settings.activeWallpaperId === id || (settings.activeWallpaperId === null && remaining.length === 0)) {
+      saveWallpaperSettings({
+        ...settings,
+        enabled: remaining.length > 0,
+        activeWallpaperId: remaining[0]?.id ?? null,
+      });
+    } else {
+      emitChange();
+    }
+  });
 }
 
 export async function getLocalImage(kind: LocalImageKind): Promise<Blob | null> {
@@ -171,21 +230,32 @@ export async function deleteLocalImage(kind: LocalImageKind): Promise<void> {
   emitChange();
 }
 
-export function useLocalImageUrl(kind: LocalImageKind): string | null {
-  const [url, setUrl] = React.useState<string | null>(null);
+export interface LocalImageUrlState {
+  url: string | null;
+  ready: boolean;
+}
+
+export function useLocalImageState(kind: LocalImageKind): LocalImageUrlState {
+  const [state, setState] = React.useState<LocalImageUrlState>({url: null, ready: false});
 
   React.useEffect(() => {
     let active = true;
     let objectUrl: string | null = null;
     const load = async (): Promise<void> => {
-      if (objectUrl) URL.revokeObjectURL(objectUrl);
       try {
         const blob = await getLocalImage(kind);
-        objectUrl = blob ? URL.createObjectURL(blob) : null;
+        const nextUrl = blob ? URL.createObjectURL(blob) : null;
+        if (!active) {
+          if (nextUrl) URL.revokeObjectURL(nextUrl);
+          return;
+        }
+        const previousUrl = objectUrl;
+        objectUrl = nextUrl;
+        setState({url: nextUrl, ready: true});
+        if (previousUrl) URL.revokeObjectURL(previousUrl);
       } catch {
-        objectUrl = null;
+        if (active) setState({url: objectUrl, ready: true});
       }
-      if (active) setUrl(objectUrl);
     };
     const onChange = (): void => { void load(); };
     void load();
@@ -197,7 +267,11 @@ export function useLocalImageUrl(kind: LocalImageKind): string | null {
     };
   }, [kind]);
 
-  return url;
+  return state;
+}
+
+export function useLocalImageUrl(kind: LocalImageKind): string | null {
+  return useLocalImageState(kind).url;
 }
 
 export function useLocalWallpaperSettings(): WallpaperSettings {

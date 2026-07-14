@@ -244,7 +244,7 @@ export default function Home(): React.ReactElement {
             <ManagedPageSection
               pageKey="home"
               sectionKey={lang === 'en' ? 'hero-en' : 'hero-zh'}
-              label={lang === 'en' ? 'homepage hero' : '首页主视觉'}
+              label={lang === 'en' ? 'homepage title, text and image' : '首页标题、正文与图片'}
               fallback={{title: copy.title, content: copy.lede, imageUrl: systemImage, imageAlt: copy.visualTitle}}
             >
               {(managedHero) => <>

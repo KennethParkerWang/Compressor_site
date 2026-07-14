@@ -1,28 +1,29 @@
 import React from 'react';
-import {useLocalImageUrl, useLocalWallpaperSettings} from '../lib/localPersonalization';
+import {useLocalImageState, useLocalWallpaperSettings} from '../lib/localPersonalization';
 
 export default function LocalPersonalizationController(): React.ReactElement | null {
-  const wallpaperUrl = useLocalImageUrl('wallpaper');
+  const {url: wallpaperUrl, ready} = useLocalImageState('wallpaper');
   const settings = useLocalWallpaperSettings();
-  const enabled = Boolean(wallpaperUrl && settings.enabled);
+  const enabled = Boolean(settings.enabled && (!ready || wallpaperUrl));
 
   React.useEffect(() => {
     const root = document.documentElement;
     root.dataset.crWallpaper = enabled ? 'true' : 'false';
-  }, [enabled]);
+    root.dataset.crWallpaperReady = ready ? 'true' : 'false';
+  }, [enabled, ready]);
 
-  if (!enabled || !wallpaperUrl) return null;
+  if (!enabled) return null;
 
   return (
-    <div id="cr-local-wallpaper-layer" aria-hidden="true">
+    <div id="cr-local-wallpaper-layer" data-ready={ready && Boolean(wallpaperUrl)} aria-hidden="true">
       <div
         className="cr-local-wallpaper-image"
         style={{
-          backgroundImage: `url("${wallpaperUrl}")`,
+          backgroundImage: wallpaperUrl ? `url("${wallpaperUrl}")` : undefined,
           backgroundPosition: `${settings.positionX}% ${settings.positionY}%`,
           backgroundSize: settings.fit,
           filter: `blur(${settings.blur}px) brightness(${settings.brightness}%)`,
-          opacity: settings.opacity,
+          opacity: wallpaperUrl ? settings.opacity : 0,
         }}
       />
       <div className="cr-local-wallpaper-veil" />
