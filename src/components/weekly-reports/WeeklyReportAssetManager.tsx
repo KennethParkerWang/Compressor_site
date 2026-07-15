@@ -7,23 +7,20 @@ import {ALLOWED_ADMIN_FILE_TYPES, deleteAdminFile, formatFileSize, getAdminFileP
 import {safeSupabaseError, useSupabaseBrowserClient} from '../../lib/supabaseClient';
 import {useSiteAdminAccess} from '../../lib/useSiteAdminAccess';
 import type {WeeklyReportItem, WeeklyReportPresenter} from '../../data/weeklyReports';
+import {
+  parseWeeklyReportArchiveMetadata,
+  weeklyReportPresenterId,
+  type WeeklyReportArchiveMetadata,
+  type WeeklyReportAssetKind,
+} from '../../lib/weeklyReportArchive';
 import styles from './WeeklyReportAssetManager.module.css';
 
 type Lang = 'zh' | 'en';
-type AssetKind = 'slides' | 'report' | 'minutes' | 'image' | 'other';
+type AssetKind = WeeklyReportAssetKind;
 
 interface PresenterOption extends WeeklyReportPresenter {
   id: string;
   path: string;
-}
-
-interface ArchiveMetadata {
-  version: 1;
-  reportId: string;
-  presenterId: string;
-  presenterZh: string;
-  presenterEn: string;
-  assetKind: AssetKind;
 }
 
 const ASSET_KINDS: Record<AssetKind, {zh: string; en: string; accept: string; mimeTypes: readonly string[]}> = {
@@ -41,7 +38,7 @@ const ASSET_KINDS: Record<AssetKind, {zh: string; en: string; accept: string; mi
 };
 
 function presenterId(presenter: WeeklyReportPresenter): string {
-  return presenter.presenterEn.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  return weeklyReportPresenterId(presenter);
 }
 
 function presenterOptions(report: WeeklyReportItem): PresenterOption[] {
@@ -56,21 +53,12 @@ function defaultPresenterId(report: WeeklyReportItem): string {
   return pending ? presenterId(pending) : 'shared';
 }
 
-function parseMetadata(file: FileRecord): ArchiveMetadata | null {
-  try {
-    const value = JSON.parse(file.description) as Partial<ArchiveMetadata>;
-    if (value.version !== 1 || !value.reportId || !value.presenterId || !value.assetKind) return null;
-    return value as ArchiveMetadata;
-  } catch {
-    return null;
-  }
-}
-
-function AssetManagerClient({report, lang}: {report: WeeklyReportItem; lang: Lang}): React.ReactElement {
+function AssetManagerClient({report, lang, onFilesChange}: {report: WeeklyReportItem; lang: Lang; onFilesChange?: (files: FileRecord[]) => void}): React.ReactElement {
   const {client, config} = useSupabaseBrowserClient();
   const {isAdmin, loading: accessLoading} = useSiteAdminAccess();
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const uploadingRef = React.useRef(false);
+  const loadRequestRef = React.useRef(0);
   const options = React.useMemo(() => presenterOptions(report), [report]);
   const [selectedPresenterId, setSelectedPresenterId] = React.useState(() => defaultPresenterId(report));
   const [assetKind, setAssetKind] = React.useState<AssetKind>('slides');
@@ -88,15 +76,21 @@ function AssetManagerClient({report, lang}: {report: WeeklyReportItem; lang: Lan
   }, [report]);
 
   const load = React.useCallback(async (): Promise<void> => {
+    const requestId = ++loadRequestRef.current;
     setLoading(true);
     try {
-      setFiles(await listFilesByContext(client, 'weekly-report', report.id));
+      const nextFiles = await listFilesByContext(client, 'weekly-report', report.id);
+      if (requestId !== loadRequestRef.current) return;
+      setFiles(nextFiles);
+      onFilesChange?.(nextFiles);
     } catch (error) {
-      setMessage({kind: 'error', text: safeSupabaseError(error, config)});
+      if (requestId === loadRequestRef.current) {
+        setMessage({kind: 'error', text: safeSupabaseError(error, config)});
+      }
     } finally {
-      setLoading(false);
+      if (requestId === loadRequestRef.current) setLoading(false);
     }
-  }, [client, config, report.id]);
+  }, [client, config, onFilesChange, report.id]);
 
   React.useEffect(() => { void load(); }, [isAdmin, load]);
 
@@ -122,7 +116,7 @@ function AssetManagerClient({report, lang}: {report: WeeklyReportItem; lang: Lan
     try {
       for (const file of selected) {
         setProgress(0);
-        const metadata: ArchiveMetadata = {
+        const metadata: WeeklyReportArchiveMetadata = {
           version: 1,
           reportId: report.id,
           presenterId: selectedPresenter.id,
@@ -210,7 +204,7 @@ function AssetManagerClient({report, lang}: {report: WeeklyReportItem; lang: Lan
         <div className={styles.state}><FilePlus2 size={20} /><span>{lang === 'zh' ? '本期暂无数据库归档附件' : 'No archived database files for this briefing'}</span></div>
       ) : (
         <div className={styles.list}>{files.map((file) => {
-          const metadata = parseMetadata(file);
+          const metadata = parseWeeklyReportArchiveMetadata(file);
           const presenter = metadata ? (lang === 'zh' ? metadata.presenterZh : metadata.presenterEn) : (lang === 'zh' ? '未指定归属人' : 'Unassigned');
           const fileKind = metadata ? (lang === 'zh' ? ASSET_KINDS[metadata.assetKind].zh : ASSET_KINDS[metadata.assetKind].en) : (lang === 'zh' ? '旧版附件' : 'Legacy attachment');
           const publicUrl = getAdminFilePublicUrl(client, file.storage_path);
@@ -229,6 +223,6 @@ function AssetManagerClient({report, lang}: {report: WeeklyReportItem; lang: Lan
   );
 }
 
-export default function WeeklyReportAssetManager({report, lang}: {report: WeeklyReportItem; lang: Lang}): React.ReactElement {
-  return <BrowserOnly fallback={<section className={styles.manager}><div className={styles.state}>正在加载归档附件...</div></section>}>{() => <AssetManagerClient report={report} lang={lang} />}</BrowserOnly>;
+export default function WeeklyReportAssetManager({report, lang, onFilesChange}: {report: WeeklyReportItem; lang: Lang; onFilesChange?: (files: FileRecord[]) => void}): React.ReactElement {
+  return <BrowserOnly fallback={<section className={styles.manager}><div className={styles.state}>正在加载归档附件...</div></section>}>{() => <AssetManagerClient report={report} lang={lang} onFilesChange={onFilesChange} />}</BrowserOnly>;
 }

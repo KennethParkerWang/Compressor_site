@@ -20,6 +20,8 @@ import {
 } from 'lucide-react';
 import WorkbenchShell from '../components/workbench/WorkbenchShell';
 import WeeklyReportAssetManager from '../components/weekly-reports/WeeklyReportAssetManager';
+import type {FileRecord} from '../lib/adminApi';
+import {getWeeklyReportArchiveSubmissions, weeklyReportPresenterId} from '../lib/weeklyReportArchive';
 import {
   WEEKLY_REPORT_CADENCE,
   WEEKLY_REPORT_INTERVAL_DAYS,
@@ -166,6 +168,7 @@ export default function WeeklyReportsPage(): React.ReactElement {
   const [futureCount, setFutureCount] = useState(12);
   const [completedOpen, setCompletedOpen] = useState(false);
   const [futureOpen, setFutureOpen] = useState(false);
+  const [archiveFiles, setArchiveFiles] = useState<FileRecord[]>([]);
   const now = useMemo(() => new Date(), []);
   const nextReportIndex = useMemo(() => getNextWeeklyReportIndex(now), [now]);
 
@@ -190,6 +193,27 @@ export default function WeeklyReportsPage(): React.ReactElement {
   }, [futureCount, nextReportIndex, now, pastCount, selectedIndex]);
   const nextReport = useMemo(() => getWeeklyReportAt(nextReportIndex, now), [nextReportIndex, now]);
   const submissions = selected.submissions;
+  const archiveSubmissions = useMemo(
+    () => getWeeklyReportArchiveSubmissions(archiveFiles, selected.id),
+    [archiveFiles, selected.id],
+  );
+  const presenterSubmissionDates = useMemo(() => {
+    const dates = new Map<string, string>();
+    for (const submission of submissions) {
+      dates.set(weeklyReportPresenterId(submission), submission.submittedAt);
+    }
+    for (const submission of archiveSubmissions) {
+      if (!dates.has(submission.presenterId)) dates.set(submission.presenterId, submission.submittedAt);
+    }
+    return dates;
+  }, [archiveSubmissions, submissions]);
+  const submissionCount = selected.expectedPresenters.filter(
+    (presenter) => presenterSubmissionDates.has(weeklyReportPresenterId(presenter)),
+  ).length;
+
+  useEffect(() => {
+    setArchiveFiles([]);
+  }, [selected.id]);
 
   return (
     <Layout title={copy.title} description={copy.description}>
@@ -328,17 +352,17 @@ export default function WeeklyReportsPage(): React.ReactElement {
               <section className={`${styles.infoPanel} ${styles.presenterPanel}`}>
                 <div className={styles.sectionTitle}>
                   <h3>{copy.presenter}</h3>
-                  <span>{submissions.length} / {selected.expectedSubmissionCount}</span>
+                  <span>{submissionCount} / {selected.expectedSubmissionCount}</span>
                 </div>
                 <div className={styles.personList}>
                   {selected.expectedPresenters.map((presenter) => {
-                    const submission = submissions.find((item) => item.presenterZh === presenter.presenterZh);
+                    const submittedAt = presenterSubmissionDates.get(weeklyReportPresenterId(presenter));
                     return (
-                    <div className={`${styles.personRow} ${submission ? '' : styles.pendingRow}`} key={presenter.presenterZh}>
+                    <div className={`${styles.personRow} ${submittedAt ? '' : styles.pendingRow}`} key={presenter.presenterZh}>
                       <span className={styles.personIcon}><UserRound size={17} /></span>
                       <div>
                         <strong>{lang === 'zh' ? presenter.presenterZh : presenter.presenterEn}</strong>
-                        <span>{submission ? `${copy.submitted} · ${submission.submittedAt}` : copy.pending}</span>
+                        <span>{submittedAt ? `${copy.submitted} · ${submittedAt}` : copy.pending}</span>
                       </div>
                     </div>
                     );
@@ -390,7 +414,7 @@ export default function WeeklyReportsPage(): React.ReactElement {
                       </div>
                     </div>
                   ))}
-                  {selected.expectedPresenters.filter((presenter) => !submissions.some((item) => item.presenterZh === presenter.presenterZh)).map((presenter) => (
+                  {selected.expectedPresenters.filter((presenter) => !presenterSubmissionDates.has(weeklyReportPresenterId(presenter))).map((presenter) => (
                     <div className={`${styles.fileRow} ${styles.pendingRow}`} key={presenter.presenterZh}>
                       <span className={styles.fileIcon}><FileText size={17} /></span>
                       <div className={styles.fileName}>
@@ -400,7 +424,7 @@ export default function WeeklyReportsPage(): React.ReactElement {
                     </div>
                   ))}
                 </div>
-                <WeeklyReportAssetManager report={selected} lang={lang} />
+                <WeeklyReportAssetManager report={selected} lang={lang} onFilesChange={setArchiveFiles} />
               </section>
 
             </div>

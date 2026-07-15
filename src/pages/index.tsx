@@ -19,7 +19,10 @@ import {
 } from 'lucide-react';
 import WorkbenchShell from '../components/workbench/WorkbenchShell';
 import ManagedPageSection from '../components/admin/ManagedPageSection';
+import WeeklyReportArchiveObserver from '../components/weekly-reports/WeeklyReportArchiveObserver';
 import {useWorkbenchStats} from '../components/workbench/stats';
+import type {FileRecord} from '../lib/adminApi';
+import {getWeeklyReportArchiveSubmissions, weeklyReportPresenterId} from '../lib/weeklyReportArchive';
 import {algorithmModules} from '../data/algorithmModules';
 import {getNextWeeklyReportIndex, getWeeklyReportAt} from '../data/weeklyReports';
 import {ANNUAL_PLAN_ROWS, GANTT_TASKS, YEAR_MONTHS, type GanttTask} from '../data/projectAnnualPlan';
@@ -190,6 +193,7 @@ export default function Home(): React.ReactElement {
   const lang: Lang = i18n.currentLocale === 'en' ? 'en' : 'zh';
   const copy = COPY[lang];
   const stats = useWorkbenchStats();
+  const [firstReportFiles, setFirstReportFiles] = React.useState<FileRecord[]>([]);
   const now = new Date();
   const firstReport = getWeeklyReportAt(0, now);
   const nextReport = getWeeklyReportAt(getNextWeeklyReportIndex(now), now);
@@ -203,12 +207,21 @@ export default function Home(): React.ReactElement {
   const visiblePlanRows = annualRows.slice(Math.max(0, currentPlanIndex - 1), Math.min(annualRows.length, currentPlanIndex + 3));
   const daysToNextReport = Math.max(0, Math.ceil((Date.parse(`${nextReport.date}T14:30:00+08:00`) - now.getTime()) / 86400000));
   const literatureProgress = Math.min(100, Math.round((stats.totalLit / 80) * 100));
-  const reportProgress = Math.min(100, Math.round((firstReport.submissions.length / firstReport.expectedSubmissionCount) * 100));
+  const archiveSubmissions = getWeeklyReportArchiveSubmissions(firstReportFiles, firstReport.id);
+  const submittedPresenterIds = new Set([
+    ...firstReport.submissions.map(weeklyReportPresenterId),
+    ...archiveSubmissions.map((submission) => submission.presenterId),
+  ]);
+  const submittedPresenters = firstReport.expectedPresenters.filter(
+    (presenter) => submittedPresenterIds.has(weeklyReportPresenterId(presenter)),
+  );
+  const reportSubmissionCount = submittedPresenters.length;
+  const reportProgress = Math.min(100, Math.round((reportSubmissionCount / firstReport.expectedSubmissionCount) * 100));
   const assetBase = stripLocaleFromBaseUrl(siteConfig.baseUrl).replace(/\/$/, '');
-  const submittedNames = firstReport.submissions.map((item) => lang === 'zh' ? item.presenterZh : item.presenterEn).join('、');
+  const submittedNames = submittedPresenters.map((item) => lang === 'zh' ? item.presenterZh : item.presenterEn).join('、');
   const taskStatuses = [
     copy.statusLiterature(stats.totalLit),
-    copy.statusReading(firstReport.submissions.length, firstReport.expectedSubmissionCount),
+    copy.statusReading(reportSubmissionCount, firstReport.expectedSubmissionCount),
     copy.statusReproduction,
     copy.statusDataset,
     copy.statusExperiment,
@@ -221,8 +234,8 @@ export default function Home(): React.ReactElement {
       state = stats.totalLit >= 80 ? 'complete' : 'active';
       stateLabel = stats.totalLit >= 80 ? copy.stateTargetMet : copy.stateActive;
     }
-    if (index === 1 && firstReport.submissions.length > 0) {
-      const complete = firstReport.submissions.length >= firstReport.expectedSubmissionCount;
+    if (index === 1 && reportSubmissionCount > 0) {
+      const complete = reportSubmissionCount >= firstReport.expectedSubmissionCount;
       state = complete ? 'complete' : 'active';
       stateLabel = complete ? copy.stateComplete : copy.statePartial;
     }
@@ -239,6 +252,7 @@ export default function Home(): React.ReactElement {
   return (
     <Layout title={copy.layoutTitle} description={copy.description}>
       <WorkbenchShell pageTitle={copy.layoutTitle}>
+        <WeeklyReportArchiveObserver reportId={firstReport.id} onFilesChange={setFirstReportFiles} />
         <div className={styles.page} data-wallpaper-readable="home">
           <header className={styles.hero}>
             <ManagedPageSection
@@ -271,7 +285,7 @@ export default function Home(): React.ReactElement {
           <section className={styles.metrics} aria-label={copy.focusLabel}>
             <Metric icon={<BookOpen size={17} />} value={String(stats.totalLit)} label={copy.metricLiterature} detail={copy.metricLiteratureDetail(stats.totalLit)} progress={literatureProgress} />
             <Metric icon={<Layers3 size={17} />} value={String(algorithmModules.length)} label={copy.metricModules} detail={copy.metricModulesDetail} />
-            <Metric icon={<FileText size={17} />} value={`${firstReport.submissions.length}/${firstReport.expectedSubmissionCount}`} label={copy.metricReports} detail={copy.metricReportsDetail(firstReport.submissions.length, firstReport.expectedSubmissionCount)} progress={reportProgress} />
+            <Metric icon={<FileText size={17} />} value={`${reportSubmissionCount}/${firstReport.expectedSubmissionCount}`} label={copy.metricReports} detail={copy.metricReportsDetail(reportSubmissionCount, firstReport.expectedSubmissionCount)} progress={reportProgress} />
             <Metric icon={<CalendarDays size={17} />} value={formatShortDate(nextReport.date, lang)} label={copy.metricNext} detail={copy.metricNextDetail(daysToNextReport)} />
           </section>
 
@@ -288,7 +302,7 @@ export default function Home(): React.ReactElement {
             <SectionHeading index="02" label={copy.outputsLabel} title={copy.outputsTitle} body={copy.outputsBody} />
             <div className={styles.outputGrid}>
               <article><span className={styles.outputIcon}><Database size={20} /></span><div><span>{stats.totalLit} RECORDS</span><h3>{copy.evidenceLibrary}</h3><p>{copy.evidenceLibraryBody}</p></div><Link to="/map">{copy.open}<ArrowRight size={14} /></Link></article>
-              <article><span className={styles.outputIcon}><FileText size={20} /></span><div><span>{firstReport.submissions.length}/{firstReport.expectedSubmissionCount} ARCHIVED</span><h3>{copy.evidenceBriefing}</h3><p>{copy.evidenceBriefingBody(submittedNames)}</p><div className={styles.fileLinks}>{firstReport.submissions.flatMap((submission) => [<a key={submission.pdfPath} href={`${assetBase}/${submission.pdfPath}`}>PDF</a>, <a key={submission.pptxPath} href={`${assetBase}/${submission.pptxPath}`}>PPTX</a>])}</div></div><Link to={`/weekly-reports?report=${firstReport.id}`}>{copy.open}<ArrowRight size={14} /></Link></article>
+              <article><span className={styles.outputIcon}><FileText size={20} /></span><div><span>{reportSubmissionCount}/{firstReport.expectedSubmissionCount} ARCHIVED</span><h3>{copy.evidenceBriefing}</h3><p>{copy.evidenceBriefingBody(submittedNames)}</p><div className={styles.fileLinks}>{firstReport.submissions.flatMap((submission) => [<a key={submission.pdfPath} href={`${assetBase}/${submission.pdfPath}`}>PDF</a>, <a key={submission.pptxPath} href={`${assetBase}/${submission.pptxPath}`}>PPTX</a>])}</div></div><Link to={`/weekly-reports?report=${firstReport.id}`}>{copy.open}<ArrowRight size={14} /></Link></article>
               <article data-incomplete="true"><span className={styles.outputIcon}><FlaskConical size={20} /></span><div><span>VERIFICATION PENDING</span><h3>{copy.evidenceExperiment}</h3><p>{copy.evidenceExperimentBody}</p></div><Link to="/experiments">{copy.open}<ArrowRight size={14} /></Link></article>
             </div>
           </section>
