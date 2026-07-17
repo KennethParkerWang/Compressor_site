@@ -1,22 +1,14 @@
 {
   "refreshedAt": "2026-07-17",
   "sources": {
-    "ltcb": null,
-    "silesia": null,
+    "ltcb": "http://mattmahoney.net/dc/text.html",
+    "silesia": "http://mattmahoney.net/dc/silesia.html",
     "hutter": "http://prize.hutter1.net/",
     "clic015": "https://clic2025.compression.cc/leaderboard/image_0_15/test/",
     "clic0075": "https://clic2025.compression.cc/leaderboard/image_0_075/test/"
   },
   "boards": {
     "hutter": [
-      {
-        "method": "? (Hutter, You?)",
-        "year": 2024,
-        "metric": "109.69 MB",
-        "metricShort": "109685197",
-        "lowerIsBetter": true,
-        "sourceUrl": "http://prize.hutter1.net/"
-      },
       {
         "method": "fx2-cmix (Hutter, Kaido Orav & Byron Knoll)",
         "year": 2024,
@@ -46,6 +38,14 @@
         "year": 2021,
         "metric": "115.35 MB",
         "metricShort": "115352938",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://prize.hutter1.net/"
+      },
+      {
+        "method": "phda9 (Hutter, Alexander Rhatushnyak)",
+        "year": 2017,
+        "metric": "15.28 MB",
+        "metricShort": "15284944",
         "lowerIsBetter": true,
         "sourceUrl": "http://prize.hutter1.net/"
       }
@@ -181,6 +181,130 @@
         "lowerIsBetter": false,
         "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_075/test/"
       }
+    ],
+    "enwik9_mahoney": [
+      {
+        "method": "nncp v2",
+        "year": 2024,
+        "metric": "114.32 MB (enwik9+decompressor)",
+        "metricShort": "114317255",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "nncp v2.1",
+        "year": 2024,
+        "metric": "112.22 MB (enwik9+decompressor)",
+        "metricShort": "112219309",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "nncp v3",
+        "year": 2024,
+        "metric": "110.03 MB (enwik9+decompressor)",
+        "metricShort": "110034293",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "nncp v3.1",
+        "year": 2024,
+        "metric": "108.38 MB (enwik9+decompressor)",
+        "metricShort": "108378032",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "nncp v3.2",
+        "year": 2024,
+        "metric": "106.63 MB (enwik9+decompressor)",
+        "metricShort": "106632363",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "cmix v1",
+        "year": 2024,
+        "metric": "128.65 MB (enwik9+decompressor)",
+        "metricShort": "128647538",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "cmix v2",
+        "year": 2024,
+        "metric": "126.32 MB (enwik9+decompressor)",
+        "metricShort": "126323656",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "cmix v3",
+        "year": 2024,
+        "metric": "125.97 MB (enwik9+decompressor)",
+        "metricShort": "125971560",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      }
+    ],
+    "silesia": [
+      {
+        "method": "paq8px_v215 -12L",
+        "year": 2026,
+        "metric": "27.83 MB",
+        "metricShort": "27825511",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/silesia.html"
+      },
+      {
+        "method": "paq8px_v210 -12L",
+        "year": 2026,
+        "metric": "27.99 MB",
+        "metricShort": "27987907",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/silesia.html"
+      },
+      {
+        "method": "paq8px_v209 -12L",
+        "year": 2026,
+        "metric": "28.03 MB",
+        "metricShort": "28025541",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/silesia.html"
+      },
+      {
+        "method": "paq8px_v206 -12TL",
+        "year": 2026,
+        "metric": "28.24 MB",
+        "metricShort": "28241197",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/silesia.html"
+      },
+      {
+        "method": "precomp v0.4.7 -cn | cmix v21",
+        "year": 2026,
+        "metric": "28.26 MB",
+        "metricShort": "28261094",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/silesia.html"
+      },
+      {
+        "method": "paq8px_v206 -12TR",
+        "year": 2026,
+        "metric": "28.28 MB",
+        "metricShort": "28280021",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/silesia.html"
+      }
     ]
-  }
+  },
+  "boardUpdatedAt": {
+    "hutter": "2026-07-17",
+    "clic_image_0_15": "2026-07-17",
+    "clic_image_0_075": "2026-07-17",
+    "enwik9_mahoney": "2026-07-17",
+    "silesia": "2026-07-17"
+  },
+  "failures": []
 }
