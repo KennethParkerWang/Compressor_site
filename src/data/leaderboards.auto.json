@@ -316,5 +316,14 @@
     "clic_image_0_15": "2026-07-17",
     "clic_image_0_075": "2026-07-17"
   },
-  "failures": []
+  "failures": [
+    {
+      "source": "ltcb",
+      "message": "http://mattmahoney.net/dc/text.html -> HTTP 415"
+    },
+    {
+      "source": "silesia",
+      "message": "http://mattmahoney.net/dc/silesia.html -> HTTP 415"
+    }
+  ]
 }
