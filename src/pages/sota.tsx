@@ -17,16 +17,24 @@ import WorkbenchShell from '../components/workbench/WorkbenchShell';
 import {
   EmptyState,
   EvidenceBadge,
+  InfoStrip,
   MetricTile,
   ResearchPanel,
   SourceChip,
 } from '../components/research-console/ResearchConsole';
-import {LB_DOMAIN_LABELS, LB_MODE_LABELS, type LeaderboardDomain, type Leaderboard} from '../data/leaderboards';
+import {
+  LB_DOMAIN_LABELS,
+  LB_EVIDENCE_LABELS,
+  LB_MODE_LABELS,
+  LB_PRESENTATION_LABELS,
+  type LeaderboardDomain,
+  type Leaderboard,
+} from '../data/leaderboards';
 import {loadLeaderboards} from '../data/leaderboards.loader';
 import styles from './sota.module.css';
 
 const CN = {
-  title: '基准结果 / Benchmarks',
+  title: '可核验压缩基准 / Benchmarks',
   all: '全部数据类型',
   noResult: '未找到匹配的榜单',
   searchPh: '搜索方法、数据集、指标或来源',
@@ -55,8 +63,10 @@ export default function SotaPage(): React.ReactElement {
       if (!q) return true;
       return (
         lb.title.toLowerCase().includes(q) ||
+        lb.task.toLowerCase().includes(q) ||
         lb.dataset.toLowerCase().includes(q) ||
         lb.metric.toLowerCase().includes(q) ||
+        lb.protocol.toLowerCase().includes(q) ||
         lb.sourceName.toLowerCase().includes(q) ||
         lb.entries.some((entry) => entry.method.toLowerCase().includes(q))
       );
@@ -78,12 +88,13 @@ export default function SotaPage(): React.ReactElement {
   }, [domain, query, visible]);
 
   const kpis = useMemo(() => {
-    const entries = lbs.reduce((sum, lb) => sum + lb.entries.length, 0);
-    const recent = lbs.filter((lb) => Number(lb.updatedAt.slice(0, 4)) >= 2025).length;
+    const ranked = lbs.filter((lb) => lb.presentation === 'ranking').length;
+    const comparisons = lbs.filter((lb) => lb.presentation === 'comparison').length;
+    const official = lbs.filter((lb) => lb.evidence === 'official').length;
     const withCode = lbs.reduce((sum, lb) => sum + lb.entries.filter((entry) => entry.codeUrl).length, 0);
     const coveredDomains = new Set(lbs.map((lb) => lb.domain)).size;
     const totalDomains = Object.keys(LB_DOMAIN_LABELS).length;
-    return {entries, recent, withCode, coveredDomains, totalDomains};
+    return {ranked, comparisons, official, withCode, coveredDomains, totalDomains};
   }, [lbs]);
 
   function toggle(id: string): void {
@@ -101,9 +112,9 @@ export default function SotaPage(): React.ReactElement {
         <div className={styles.page}>
           <section className={styles.consoleHeader}>
             <div>
-              <span className={styles.kicker}>Benchmark Evidence</span>
-              <h2>按开源数据类型组织的压缩榜单</h2>
-              <p className={styles.headerDescription}>一级分类只表示数据类型；无损/有损、传统/学习和竞赛来源作为次级口径展示。</p>
+              <span className={styles.kicker}>Verified Benchmark Evidence</span>
+              <h2>按数据类型与评测口径组织</h2>
+              <p className={styles.headerDescription}>只有同一任务、数据集、版本和指标的结果才进入排名；论文自报、工程实测与待复现资料分别标记。</p>
             </div>
             <div className={styles.liveBarCompact}>
               <a href="http://mattmahoney.net/dc/text.html" target="_blank" rel="noopener noreferrer">Mahoney <ExternalLink size={11} /></a>
@@ -112,10 +123,17 @@ export default function SotaPage(): React.ReactElement {
             </div>
           </section>
 
+          <section className={styles.methodRules} aria-label="榜单收录规则">
+            <div><strong>01</strong><span>同一任务</span><small>无损、近无损和率失真不混排</small></div>
+            <div><strong>02</strong><span>同一数据</span><small>记录语料、版本、切分与预处理</small></div>
+            <div><strong>03</strong><span>同一指标</span><small>BPP、BPSP、ELO 与压缩率不互换</small></div>
+            <div><strong>04</strong><span>证据分级</span><small>官方榜、论文同表、工程实测、待复现</small></div>
+          </section>
+
           <section className={styles.kpiGrid}>
-            <MetricTile label="Leaderboards" value={loaded ? lbs.length : '...'} hint={`${kpis.coveredDomains}/${kpis.totalDomains} 数据类型有榜单`} icon={Trophy} tone="amber" />
-            <MetricTile label="Entries" value={loaded ? kpis.entries : '...'} hint="方法 / codec 记录" icon={Table2} tone="blue" />
-            <MetricTile label="2025+ Updated" value={loaded ? kpis.recent : '...'} hint="近年核验优先" icon={Globe2} tone="green" />
+            <MetricTile label="Official Boards" value={loaded ? kpis.official : '...'} hint={`${kpis.coveredDomains}/${kpis.totalDomains} 数据类型已覆盖`} icon={Trophy} tone="amber" />
+            <MetricTile label="Rankable" value={loaded ? kpis.ranked : '...'} hint="满足同口径直接排名" icon={Table2} tone="blue" />
+            <MetricTile label="Paper Tables" value={loaded ? kpis.comparisons : '...'} hint="同一论文协议内比较" icon={Globe2} tone="green" />
             <MetricTile label="Code Evidence" value={loaded ? kpis.withCode : '...'} hint="含代码链接条目" icon={Code2} tone="purple" />
           </section>
 
@@ -202,26 +220,40 @@ function LeaderboardCard({
   const top = lb.entries.slice(0, expanded ? lb.entries.length : Math.min(6, lb.entries.length));
   const hasPaper = lb.entries.some((entry) => entry.paperUrl);
   const hasCode = lb.entries.some((entry) => entry.codeUrl);
-  const sourceKind = /official|clic|hutter|mahoney/i.test(lb.sourceName) ? 'official' : 'curated';
+  const evidenceType = lb.evidence === 'official'
+    ? 'official'
+    : lb.evidence === 'paper'
+      ? 'paper'
+      : lb.evidence === 'reference'
+        ? 'unverified'
+        : 'curated';
 
   return (
     <article className={styles.lbCard}>
       <header className={styles.lbHeader}>
         <div className={styles.lbTitleBlock}>
-          <div className={styles.lbDomain}>{LB_DOMAIN_LABELS[lb.domain].label} · {LB_MODE_LABELS[lb.mode]}</div>
+          <div className={styles.lbDomain}>{LB_DOMAIN_LABELS[lb.domain].label} · {LB_MODE_LABELS[lb.mode]} · {LB_PRESENTATION_LABELS[lb.presentation]}</div>
           <h3>{lb.title.replace(/[★🔥]/g, '').trim()}</h3>
           <div className={styles.lbMetaLine}>
+            <span><strong>Task</strong>{lb.task}</span>
             <span><strong>Dataset</strong>{lb.dataset}</span>
             <span><strong>Metric</strong>{lb.metric}</span>
-            <span><strong>Updated</strong>{lb.updatedAt}</span>
+            <span><strong>Verified</strong>{lb.updatedAt}</span>
           </div>
         </div>
         <div className={styles.lbEvidence}>
-          <EvidenceBadge type={sourceKind}>{sourceKind === 'official' ? '官方 / 主榜' : '整理快照'}</EvidenceBadge>
+          <EvidenceBadge type={evidenceType}>{LB_EVIDENCE_LABELS[lb.evidence]}</EvidenceBadge>
           {hasPaper ? <EvidenceBadge type="paper">论文链接</EvidenceBadge> : null}
           {hasCode ? <EvidenceBadge type="code">代码链接</EvidenceBadge> : null}
         </div>
       </header>
+
+      <InfoStrip tone={lb.presentation === 'ranking' ? 'green' : lb.presentation === 'comparison' ? 'blue' : 'amber'}>
+        <strong>评测协议：</strong>{lb.protocol}
+        {lb.datasetVersion ? <> · <strong>版本：</strong>{lb.datasetVersion}</> : null}
+      </InfoStrip>
+
+      {lb.limitations ? <div className={styles.limitation}><strong>适用边界</strong><span>{lb.limitations}</span></div> : null}
 
       <div className={styles.sourceRow}>
         <SourceChip label={lb.sourceName} href={lb.sourceUrl} kind="source" />
@@ -231,8 +263,8 @@ function LeaderboardCard({
         <table className={styles.lbTable}>
           <thead>
             <tr>
-              <th className={styles.colRank}>#</th>
-              <th>方法</th>
+              <th className={styles.colRank}>名次</th>
+              <th>方法 / 配置</th>
               <th>年份</th>
               <th>指标</th>
               <th className={styles.colLinks}>证据</th>
@@ -240,13 +272,14 @@ function LeaderboardCard({
           </thead>
           <tbody>
             {top.map((entry, index) => (
-              <tr key={`${entry.method}-${index}`}>
-                <td className={styles.colRank}>{entry.rank ?? index + 1}</td>
+              <tr key={`${entry.method}-${index}`} data-comparable={entry.comparable === false ? 'false' : 'true'}>
+                <td className={styles.colRank}>{lb.presentation === 'registry' || entry.comparable === false ? '—' : entry.rank ?? index + 1}</td>
                 <td className={styles.colMethod}>
                   <strong>{entry.method}</strong>
+                  {entry.config ? <code>{entry.config}</code> : null}
                   {entry.notes ? <span>{entry.notes}</span> : null}
                 </td>
-                <td className={styles.colYear}>{entry.year}</td>
+                <td className={styles.colYear}>{entry.year ?? '—'}</td>
                 <td className={styles.colMetric}>{entry.metric}</td>
                 <td className={styles.colLinks}>
                   <a href={entry.sourceUrl} target="_blank" rel="noopener noreferrer" title="来源">
