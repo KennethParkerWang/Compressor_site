@@ -10,14 +10,6 @@
   "boards": {
     "hutter": [
       {
-        "method": "? (Hutter, You?)",
-        "year": 2024,
-        "metric": "109.69 MB",
-        "metricShort": "109685197",
-        "lowerIsBetter": true,
-        "sourceUrl": "http://prize.hutter1.net/"
-      },
-      {
         "method": "fx2-cmix (Hutter, Kaido Orav & Byron Knoll)",
         "year": 2024,
         "metric": "110.79 MB",
@@ -46,6 +38,14 @@
         "year": 2021,
         "metric": "115.35 MB",
         "metricShort": "115352938",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://prize.hutter1.net/"
+      },
+      {
+        "method": "phda9 (Hutter, Alexander Rhatushnyak)",
+        "year": 2017,
+        "metric": "15.28 MB",
+        "metricShort": "15284944",
         "lowerIsBetter": true,
         "sourceUrl": "http://prize.hutter1.net/"
       }
@@ -182,5 +182,20 @@
         "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_075/test/"
       }
     ]
-  }
+  },
+  "boardUpdatedAt": {
+    "hutter": "2026-07-17",
+    "clic_image_0_15": "2026-07-17",
+    "clic_image_0_075": "2026-07-17"
+  },
+  "failures": [
+    {
+      "source": "ltcb",
+      "message": "http://mattmahoney.net/dc/text.html -> HTTP 415"
+    },
+    {
+      "source": "silesia",
+      "message": "http://mattmahoney.net/dc/silesia.html -> HTTP 415"
+    }
+  ]
 }
