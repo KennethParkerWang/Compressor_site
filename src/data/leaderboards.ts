@@ -8,15 +8,16 @@
 // - CompressAI 评测论文 / 各 codec 论文报告
 
 export type LeaderboardDomain =
-  | 'image-lossy'      // 图像有损(learned)
-  | 'image-lossless'   // 图像无损(learned)
-  | 'image-classic'    // 图像传统 codec
-  | 'video-classic'    // 视频传统 codec
-  | 'video-learned'    // 视频学习型
-  | 'text-mixed'       // 文本混合 (enwik9 / Silesia / Calgary)
-  | 'text-pure'        // 文本纯文本
-  | 'audio'            // 音频
-  | 'competition';     // 赛事(CLIC / Hutter)
+  | 'general'
+  | 'text'
+  | 'image'
+  | 'video'
+  | 'audio'
+  | 'scientific'
+  | 'genomic'
+  | 'structured';
+
+export type LeaderboardMode = 'lossless' | 'lossy' | 'mixed';
 
 export interface LeaderboardEntry {
   rank?: number;
@@ -35,6 +36,7 @@ export interface Leaderboard {
   id: string;
   title: string;
   domain: LeaderboardDomain;
+  mode: LeaderboardMode;
   dataset: string;
   metric: string;
   sourceName: string;
@@ -50,7 +52,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-image-lossless-kodak',
     title: '学习型图像无损压缩 (Kodak Lossless)',
-    domain: 'image-lossless',
+    domain: 'image',
+    mode: 'lossless',
     dataset: 'Kodak Lossless (24 张 768×512)',
     metric: 'BPD (bits per dimension) ↓',
     sourceName: 'CompressAI zoo + paq8px v215',
@@ -88,7 +91,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-image-lossless-openimages',
     title: '学习型图像无损压缩 (OpenImages1024)',
-    domain: 'image-lossless',
+    domain: 'image',
+    mode: 'lossless',
     dataset: 'OpenImages1024',
     metric: 'BPD ↓',
     sourceName: 'CALLIC (AAAI 2025)',
@@ -118,7 +122,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-image-lossless-imagenet64',
     title: '学习型图像无损压缩 (ImageNet64)',
-    domain: 'image-lossless',
+    domain: 'image',
+    mode: 'lossless',
     dataset: 'ImageNet64',
     metric: 'BPD ↓',
     sourceName: 'CompressAI / iVPF / L3C 等论文报告',
@@ -151,7 +156,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-learned-image-kodak-rate-points',
     title: '学习型图像有损 (Kodak, rate-distortion 各 bpp 点)',
-    domain: 'image-lossy',
+    domain: 'image',
+    mode: 'lossy',
     dataset: 'Kodak (24 张 768×512)',
     metric: 'PSNR ↑ @ 各种 bpp',
     sourceName: 'CVPR 2022-2025 各 paper & CompressAI',
@@ -196,7 +202,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-learned-image-tecnic-clic2020',
     title: '学习型图像有损 (Tecnick / CLIC2020)',
-    domain: 'image-lossy',
+    domain: 'image',
+    mode: 'lossy',
     dataset: 'Tecnick SAMPLING (100 张 2048×1536) / CLIC2020',
     metric: 'PSNR / MS-SSIM ↑',
     sourceName: 'Transformer-based QR paper (2025) + CompressAI',
@@ -222,7 +229,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-classic-image-codecs-kodak',
     title: '传统图像 codec (Kodak PSNR @ 0.3 bpp)',
-    domain: 'image-classic',
+    domain: 'image',
+    mode: 'lossy',
     dataset: 'Kodak (24 张 768×512)',
     metric: 'PSNR ↑ @ 0.3 bpp',
     sourceName: 'CompressAI 论文评测 + 各 codec paper',
@@ -256,7 +264,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-video-classic-bd-rate-2024',
     title: '视频 codec 低延迟 BD-Rate (PSNR, 2024 全评测)',
-    domain: 'video-classic',
+    domain: 'video',
+    mode: 'lossy',
     dataset: 'JVET CTC + AOM CTC, low-delay',
     metric: 'BD-Rate vs libaom AV1 (%, ↓ 越好)',
     sourceName: 'arXiv 2408.05042 (2024-08)',
@@ -286,7 +295,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-video-learned-curated',
     title: '学习型视频压缩 SOTA (随机访问场景, JVET CTC)',
-    domain: 'video-learned',
+    domain: 'video',
+    mode: 'lossy',
     dataset: 'JVET Class A-E',
     metric: 'PSNR BD-Rate vs VVC (%)',
     sourceName: 'Microsoft DCVC 论文 + CVPR/HHI reports',
@@ -319,7 +329,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-silesia-2026',
     title: '★★ Silesia 混合数据无损 (Open Source Compression Benchmark)',
-    domain: 'text-mixed',
+    domain: 'general',
+    mode: 'lossless',
     dataset: 'Silesia corpus 12 文件 211 MB (dickens/mozilla/nci/sao/x-ray/…)',
     metric: 'Total compressed size (字节, ↓ 越好)',
     sourceName: 'Matt Mahoney Silesia Open Source Benchmark',
@@ -357,7 +368,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-enwik9-hutter-prize-2026',
     title: '★★ enwik9 / Hutter Prize (纯文本,1 GB Wikipedia)',
-    domain: 'text-mixed',
+    domain: 'text',
+    mode: 'lossless',
     dataset: 'enwik9 (1 GB Wikipedia XML)',
     metric: 'Total size (字节, ↓ 越好) · 含 compressor 程序体积',
     sourceName: 'Matt Mahoney Large Text Benchmark + Hutter Prize',
@@ -409,7 +421,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-canterbury-2026',
     title: 'Canterbury corpus (3 MB 经典通用)',
-    domain: 'text-mixed',
+    domain: 'general',
+    mode: 'lossless',
     dataset: 'Canterbury corpus (11 文件 2.6 MB tar)',
     metric: 'Total compressed size (字节, ↓)',
     sourceName: 'paq8px README + cmix benchmark',
@@ -435,7 +448,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-enwik8-2026',
     title: 'enwik8 (100 MB, 纯文本压缩老基准)',
-    domain: 'text-pure',
+    domain: 'text',
+    mode: 'lossless',
     dataset: 'enwik8 (100 MB Wikipedia XML)',
     metric: 'Total size (字节, ↓ 越好)',
     sourceName: 'Matt Mahoney + Nacrith GPU 评测',
@@ -473,6 +487,7 @@ export const LEADERBOARDS: Leaderboard[] = [
     id: 'lb-audio-codecs',
     title: '音频感知 codec (MUSHRA, 44.1 kHz stereo)',
     domain: 'audio',
+    mode: 'lossy',
     dataset: '多样 44.1 kHz 立体声音乐',
     metric: 'MUSHRA (0-100, ↑ 越好)',
     sourceName: 'Opus + 第三方 MUSHRA 测试',
@@ -498,7 +513,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-clic2025-leaderboard-0-15',
     title: '★★ CLIC 2025 图像压缩挑战赛 (image@0.15bpp)',
-    domain: 'competition',
+    domain: 'image',
+    mode: 'lossy',
     dataset: 'CLIC 2025 test (30 images)',
     metric: 'ELO 主观感知 + PSNR/MS-SSIM',
     sourceName: 'CLIC 2025 官方榜',
@@ -535,7 +551,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-clic2025-leaderboard-0-075',
     title: '★★ CLIC 2025 图像压缩挑战赛 (image@0.075bpp,极低码率)',
-    domain: 'competition',
+    domain: 'image',
+    mode: 'lossy',
     dataset: 'CLIC 2025 test',
     metric: 'ELO 主观感知',
     sourceName: 'CLIC 2025 官方榜',
@@ -567,7 +584,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-clic2025-leaderboard-0-3',
     title: 'CLIC 2025 图像压缩挑战赛 (image@0.3bpp,中-高码率)',
-    domain: 'competition',
+    domain: 'image',
+    mode: 'lossy',
     dataset: 'CLIC 2025 test',
     metric: 'ELO 主观感知',
     sourceName: 'CLIC 2025 官方榜',
@@ -588,7 +606,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-clic2025-leaderboard-video',
     title: 'CLIC 2025 视频压缩挑战赛 (CPU/GPU track)',
-    domain: 'competition',
+    domain: 'video',
+    mode: 'lossy',
     dataset: 'CLIC 2025 video test',
     metric: '主观/客观综合',
     sourceName: 'CLIC 2025 官方榜',
@@ -607,7 +626,8 @@ export const LEADERBOARDS: Leaderboard[] = [
   {
     id: 'lb-hutter-prize-winners',
     title: '★★ Hutter Prize 历届获奖榜 (文本压缩, 综合最优)',
-    domain: 'competition',
+    domain: 'text',
+    mode: 'lossless',
     dataset: 'enwik9 1 GB',
     metric: 'Total compressed size (含 decompressor, ↓)',
     sourceName: 'Hutter Prize Official',
@@ -634,14 +654,19 @@ export const LEADERBOARDS: Leaderboard[] = [
   },
 ];
 
-export const LB_DOMAIN_LABELS: Record<LeaderboardDomain, { label: string; emoji: string }> = {
-  'image-lossy':    { label: '图像有损(学习)', emoji: '🖼️' },
-  'image-lossless': { label: '图像无损(学习)', emoji: '🟢' },
-  'image-classic':  { label: '图像传统 codec', emoji: '📸' },
-  'video-classic':  { label: '视频传统 codec', emoji: '🎬' },
-  'video-learned':  { label: '视频学习 codec', emoji: '🤖' },
-  'text-mixed':     { label: '文本混合数据',   emoji: '🧬' },
-  'text-pure':      { label: '文本纯压缩',     emoji: '📝' },
-  'audio':          { label: '音频',           emoji: '🎵' },
-  'competition':    { label: '竞赛 / 挑战赛',  emoji: '🏆' },
+export const LB_DOMAIN_LABELS: Record<LeaderboardDomain, {label: string; emoji: string; datasets: string; description: string}> = {
+  general: {label: '通用混合数据', emoji: '🧩', datasets: 'Silesia / Calgary / Canterbury', description: '文本、可执行文件、数据库、图像等混合语料的通用无损压缩。'},
+  text: {label: '文本数据', emoji: '📝', datasets: 'enwik8 / enwik9 / text8 / WikiText-103', description: '自然语言、XML 与大规模文本语料的无损压缩。'},
+  image: {label: '图像数据', emoji: '🖼️', datasets: 'Kodak / Tecnick / OpenImages / CLIC', description: '自然图像的无损结果与有损率失真结果分榜呈现。'},
+  video: {label: '视频数据', emoji: '🎬', datasets: 'UVG / JVET CTC / MCL-JCV', description: '传统与学习型视频 codec 的率失真评测。'},
+  audio: {label: '音频数据', emoji: '🎵', datasets: 'LibriSpeech / VCTK / MUSDB18', description: '语音与音乐 codec 的无损或感知质量评测。'},
+  scientific: {label: '科学浮点数据', emoji: '🔬', datasets: 'SDRBench / NYX / Miranda / HDF5', description: '科学数组、仿真与误差有界压缩；需按误差阈值分别比较。'},
+  genomic: {label: '基因组数据', emoji: '🧬', datasets: '1000 Genomes / ENA / SRA', description: 'FASTQ、BAM、CRAM 与参考基因组相关压缩。'},
+  structured: {label: '结构化与日志', emoji: '🗃️', datasets: 'LogHub / GitHub Archive / ClickBench', description: 'JSON、系统日志与分析表的结构感知压缩。'},
+};
+
+export const LB_MODE_LABELS: Record<LeaderboardMode, string> = {
+  lossless: '无损',
+  lossy: '有损 / 率失真',
+  mixed: '混合口径',
 };

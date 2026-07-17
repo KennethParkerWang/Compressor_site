@@ -21,13 +21,13 @@ import {
   ResearchPanel,
   SourceChip,
 } from '../components/research-console/ResearchConsole';
-import {LB_DOMAIN_LABELS, type LeaderboardDomain, type Leaderboard} from '../data/leaderboards';
+import {LB_DOMAIN_LABELS, LB_MODE_LABELS, type LeaderboardDomain, type Leaderboard} from '../data/leaderboards';
 import {loadLeaderboards} from '../data/leaderboards.loader';
 import styles from './sota.module.css';
 
 const CN = {
   title: '基准结果 / Benchmarks',
-  all: '全部领域',
+  all: '全部数据类型',
   noResult: '未找到匹配的榜单',
   searchPh: '搜索方法、数据集、指标或来源',
   viewAll: '展开全部',
@@ -69,12 +69,21 @@ export default function SotaPage(): React.ReactElement {
     return map;
   }, [lbs]);
 
+  const domainGroups = useMemo(() => {
+    const domains = Object.keys(LB_DOMAIN_LABELS) as LeaderboardDomain[];
+    return domains
+      .filter((item) => domain === 'all' || item === domain)
+      .map((item) => ({domain: item, boards: visible.filter((board) => board.domain === item)}))
+      .filter((group) => query.trim().length === 0 || group.boards.length > 0);
+  }, [domain, query, visible]);
+
   const kpis = useMemo(() => {
     const entries = lbs.reduce((sum, lb) => sum + lb.entries.length, 0);
     const recent = lbs.filter((lb) => Number(lb.updatedAt.slice(0, 4)) >= 2025).length;
     const withCode = lbs.reduce((sum, lb) => sum + lb.entries.filter((entry) => entry.codeUrl).length, 0);
-    const domains = new Set(lbs.map((lb) => lb.domain)).size;
-    return {entries, recent, withCode, domains};
+    const coveredDomains = new Set(lbs.map((lb) => lb.domain)).size;
+    const totalDomains = Object.keys(LB_DOMAIN_LABELS).length;
+    return {entries, recent, withCode, coveredDomains, totalDomains};
   }, [lbs]);
 
   function toggle(id: string): void {
@@ -93,7 +102,8 @@ export default function SotaPage(): React.ReactElement {
           <section className={styles.consoleHeader}>
             <div>
               <span className={styles.kicker}>Benchmark Evidence</span>
-              <h2>压缩算法基准结果</h2>
+              <h2>按开源数据类型组织的压缩榜单</h2>
+              <p className={styles.headerDescription}>一级分类只表示数据类型；无损/有损、传统/学习和竞赛来源作为次级口径展示。</p>
             </div>
             <div className={styles.liveBarCompact}>
               <a href="http://mattmahoney.net/dc/text.html" target="_blank" rel="noopener noreferrer">Mahoney <ExternalLink size={11} /></a>
@@ -103,7 +113,7 @@ export default function SotaPage(): React.ReactElement {
           </section>
 
           <section className={styles.kpiGrid}>
-            <MetricTile label="Leaderboards" value={loaded ? lbs.length : '...'} hint={`${kpis.domains} 个领域`} icon={Trophy} tone="amber" />
+            <MetricTile label="Leaderboards" value={loaded ? lbs.length : '...'} hint={`${kpis.coveredDomains}/${kpis.totalDomains} 数据类型有榜单`} icon={Trophy} tone="amber" />
             <MetricTile label="Entries" value={loaded ? kpis.entries : '...'} hint="方法 / codec 记录" icon={Table2} tone="blue" />
             <MetricTile label="2025+ Updated" value={loaded ? kpis.recent : '...'} hint="近年核验优先" icon={Globe2} tone="green" />
             <MetricTile label="Code Evidence" value={loaded ? kpis.withCode : '...'} hint="含代码链接条目" icon={Code2} tone="purple" />
@@ -111,7 +121,7 @@ export default function SotaPage(): React.ReactElement {
 
           <div className={styles.boardLayout}>
             <aside className={styles.boardSidebar}>
-              <ResearchPanel eyebrow="筛选" title="数据领域">
+              <ResearchPanel eyebrow="筛选" title="开源数据类型">
                 <div className={styles.domainList}>
                   <button type="button" className={`${styles.domainBtn} ${domain === 'all' ? styles.domainBtnOn : ''}`} onClick={() => setDomain('all')}>
                     <Layers size={14} />
@@ -120,7 +130,6 @@ export default function SotaPage(): React.ReactElement {
                   </button>
                   {(Object.keys(LB_DOMAIN_LABELS) as LeaderboardDomain[]).map((d) => {
                     const count = domainCount[d] ?? 0;
-                    if (count === 0) return null;
                     return (
                       <button
                         key={d}
@@ -130,7 +139,7 @@ export default function SotaPage(): React.ReactElement {
                       >
                         <span className={styles.domainMark} />
                         <span>{LB_DOMAIN_LABELS[d].label}</span>
-                        <b>{count}</b>
+                        <b>{count > 0 ? count : '待补'}</b>
                       </button>
                     );
                   })}
@@ -145,17 +154,33 @@ export default function SotaPage(): React.ReactElement {
             <main className={styles.boardMain}>
               {!loaded ? (
                 <EmptyState icon={Trophy} title="正在加载榜单快照" description="优先读取自动抓取榜单，失败时回退到本地静态数据。" />
-              ) : visible.length === 0 ? (
-                <EmptyState icon={Search} title={CN.noResult} description="换一个领域或关键词再试。" />
+              ) : domainGroups.length === 0 ? (
+                <EmptyState icon={Search} title={CN.noResult} description="换一个数据类型或关键词再试。" />
               ) : (
-                visible.map((lb) => (
-                  <LeaderboardCard
-                    key={lb.id}
-                    lb={lb}
-                    expanded={expanded.has(lb.id)}
-                    onToggle={() => toggle(lb.id)}
-                  />
-                ))
+                domainGroups.map((group) => {
+                  const meta = LB_DOMAIN_LABELS[group.domain];
+                  return (
+                    <section className={styles.domainGroup} key={group.domain}>
+                      <header className={styles.domainGroupHeader}>
+                        <div><span>{meta.emoji}</span><div><h3>{meta.label}</h3><p>{meta.description}</p></div></div>
+                        <small>{meta.datasets}</small>
+                      </header>
+                      {group.boards.length > 0 ? group.boards.map((lb) => (
+                        <LeaderboardCard
+                          key={lb.id}
+                          lb={lb}
+                          expanded={expanded.has(lb.id)}
+                          onToggle={() => toggle(lb.id)}
+                        />
+                      )) : (
+                        <div className={styles.coverageGap}>
+                          <strong>暂无可核验的同口径公开榜单</strong>
+                          <span>已登记代表数据集，待补统一指标、环境与公开来源；不会用跨数据集结果冒充 SOTA。</span>
+                        </div>
+                      )}
+                    </section>
+                  );
+                })
               )}
             </main>
           </div>
@@ -183,7 +208,7 @@ function LeaderboardCard({
     <article className={styles.lbCard}>
       <header className={styles.lbHeader}>
         <div className={styles.lbTitleBlock}>
-          <div className={styles.lbDomain}>{LB_DOMAIN_LABELS[lb.domain].label}</div>
+          <div className={styles.lbDomain}>{LB_DOMAIN_LABELS[lb.domain].label} · {LB_MODE_LABELS[lb.mode]}</div>
           <h3>{lb.title.replace(/[★🔥]/g, '').trim()}</h3>
           <div className={styles.lbMetaLine}>
             <span><strong>Dataset</strong>{lb.dataset}</span>

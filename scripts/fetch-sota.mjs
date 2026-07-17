@@ -3,7 +3,7 @@
 // 跑法: node scripts/fetch-sota.mjs
 // 由 .github/workflows/refresh-sota.yml 每天 04:00 UTC 自动跑
 
-import {writeFileSync, mkdirSync} from 'node:fs';
+import {existsSync, readFileSync, writeFileSync, mkdirSync} from 'node:fs';
 import {dirname, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
@@ -11,6 +11,28 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_PATH = resolve(__dirname, '..', 'src', 'data', 'leaderboards.auto.json');
 
 const UA = 'Mozilla/5.0 (compatible; CompressorResearchAtlas/1.0; +https://example.com)';
+
+function loadPreviousSnapshot() {
+  if (!existsSync(OUT_PATH)) return null;
+  try {
+    return JSON.parse(readFileSync(OUT_PATH, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+function updateBoard(out, key, entries, sourceKey, sourceUrl, refreshedAt) {
+  if (!Array.isArray(entries) || entries.length === 0) {
+    throw new Error('parser returned no valid entries');
+  }
+  out.boards[key] = entries;
+  out.sources[sourceKey] = sourceUrl;
+  out.boardUpdatedAt[key] = refreshedAt;
+}
+
+function retainFailure(out, sourceKey, error) {
+  out.failures.push({source: sourceKey, message: String(error?.message ?? error).slice(0, 180)});
+}
 
 async function fetchText(url) {
   const r = await fetch(url, {headers: {'User-Agent': UA}});
@@ -89,7 +111,7 @@ function parseHutter(html) {
     const decompressor = tds[2].replace(/\s*\.\.\.\s*$/, '').trim();
     if (!decompressor) continue;
     // 跳过 "You?" 和 pre-prize
-    if (/you\?/i.test(decompressor) || tds[5]?.toLowerCase().includes('pre-prize')) continue;
+    if (/^\?+$/.test(decompressor) || /you\?/i.test(tds[0]) || /you\?/i.test(decompressor) || tds[5]?.toLowerCase().includes('pre-prize')) continue;
     // 提取年份
     const dateMatch = tds[1].match(/(\d{4})/);
     const year = dateMatch ? parseInt(dateMatch[1], 10) : 2024;
@@ -144,6 +166,10 @@ function parseCLIC(html, bitrate) {
 // ---------- main ----------
 async function main() {
   const now = new Date().toISOString().slice(0, 10);
+  const previous = loadPreviousSnapshot();
+  const previousBoardUpdatedAt = Object.fromEntries(
+    Object.keys(previous?.boards ?? {}).map((key) => [key, previous?.boardUpdatedAt?.[key] ?? previous?.refreshedAt]),
+  );
   const out = {
     refreshedAt: now,
     sources: {
@@ -152,57 +178,60 @@ async function main() {
       hutter: null,
       clic015: null,
       clic0075: null,
+      ...(previous?.sources ?? {}),
     },
-    boards: {},
+    boards: {...(previous?.boards ?? {})},
+    boardUpdatedAt: {...previousBoardUpdatedAt},
+    failures: [],
   };
 
   // Mahoney LTCB
   try {
     const html = await fetchText('http://mattmahoney.net/dc/text.html');
-    out.boards.enwik9_mahoney = parseMahoneyLTCB(html);
-    out.sources.ltcb = 'http://mattmahoney.net/dc/text.html';
+    updateBoard(out, 'enwik9_mahoney', parseMahoneyLTCB(html), 'ltcb', 'http://mattmahoney.net/dc/text.html', now);
     console.log(`✓ Mahoney LTCB: ${out.boards.enwik9_mahoney.length} entries`);
   } catch (e) {
+    retainFailure(out, 'ltcb', e);
     console.warn('✗ Mahoney LTCB:', e.message);
   }
 
   // Silesia
   try {
     const html = await fetchText('http://mattmahoney.net/dc/silesia.html');
-    out.boards.silesia = parseMahoneySilesia(html);
-    out.sources.silesia = 'http://mattmahoney.net/dc/silesia.html';
+    updateBoard(out, 'silesia', parseMahoneySilesia(html), 'silesia', 'http://mattmahoney.net/dc/silesia.html', now);
     console.log(`✓ Silesia: ${out.boards.silesia.length} entries`);
   } catch (e) {
+    retainFailure(out, 'silesia', e);
     console.warn('✗ Silesia:', e.message);
   }
 
   // Hutter
   try {
     const html = await fetchText('http://prize.hutter1.net/');
-    out.boards.hutter = parseHutter(html);
-    out.sources.hutter = 'http://prize.hutter1.net/';
+    updateBoard(out, 'hutter', parseHutter(html), 'hutter', 'http://prize.hutter1.net/', now);
     console.log(`✓ Hutter: ${out.boards.hutter.length} entries`);
   } catch (e) {
+    retainFailure(out, 'hutter', e);
     console.warn('✗ Hutter:', e.message);
   }
 
   // CLIC 0.15
   try {
     const html = await fetchText('https://clic2025.compression.cc/leaderboard/image_0_15/test/');
-    out.boards.clic_image_0_15 = parseCLIC(html, '0_15');
-    out.sources.clic015 = 'https://clic2025.compression.cc/leaderboard/image_0_15/test/';
+    updateBoard(out, 'clic_image_0_15', parseCLIC(html, '0_15'), 'clic015', 'https://clic2025.compression.cc/leaderboard/image_0_15/test/', now);
     console.log(`✓ CLIC 0.15: ${out.boards.clic_image_0_15.length} entries`);
   } catch (e) {
+    retainFailure(out, 'clic015', e);
     console.warn('✗ CLIC 0.15:', e.message);
   }
 
   // CLIC 0.075
   try {
     const html = await fetchText('https://clic2025.compression.cc/leaderboard/image_0_075/test/');
-    out.boards.clic_image_0_075 = parseCLIC(html, '0_075');
-    out.sources.clic0075 = 'https://clic2025.compression.cc/leaderboard/image_0_075/test/';
+    updateBoard(out, 'clic_image_0_075', parseCLIC(html, '0_075'), 'clic0075', 'https://clic2025.compression.cc/leaderboard/image_0_075/test/', now);
     console.log(`✓ CLIC 0.075: ${out.boards.clic_image_0_075.length} entries`);
   } catch (e) {
+    retainFailure(out, 'clic0075', e);
     console.warn('✗ CLIC 0.075:', e.message);
   }
 

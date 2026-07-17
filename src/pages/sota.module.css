@@ -32,6 +32,14 @@
   line-height: 1.15;
 }
 
+.headerDescription {
+  max-width: 760px;
+  margin: 9px 0 0;
+  color: var(--cr-text-secondary);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
 .liveBarCompact {
   display: flex;
   flex-wrap: wrap;
@@ -189,6 +197,79 @@
   display: grid;
   min-width: 0;
   gap: 18px;
+}
+
+.domainGroup {
+  display: grid;
+  min-width: 0;
+  gap: 14px;
+  padding-bottom: 10px;
+}
+
+.domainGroup + .domainGroup {
+  padding-top: 20px;
+  border-top: 1px solid var(--cr-border-color);
+}
+
+.domainGroupHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 2px;
+}
+
+.domainGroupHeader > div {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 11px;
+}
+
+.domainGroupHeader > div > span {
+  font-size: 21px;
+  line-height: 1.2;
+}
+
+.domainGroupHeader h3 {
+  margin: 0;
+  color: var(--cr-text-primary);
+  font-size: 19px;
+}
+
+.domainGroupHeader p {
+  margin: 4px 0 0;
+  color: var(--cr-text-secondary);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.domainGroupHeader small {
+  max-width: 360px;
+  color: var(--cr-text-muted);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 10px;
+  text-align: right;
+}
+
+.coverageGap {
+  display: grid;
+  gap: 5px;
+  padding: 18px 20px;
+  border: 1px dashed var(--cr-border-strong-color);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--cr-surface) 82%, transparent);
+}
+
+.coverageGap strong {
+  color: var(--cr-text-primary);
+  font-size: 13px;
+}
+
+.coverageGap span {
+  color: var(--cr-text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .lbCard {
@@ -431,9 +512,15 @@
 
 @media (max-width: 720px) {
   .consoleHeader,
-  .lbHeader {
+  .lbHeader,
+  .domainGroupHeader {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .domainGroupHeader small {
+    max-width: none;
+    text-align: left;
   }
 
   .consoleHeader h2 {
