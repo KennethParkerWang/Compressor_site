@@ -40,6 +40,45 @@
   line-height: 1.65;
 }
 
+.methodRules {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--cr-border-color);
+  border-radius: 6px;
+  background: var(--cr-card-bg);
+}
+
+.methodRules > div {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 2px 9px;
+  padding: 15px 16px;
+  border-right: 1px solid var(--cr-border-color);
+}
+
+.methodRules > div:last-child {
+  border-right: 0;
+}
+
+.methodRules strong {
+  grid-row: 1 / 3;
+  color: var(--cr-accent);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 11px;
+}
+
+.methodRules span {
+  color: var(--cr-text-primary);
+  font-size: 12px;
+  font-weight: 740;
+}
+
+.methodRules small {
+  color: var(--cr-text-muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
 .liveBarCompact {
   display: flex;
   flex-wrap: wrap;
@@ -347,6 +386,27 @@
   justify-content: flex-start;
 }
 
+.limitation {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 10px;
+  padding: 10px 12px;
+  border-left: 3px solid #f79009;
+  background: color-mix(in srgb, #f79009 7%, var(--cr-surface));
+}
+
+.limitation strong {
+  color: #b54708;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.limitation span {
+  color: var(--cr-text-secondary);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
 .tableWrap {
   width: 100%;
   overflow-x: auto;
@@ -419,6 +479,7 @@
 }
 
 .colMethod strong,
+.colMethod code,
 .colMethod span {
   display: block;
 }
@@ -433,6 +494,22 @@
   color: var(--cr-text-muted);
   font-size: 11px;
   line-height: 1.45;
+}
+
+.colMethod code {
+  width: fit-content;
+  margin-top: 4px;
+  padding: 2px 5px;
+  border: 1px solid var(--cr-border-color);
+  border-radius: 3px;
+  background: var(--cr-surface);
+  color: var(--cr-text-secondary);
+  font-size: 10px;
+}
+
+.lbTable tbody tr[data-comparable='false'] td {
+  color: var(--cr-text-muted);
+  background: color-mix(in srgb, var(--cr-surface) 76%, transparent);
 }
 
 .colYear {
@@ -488,6 +565,18 @@
 }
 
 @media (max-width: 1120px) {
+  .methodRules {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .methodRules > div:nth-child(2) {
+    border-right: 0;
+  }
+
+  .methodRules > div:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--cr-border-color);
+  }
+
   .kpiGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -533,8 +622,18 @@
   }
 
   .kpiGrid,
-  .domainList {
+  .domainList,
+  .methodRules {
     grid-template-columns: 1fr;
+  }
+
+  .methodRules > div {
+    border-right: 0;
+    border-bottom: 1px solid var(--cr-border-color);
+  }
+
+  .methodRules > div:last-child {
+    border-bottom: 0;
   }
 
   .lbCard {

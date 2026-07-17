@@ -10,7 +10,15 @@ import {fileURLToPath} from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_PATH = resolve(__dirname, '..', 'src', 'data', 'leaderboards.auto.json');
 
-const UA = 'Mozilla/5.0 (compatible; CompressorResearchAtlas/1.0; +https://example.com)';
+const UA = 'Mozilla/5.0 (compatible; CompressorResearchAtlas/1.0; +https://github.com/KennethParkerWang/Compressor_site)';
+
+const METRIC_RANGES = {
+  enwik9_mahoney: [100_000_000, 500_000_000],
+  silesia: [20_000_000, 100_000_000],
+  hutter: [100_000_000, 250_000_000],
+  clic_image_0_15: [500, 5000],
+  clic_image_0_075: [500, 5000],
+};
 
 function loadPreviousSnapshot() {
   if (!existsSync(OUT_PATH)) return null;
@@ -24,6 +32,13 @@ function loadPreviousSnapshot() {
 function updateBoard(out, key, entries, sourceKey, sourceUrl, refreshedAt) {
   if (!Array.isArray(entries) || entries.length === 0) {
     throw new Error('parser returned no valid entries');
+  }
+  const range = METRIC_RANGES[key];
+  if (range && entries.some((entry) => {
+    const value = Number(entry.metricShort);
+    return !Number.isFinite(value) || value < range[0] || value > range[1];
+  })) {
+    throw new Error(`parser returned out-of-range metrics for ${key}`);
   }
   out.boards[key] = entries;
   out.sources[sourceKey] = sourceUrl;
@@ -43,25 +58,41 @@ async function fetchText(url) {
 // ---------- Mahoney LTCB (enwik9) ----------
 function parseMahoneyLTCB(html) {
   // 行形如: nncp v3.2            14,915,298  106,632,363    628,955 xd 107,261,318 ...
-  const lines = html.split('\n');
+  const mainTable = html.match(/<pre><ol>([\s\S]*?)<\/ol>/i)?.[1] ?? '';
+  const lines = mainTable.split('\n');
   const entries = [];
   for (const line of lines) {
-    const m = line.match(/^\s*([a-zA-Z0-9._-]+(?:\s+v\d[\w.-]*)?)\s+(-?\s?\d[\d,]*)\s+(\d[\d,]*)\s+(\d[\d,]*|\s)\s*\w*\s+(\d[\d,]*)/);
-    if (!m) continue;
-    const [, name, enwik8, enwik9, decompressor, total] = m;
-    const e9 = parseInt(enwik9.replace(/,/g, ''), 10);
-    if (!e9 || e9 < 100000000 || e9 > 500000000) continue;
+    const plain = line
+      .replace(/<[^>]+>/g, '')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&');
+    const sizeMatches = [...plain.matchAll(/\d{2,3}(?:,\d{3}){2}/g)];
+    if (sizeMatches.length < 2) continue;
+    const total = sizeMatches.at(-1)[0];
+    const totalBytes = parseInt(total.replace(/,/g, ''), 10);
+    if (!totalBytes || totalBytes < 100000000 || totalBytes > 500000000) continue;
+    const method = plain
+      .slice(0, sizeMatches[0].index)
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (!method || /^(program|compressor)$/i.test(method)) continue;
     entries.push({
-      method: name.trim(),
-      year: 2024,
-      metric: `${(e9 / 1e6).toFixed(2)} MB (enwik9+decompressor)`,
-      metricShort: String(e9),
+      method,
+      metric: `${totalBytes.toLocaleString('en-US')} B`,
+      metricShort: String(totalBytes),
       lowerIsBetter: true,
       sourceUrl: 'http://mattmahoney.net/dc/text.html',
     });
-    if (entries.length >= 8) break;
   }
-  return entries;
+  const seen = new Set();
+  return entries
+    .sort((left, right) => Number(left.metricShort) - Number(right.metricShort))
+    .filter((entry) => {
+      if (seen.has(entry.method)) return false;
+      seen.add(entry.method);
+      return true;
+    })
+    .slice(0, 8);
 }
 
 // ---------- Mahoney Silesia ----------
@@ -77,15 +108,15 @@ function parseMahoneySilesia(html) {
     const bytes = parseInt(total.replace(/,/g, ''), 10);
     entries.push({
       method: compressor.trim(),
-      year: 2026,
-      metric: `${(bytes / 1e6).toFixed(2)} MB`,
+      metric: `${bytes.toLocaleString('en-US')} B`,
       metricShort: String(bytes),
       lowerIsBetter: true,
       sourceUrl: 'http://mattmahoney.net/dc/silesia.html',
     });
-    if (entries.length >= 6) break;
   }
-  return entries;
+  return entries
+    .sort((left, right) => Number(left.metricShort) - Number(right.metricShort))
+    .slice(0, 6);
 }
 
 // ---------- Hutter Prize (alt parse) ----------
@@ -107,6 +138,7 @@ function parseHutter(html) {
     const sizeMatch = tds[3].match(/(\d{2,3})'(\d{3})'(\d{3})/);
     if (!sizeMatch) continue;
     const size = parseInt(sizeMatch[1] + sizeMatch[2] + sizeMatch[3], 10);
+    if (size < 100000000 || size > 250000000) continue;
     // decompressor 在第 3 列(可能含 "...")
     const decompressor = tds[2].replace(/\s*\.\.\.\s*$/, '').trim();
     if (!decompressor) continue;
@@ -123,15 +155,17 @@ function parseHutter(html) {
       lowerIsBetter: true,
       sourceUrl: 'http://prize.hutter1.net/',
     });
-    if (out.length >= 5) break;
   }
   // 去重
   const seen = new Set();
-  return out.filter((e) => {
-    if (seen.has(e.metricShort)) return false;
-    seen.add(e.metricShort);
+  return out
+  .sort((left, right) => Number(left.metricShort) - Number(right.metricShort))
+  .filter((e) => {
+    if (seen.has(`${e.method}:${e.metricShort}`)) return false;
+    seen.add(`${e.method}:${e.metricShort}`);
     return true;
-  });
+  })
+  .slice(0, 8);
 }
 
 // ---------- CLIC 2025 (basic HTML scrape of leaderboard table) ----------
@@ -158,9 +192,10 @@ function parseCLIC(html, bitrate) {
       lowerIsBetter: false,
       sourceUrl: `https://clic2025.compression.cc/leaderboard/image_${bitrate}/test/`,
     });
-    if (out.length >= 8) break;
   }
-  return out;
+  return out
+    .sort((left, right) => Number(right.metricShort) - Number(left.metricShort))
+    .slice(0, 12);
 }
 
 // ---------- main ----------

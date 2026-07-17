@@ -1,8 +1,8 @@
 {
   "refreshedAt": "2026-07-17",
   "sources": {
-    "ltcb": null,
-    "silesia": null,
+    "ltcb": "http://mattmahoney.net/dc/text.html",
+    "silesia": "http://mattmahoney.net/dc/silesia.html",
     "hutter": "http://prize.hutter1.net/",
     "clic015": "https://clic2025.compression.cc/leaderboard/image_0_15/test/",
     "clic0075": "https://clic2025.compression.cc/leaderboard/image_0_075/test/"
@@ -40,38 +40,22 @@
         "metricShort": "115352938",
         "lowerIsBetter": true,
         "sourceUrl": "http://prize.hutter1.net/"
-      },
-      {
-        "method": "phda9 (Hutter, Alexander Rhatushnyak)",
-        "year": 2017,
-        "metric": "15.28 MB",
-        "metricShort": "15284944",
-        "lowerIsBetter": true,
-        "sourceUrl": "http://prize.hutter1.net/"
       }
     ],
     "clic_image_0_15": [
       {
-        "method": "HM_baseline",
+        "method": "Vcoder",
         "year": 2025,
-        "metric": "ELO 1644 · PSNR 28.146 · MS-SSIM 0.949",
-        "metricShort": "1644",
+        "metric": "ELO 2127 · PSNR 26.269 · MS-SSIM 0.946",
+        "metricShort": "2127",
         "lowerIsBetter": false,
         "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_15/test/"
       },
       {
-        "method": "IronMan",
+        "method": "Evolve",
         "year": 2025,
-        "metric": "ELO 2106 · PSNR 27.820 · MS-SSIM 0.952",
-        "metricShort": "2106",
-        "lowerIsBetter": false,
-        "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_15/test/"
-      },
-      {
-        "method": "VTM_baseline",
-        "year": 2025,
-        "metric": "ELO 1708 · PSNR 29.046 · MS-SSIM 0.957",
-        "metricShort": "1708",
+        "metric": "ELO 2119 · PSNR 27.364 · MS-SSIM 0.952",
+        "metricShort": "2119",
         "lowerIsBetter": false,
         "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_15/test/"
       },
@@ -84,18 +68,10 @@
         "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_15/test/"
       },
       {
-        "method": "Vcoder",
+        "method": "IronMan",
         "year": 2025,
-        "metric": "ELO 2127 · PSNR 26.269 · MS-SSIM 0.946",
-        "metricShort": "2127",
-        "lowerIsBetter": false,
-        "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_15/test/"
-      },
-      {
-        "method": "TestC",
-        "year": 2025,
-        "metric": "ELO 2053 · PSNR 27.985 · MS-SSIM 0.953",
-        "metricShort": "2053",
+        "metric": "ELO 2106 · PSNR 27.820 · MS-SSIM 0.952",
+        "metricShort": "2106",
         "lowerIsBetter": false,
         "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_15/test/"
       },
@@ -108,10 +84,42 @@
         "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_15/test/"
       },
       {
+        "method": "TestC",
+        "year": 2025,
+        "metric": "ELO 2053 · PSNR 27.985 · MS-SSIM 0.953",
+        "metricShort": "2053",
+        "lowerIsBetter": false,
+        "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_15/test/"
+      },
+      {
+        "method": "RunRun",
+        "year": 2025,
+        "metric": "ELO 2043 · PSNR 27.983 · MS-SSIM 0.953",
+        "metricShort": "2043",
+        "lowerIsBetter": false,
+        "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_15/test/"
+      },
+      {
         "method": "CoolChic",
         "year": 2025,
         "metric": "ELO 1985 · PSNR 27.912 · MS-SSIM 0.939",
         "metricShort": "1985",
+        "lowerIsBetter": false,
+        "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_15/test/"
+      },
+      {
+        "method": "VTM_baseline",
+        "year": 2025,
+        "metric": "ELO 1708 · PSNR 29.046 · MS-SSIM 0.957",
+        "metricShort": "1708",
+        "lowerIsBetter": false,
+        "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_15/test/"
+      },
+      {
+        "method": "HM_baseline",
+        "year": 2025,
+        "metric": "ELO 1644 · PSNR 28.146 · MS-SSIM 0.949",
+        "metricShort": "1644",
         "lowerIsBetter": false,
         "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_15/test/"
       }
@@ -126,26 +134,18 @@
         "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_075/test/"
       },
       {
-        "method": "VTM_baseline",
+        "method": "Evolve",
         "year": 2025,
-        "metric": "ELO 1405 · PSNR 26.516 · MS-SSIM 0.926",
-        "metricShort": "1405",
+        "metric": "ELO 1903 · PSNR 24.645 · MS-SSIM 0.915",
+        "metricShort": "1903",
         "lowerIsBetter": false,
         "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_075/test/"
       },
       {
-        "method": "PKUSZ-AliMerlin",
+        "method": "IronMan",
         "year": 2025,
-        "metric": "ELO 1792 · PSNR 24.128 · MS-SSIM 0.901",
-        "metricShort": "1792",
-        "lowerIsBetter": false,
-        "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_075/test/"
-      },
-      {
-        "method": "TestC",
-        "year": 2025,
-        "metric": "ELO 1774 · PSNR 25.537 · MS-SSIM 0.918",
-        "metricShort": "1774",
+        "metric": "ELO 1890 · PSNR 25.581 · MS-SSIM 0.915",
+        "metricShort": "1890",
         "lowerIsBetter": false,
         "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_075/test/"
       },
@@ -158,10 +158,26 @@
         "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_075/test/"
       },
       {
-        "method": "Evolve",
+        "method": "PKUSZ-AliMerlin",
         "year": 2025,
-        "metric": "ELO 1903 · PSNR 24.645 · MS-SSIM 0.915",
-        "metricShort": "1903",
+        "metric": "ELO 1792 · PSNR 24.128 · MS-SSIM 0.901",
+        "metricShort": "1792",
+        "lowerIsBetter": false,
+        "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_075/test/"
+      },
+      {
+        "method": "RunRun",
+        "year": 2025,
+        "metric": "ELO 1776 · PSNR 25.517 · MS-SSIM 0.918",
+        "metricShort": "1776",
+        "lowerIsBetter": false,
+        "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_075/test/"
+      },
+      {
+        "method": "TestC",
+        "year": 2025,
+        "metric": "ELO 1774 · PSNR 25.537 · MS-SSIM 0.918",
+        "metricShort": "1774",
         "lowerIsBetter": false,
         "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_075/test/"
       },
@@ -174,28 +190,131 @@
         "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_075/test/"
       },
       {
-        "method": "RunRun",
+        "method": "VTM_baseline",
         "year": 2025,
-        "metric": "ELO 1776 · PSNR 25.517 · MS-SSIM 0.918",
-        "metricShort": "1776",
+        "metric": "ELO 1405 · PSNR 26.516 · MS-SSIM 0.926",
+        "metricShort": "1405",
         "lowerIsBetter": false,
         "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_075/test/"
+      },
+      {
+        "method": "HM_baseline",
+        "year": 2025,
+        "metric": "ELO 1311 · PSNR 25.828 · MS-SSIM 0.915",
+        "metricShort": "1311",
+        "lowerIsBetter": false,
+        "sourceUrl": "https://clic2025.compression.cc/leaderboard/image_0_075/test/"
+      }
+    ],
+    "enwik9_mahoney": [
+      {
+        "method": "nncp v3.2",
+        "metric": "107,261,318 B",
+        "metricShort": "107261318",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "cmix v21 -t",
+        "metric": "108,244,767 B",
+        "metricShort": "108244767",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "cmix-lex",
+        "metric": "109,190,109 B",
+        "metricShort": "109190109",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "fx2-cmix",
+        "metric": "110,351,665 B",
+        "metricShort": "110351665",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "jax-compress",
+        "metric": "113,393,442 B",
+        "metricShort": "113393442",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "tensorflow-compress v4",
+        "metric": "113,597,696 B",
+        "metricShort": "113597696",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "cmix-hp 10 Jun 2021",
+        "metric": "113,712,798 B",
+        "metricShort": "113712798",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "fast-cmix",
+        "metric": "113,746,218 B",
+        "metricShort": "113746218",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      }
+    ],
+    "silesia": [
+      {
+        "method": "paq8px_v215 -12L",
+        "metric": "27,825,511 B",
+        "metricShort": "27825511",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/silesia.html"
+      },
+      {
+        "method": "paq8px_v210 -12L",
+        "metric": "27,987,907 B",
+        "metricShort": "27987907",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/silesia.html"
+      },
+      {
+        "method": "paq8px_v209 -12L",
+        "metric": "28,025,541 B",
+        "metricShort": "28025541",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/silesia.html"
+      },
+      {
+        "method": "paq8px_v206 -12TL",
+        "metric": "28,241,197 B",
+        "metricShort": "28241197",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/silesia.html"
+      },
+      {
+        "method": "precomp v0.4.7 -cn | cmix v21",
+        "metric": "28,261,094 B",
+        "metricShort": "28261094",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/silesia.html"
+      },
+      {
+        "method": "paq8px_v206 -12TR",
+        "metric": "28,280,021 B",
+        "metricShort": "28280021",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/silesia.html"
       }
     ]
   },
   "boardUpdatedAt": {
     "hutter": "2026-07-17",
     "clic_image_0_15": "2026-07-17",
-    "clic_image_0_075": "2026-07-17"
+    "clic_image_0_075": "2026-07-17",
+    "enwik9_mahoney": "2026-07-17",
+    "silesia": "2026-07-17"
   },
-  "failures": [
-    {
-      "source": "ltcb",
-      "message": "http://mattmahoney.net/dc/text.html -> HTTP 415"
-    },
-    {
-      "source": "silesia",
-      "message": "http://mattmahoney.net/dc/silesia.html -> HTTP 415"
-    }
-  ]
+  "failures": []
 }
