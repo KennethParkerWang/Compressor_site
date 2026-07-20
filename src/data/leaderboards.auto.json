@@ -1,5 +1,5 @@
 {
-  "refreshedAt": "2026-07-19",
+  "refreshedAt": "2026-07-20",
   "sources": {
     "ltcb": "http://mattmahoney.net/dc/text.html",
     "silesia": "http://mattmahoney.net/dc/silesia.html",
@@ -310,20 +310,11 @@
     ]
   },
   "boardUpdatedAt": {
-    "enwik9_mahoney": "2026-07-17",
-    "silesia": "2026-07-17",
-    "hutter": "2026-07-19",
-    "clic_image_0_15": "2026-07-19",
-    "clic_image_0_075": "2026-07-19"
+    "enwik9_mahoney": "2026-07-20",
+    "silesia": "2026-07-20",
+    "hutter": "2026-07-20",
+    "clic_image_0_15": "2026-07-20",
+    "clic_image_0_075": "2026-07-20"
   },
-  "failures": [
-    {
-      "source": "ltcb",
-      "message": "http://mattmahoney.net/dc/text.html -> HTTP 415"
-    },
-    {
-      "source": "silesia",
-      "message": "http://mattmahoney.net/dc/silesia.html -> HTTP 415"
-    }
-  ]
+  "failures": []
 }
