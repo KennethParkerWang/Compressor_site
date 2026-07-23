@@ -4,8 +4,10 @@ export type LeaderboardDomain =
   | 'image'
   | 'video'
   | 'audio'
+  | 'timeseries'
   | 'scientific'
   | 'genomic'
+  | 'pointcloud'
   | 'structured';
 
 export type LeaderboardMode = 'lossless' | 'lossy' | 'mixed';
@@ -185,7 +187,7 @@ export const LEADERBOARDS: Leaderboard[] = [
     updatedAt: VERIFIED_AT,
     limitations: 'bpsp、整像素 BPP 和 BPD 不可直接混用；本榜不再加入未经同表验证的近似值。',
     entries: [
-      {rank: 1, method: 'CALLIC', year: 2025, metric: '2.54 bpsp', metricShort: '2.54', lowerIsBetter: true, sourceUrl: 'https://doi.org/10.1609/aaai.v39i5.32494', paperUrl: 'https://doi.org/10.1609/aaai.v39i5.32494', codeUrl: 'https://github.com/Trustworthy-ML-Lab/CALLIC', notes: '论文报告包含逐图微调开销。'},
+      {rank: 1, method: 'CALLIC', year: 2025, metric: '2.54 bpsp', metricShort: '2.54', lowerIsBetter: true, sourceUrl: 'https://doi.org/10.1609/aaai.v39i5.32494', paperUrl: 'https://doi.org/10.1609/aaai.v39i5.32494', notes: '论文报告包含逐图微调开销；未登记可访问的官方代码仓库。'},
       {rank: 2, method: 'MGCF', year: 2025, metric: '2.77 bpsp', metricShort: '2.77', lowerIsBetter: true, sourceUrl: 'https://doi.org/10.1609/aaai.v39i5.32494'},
       {rank: 3, method: 'ArIB-BPS', year: 2024, metric: '2.78 bpsp', metricShort: '2.78', lowerIsBetter: true, sourceUrl: 'https://doi.org/10.1609/aaai.v39i5.32494'},
       {rank: 4, method: 'DLPR', year: 2024, metric: '2.86 bpsp', metricShort: '2.86', lowerIsBetter: true, sourceUrl: 'https://doi.org/10.1609/aaai.v39i5.32494'},
@@ -313,6 +315,49 @@ export const LEADERBOARDS: Leaderboard[] = [
     ],
   },
   {
+    id: 'lb-timeseries-float-evidence',
+    title: '时序浮点无损压缩证据矩阵',
+    domain: 'timeseries',
+    mode: 'lossless',
+    task: '浮点时间序列的流式存储、扫描与访问',
+    dataset: '论文各自公开的工业、传感器与科学时序集合',
+    metric: 'bytes/value + 写入吞吐 + 扫描/点查延迟',
+    protocol: '只有同一数据、数据布局、块大小、硬件和访问模式下的结果可以直接排序。',
+    evidence: 'reference',
+    presentation: 'registry',
+    sourceName: 'Gorilla / Chimp / Elf / ALP primary papers',
+    sourceUrl: 'https://doi.org/10.14778/3551793.3551852',
+    updatedAt: '2026-07-23',
+    limitations: '各论文数据集和系统集成方式不同，本页只登记证据，不把跨论文数字拼成总榜。',
+    entries: [
+      {method: 'Gorilla', year: 2015, metric: '时间戳差分 + 浮点 XOR 流式基线', sourceUrl: 'https://doi.org/10.14778/2824032.2824078', paperUrl: 'https://doi.org/10.14778/2824032.2824078'},
+      {method: 'Chimp', year: 2022, metric: '现代浮点 XOR 编码与快速访问基线', sourceUrl: 'https://doi.org/10.14778/3551793.3551852', paperUrl: 'https://doi.org/10.14778/3551793.3551852'},
+      {method: 'Elf', year: 2023, metric: '擦除可恢复尾数冗余的浮点编码', sourceUrl: 'https://doi.org/10.14778/3587136.3587149', paperUrl: 'https://doi.org/10.14778/3587136.3587149'},
+      {method: 'ALP', year: 2023, metric: '十进制转整数 + 向量化前缀位编码', sourceUrl: 'https://doi.org/10.1145/3626717', paperUrl: 'https://doi.org/10.1145/3626717', codeUrl: 'https://github.com/cwida/ALP'},
+    ],
+  },
+  {
+    id: 'lb-pointcloud-codec-evidence',
+    title: '点云几何压缩证据矩阵',
+    domain: 'pointcloud',
+    mode: 'mixed',
+    task: '静态点云几何与属性压缩',
+    dataset: 'MPEG Cat1/Cat3、8iVFB、Owlii 等；以具体论文或 CTC 为准',
+    metric: '无损 bpov/字节；有损 bpp + D1/D2 或任务质量',
+    protocol: '几何与属性、有损与无损、坐标精度和 MPEG CTC 必须分别记录。',
+    evidence: 'reference',
+    presentation: 'registry',
+    sourceName: 'MPEG point cloud standards and public implementations',
+    sourceUrl: 'https://doi.org/10.1017/ATSIP.2020.12',
+    updatedAt: '2026-07-23',
+    limitations: '不同坐标量化、属性设置和数据集不可直接排名；当前先登记标准、工程和学习式基线。',
+    entries: [
+      {method: 'Draco', year: 2017, metric: '开源网格与点云工程基线', sourceUrl: 'https://github.com/google/draco', codeUrl: 'https://github.com/google/draco'},
+      {method: 'MPEG G-PCC', year: 2020, metric: '几何点云标准与 CTC 基线', sourceUrl: 'https://doi.org/10.1017/ATSIP.2020.12', paperUrl: 'https://doi.org/10.1017/ATSIP.2020.12'},
+      {method: 'UniPCGC', year: 2025, metric: '统一有损/无损、可变码率与复杂度', sourceUrl: 'https://doi.org/10.1609/aaai.v39i12.33387', paperUrl: 'https://doi.org/10.1609/aaai.v39i12.33387', codeUrl: 'https://github.com/Wangkkklll/UniPCGC'},
+    ],
+  },
+  {
     id: 'lb-genomic-spring-novaseq-25x',
     title: 'FASTQ 无损压缩论文对比（NovaSeq 25×）',
     domain: 'genomic',
@@ -410,7 +455,9 @@ export const LB_DOMAIN_LABELS: Record<LeaderboardDomain, {label: string; emoji: 
   video: {label: '视频数据', emoji: '🎬', datasets: 'Xiph CIF / JVET CTC / UVG', description: '严格无损、近无损和率失真视频任务严格分离。'},
   audio: {label: '音频数据', emoji: '🎵', datasets: 'MUSDB18 / LibriSpeech / VCTK', description: '以 PCM 完全一致为前提的无损音频评测入口。'},
   scientific: {label: '科学浮点数据', emoji: '🔬', datasets: 'FCBench / SDRBench', description: 'IEEE 754 无损与误差有界有损科学数组分开核验。'},
+  timeseries: {label: '时序浮点数据', emoji: 'TS', datasets: 'Gorilla / Chimp / Elf / ALP', description: '流式写入、压缩大小与扫描/点查性能共同评测。'},
   genomic: {label: '基因组数据', emoji: '🧬', datasets: 'FASTQ / FASTA / BAM / CRAM / VCF', description: '按文件格式、测序技术和参考依赖拆分榜单。'},
+  pointcloud: {label: '点云与三维几何', emoji: '3D', datasets: 'MPEG CTC / 8iVFB / Owlii', description: '几何与属性、有损与无损、坐标精度分别核验。'},
   structured: {label: '结构化与日志', emoji: '🗃️', datasets: 'LogHub / Apache / Android', description: '日志、机器生成记录与数值列采用不同协议。'},
 };
 

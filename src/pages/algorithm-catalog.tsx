@@ -1,6 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
+import {useLocation} from '@docusaurus/router';
 import WorkbenchShell from '../components/workbench/WorkbenchShell';
 import {Button} from '../components/ui/button';
 import {Input} from '../components/ui/input';
@@ -58,11 +59,19 @@ const sourceToneByType: Record<AlgorithmSourceType, 'blue' | 'green' | 'amber' |
 };
 
 export default function AlgorithmCatalogPage(): React.ReactElement {
+  const location = useLocation();
   const [query, setQuery] = useState('');
   const [lane, setLane] = useState<EvolutionLane | 'all'>('all');
   const [stage, setStage] = useState<PipelineStage | 'all'>('all');
   const [selected, setSelected] = useState<EvolutionNode | null>(null);
   const [sort, setSort] = useState<'time' | 'family' | 'ratio' | 'speed'>('time');
+  const requestedAlgorithm = new URLSearchParams(location.search).get('algorithm');
+
+  React.useEffect(() => {
+    if (!requestedAlgorithm) return;
+    const requestedNode = evolutionNodes.find((node) => node.id === requestedAlgorithm && node.kind !== 'idea');
+    if (requestedNode) setSelected(requestedNode);
+  }, [requestedAlgorithm]);
 
   const algorithms = useMemo(
     () => {

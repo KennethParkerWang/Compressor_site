@@ -227,6 +227,12 @@ function LeaderboardCard({
       : lb.evidence === 'reference'
         ? 'unverified'
         : 'curated';
+  const primarySourceLabel = {
+    official: '打开官方榜单',
+    paper: '打开论文表格来源',
+    engineering: '打开评测项目',
+    reference: '打开证据来源',
+  }[lb.evidence];
 
   return (
     <article className={styles.lbCard}>
@@ -256,6 +262,10 @@ function LeaderboardCard({
       {lb.limitations ? <div className={styles.limitation}><strong>适用边界</strong><span>{lb.limitations}</span></div> : null}
 
       <div className={styles.sourceRow}>
+        <a className={styles.primarySourceLink} href={lb.sourceUrl} target="_blank" rel="noopener noreferrer">
+          {primarySourceLabel}
+          <ExternalLink size={13} />
+        </a>
         <SourceChip label={lb.sourceName} href={lb.sourceUrl} kind="source" />
       </div>
 

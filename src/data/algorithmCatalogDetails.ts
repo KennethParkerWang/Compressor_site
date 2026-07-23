@@ -216,6 +216,78 @@ const implementationById: Record<string, AlgorithmSource[]> = {
   bitshuffle: [{type: 'official-repo', label: 'kiyo-masui/bitshuffle', url: 'https://github.com/kiyo-masui/bitshuffle', note: 'Bitshuffle HDF5 filter / library。'}],
   zfp: [{type: 'official-doc', label: 'zfp documentation', url: 'https://zfp.readthedocs.io/', note: 'zfp 算法和 API 文档。'}],
   'neural-entropy': [{type: 'official-doc', label: 'CompressAI', url: 'https://interdigitalinc.github.io/CompressAI/', note: '学习式图像压缩 PyTorch 工具链。'}],
+  lmcompress: [
+    {type: 'paper', label: 'LMCompress arXiv preprint', url: 'https://arxiv.org/abs/2407.07723', note: 'Nature Machine Intelligence 正式论文对应的开放预印本。'},
+  ],
+  l3tc: [
+    {type: 'official-repo', label: 'alipay/L3TC', url: 'https://github.com/alipay/L3TC-leveraging-rwkv-for-learned-lossless-low-complexity-text-compression', note: '论文作者公开的 L3TC 实现。'},
+  ],
+  fnlic: [
+    {type: 'official-repo', label: 'ZZ022/FNLIC', url: 'https://github.com/ZZ022/FNLIC', note: 'CVPR 2025 论文给出的 FNLIC 实现。'},
+  ],
+  mambaic: [
+    {type: 'official-repo', label: 'AuroraZengfh/MambaIC', url: 'https://github.com/AuroraZengfh/MambaIC', note: 'CVPR 2025 论文给出的 MambaIC 实现。'},
+  ],
+  dcae: [
+    {type: 'official-repo', label: 'CVL-UESTC/DCAE', url: 'https://github.com/CVL-UESTC/DCAE', note: 'CVPR 2025 字典交叉注意力熵模型实现。'},
+  ],
+  unipcgc: [
+    {type: 'official-repo', label: 'Wangkkklll/UniPCGC', url: 'https://github.com/Wangkkklll/UniPCGC', note: 'AAAI 2025 点云几何压缩实现。'},
+  ],
+  msdzip: [
+    {type: 'official-repo', label: 'huidong-ma/MSDZip', url: 'https://github.com/huidong-ma/MSDZip', note: 'WWW 2025 论文作者公开的多源数据无损压缩实现。'},
+  ],
+  flac: [
+    {type: 'official-doc', label: 'Xiph.Org FLAC', url: 'https://xiph.org/flac/', note: 'FLAC 官方格式、工具和实现入口。'},
+  ],
+  ffv1: [
+    {type: 'official-doc', label: 'FFmpeg FFV1 documentation', url: 'https://ffmpeg.org/ffmpeg-codecs.html#ffv1', note: 'FFmpeg 中 FFV1 编解码参数和实现入口。'},
+  ],
+  cram: [
+    {type: 'standard', label: 'CRAM format specification', url: 'https://samtools.github.io/hts-specs/CRAMv3.pdf', note: 'GA4GH/SAMtools 维护的 CRAM 3.x 规范。'},
+  ],
+  draco: [
+    {type: 'official-repo', label: 'google/draco', url: 'https://github.com/google/draco', note: 'Google 开源的网格与点云压缩库。'},
+  ],
+  'jpeg-xl': [
+    {type: 'official-doc', label: 'JPEG XL committee page', url: 'https://jpeg.org/jpegxl/', note: 'JPEG 委员会的 JPEG XL 标准与资料入口。'},
+    {type: 'official-repo', label: 'libjxl/libjxl', url: 'https://github.com/libjxl/libjxl', note: 'JPEG XL 参考实现和工具链。'},
+  ],
+  sz3: [
+    {type: 'official-repo', label: 'szcompressor/SZ3', url: 'https://github.com/szcompressor/SZ3', note: 'SZ3 模块化误差界科学数据压缩实现。'},
+  ],
+  alp: [
+    {type: 'official-repo', label: 'cwida/ALP', url: 'https://github.com/cwida/ALP', note: 'ALP 无损浮点压缩实现与复现实验入口。'},
+  ],
+  btrblocks: [
+    {type: 'official-repo', label: 'maxi-k/btrblocks', url: 'https://github.com/maxi-k/btrblocks', note: 'BtrBlocks 列式压缩实现。'},
+  ],
+};
+
+const compressionTypeById: Partial<Record<string, AlgorithmCompressionType>> = {
+  lmcompress: 'lossless',
+  l3tc: 'lossless',
+  callic: 'lossless',
+  fnlic: 'lossless',
+  mambaic: 'lossy',
+  dcae: 'lossy',
+  unipcgc: 'hybrid',
+  'c-ctx': 'lossy',
+  'cpu-gpu-fp-lossless-2025': 'lossless',
+  msdzip: 'lossless',
+  deepgeco: 'lossless',
+  flac: 'lossless',
+  ffv1: 'lossless',
+  cram: 'hybrid',
+  gorilla: 'lossless',
+  draco: 'hybrid',
+  'g-pcc': 'hybrid',
+  'jpeg-xl': 'hybrid',
+  chimp: 'lossless',
+  sz3: 'lossy',
+  alp: 'lossless',
+  elf: 'lossless',
+  btrblocks: 'lossless',
 };
 
 function isFormatKind(node: EvolutionNode): boolean {
@@ -223,6 +295,8 @@ function isFormatKind(node: EvolutionNode): boolean {
 }
 
 function inferCompressionType(node: EvolutionNode): AlgorithmCompressionType {
+  const explicitType = compressionTypeById[node.id];
+  if (explicitType) return explicitType;
   if (node.id === 'zfp') return 'hybrid';
   if (node.id === 'jpeg-ls') return 'near-lossless';
   if (node.lane === 'neural') return 'model';

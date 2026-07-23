@@ -138,8 +138,24 @@ const CORE_ROADMAP_IDS = new Set([
   'webp-lossless',
   'bitshuffle',
   'zfp',
+  'flac',
+  'ffv1',
+  'cram',
+  'gorilla',
+  'draco',
+  'g-pcc',
+  'jpeg-xl',
+  'chimp',
+  'sz3',
+  'alp',
   'neural-entropy',
   'llm-compression',
+  'lmcompress',
+  'l3tc',
+  'callic',
+  'fnlic',
+  'unipcgc',
+  'deepgeco',
 ]);
 
 const CORE_RELATION_LABELS = new Set([
@@ -168,8 +184,15 @@ const TRADEOFF_LANDMARKS = new Set([
   'snappy',
   'brotli',
   'zstd',
+  'flac',
+  'gorilla',
+  'alp',
+  'jpeg-xl',
+  'sz3',
   'neural-entropy',
   'llm-compression',
+  'lmcompress',
+  'l3tc',
 ]);
 
 const SCENARIO_NOTES: Record<string, string> = {
@@ -178,6 +201,12 @@ const SCENARIO_NOTES: Record<string, string> = {
   realtime: '关注低延迟和吞吐,常见于日志、缓存、数据库页、RPC 或内存块。',
   text: '文本有强上下文和重复结构,适合 BWT、PPM、Brotli、PAQ 等模型。',
   image: '图像有二维局部相关性,通常需要预测、过滤、颜色变换或专用模型。',
+  audio: '无损音频依赖波形预测与残差编码，需报告 bits/sample、seek、吞吐和 PCM 精确恢复。',
+  video: '无损视频需区分帧内/帧间、切片恢复和归档兼容，不能与有损视频的率失真榜混排。',
+  timeseries: '时序浮点方法利用时间戳差分、XOR 位模式或十进制语义，应同时测写入、扫描和点查。',
+  tabular: '列存压缩要把解码成本放进扫描和查询执行，不能只看脱离系统的压缩率。',
+  genomics: '基因组数据需按 FASTQ/FASTA/BAM/CRAM/VCF、参考依赖和质量值策略分别比较。',
+  'point-cloud': '点云需区分几何与属性、有损与无损，并对齐 G-PCC/Draco 等标准或工程基线。',
   scientific: '科学数组有数值连续性、bit-plane 和块结构,不应只当普通字节流处理。',
   'max-ratio': '极限压缩率路线通常牺牲速度、内存和实现复杂度,更像研究上限或离线工具。',
 };

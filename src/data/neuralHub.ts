@@ -17,7 +17,9 @@ export type NeuralModality =
   | 'audio-codec'
   | 'video-codec'
   | 'generative-image'
-  | 'hybrid-arch';
+  | 'hybrid-arch'
+  | 'scientific-structured'
+  | 'pointcloud-codec';
 
 export interface QualityBars {
   /** 0-10: 创新度 */
@@ -871,6 +873,94 @@ export const NEURAL_ITEMS: NeuralItem[] = [
     tags: ['video', 'lossy', 'intra-inter', '2025'],
     paperHasOpenPDF: true,
   },
+  {
+    id: 'NH-TXT-005',
+    title: 'L3TC: Leveraging RWKV for Learned Lossless Low-Complexity Text Compression',
+    authors: 'Zhang, Cheng, Zhao, Wang, Zhou, Lu, Song',
+    year: 2025,
+    venue: 'AAAI 2025',
+    modality: 'text-general',
+    losslessOrLossy: 'lossless',
+    paperUrl: 'https://doi.org/10.1609/aaai.v39i12.33446',
+    paperLits: ['LIT-0364'],
+    codeUrl: 'https://github.com/alipay/L3TC-leveraging-rwkv-for-learned-lossless-low-complexity-text-compression',
+    github: null,
+    qualityBar: {novelty: 8, reusability: 7, deployment: 5, codeQuality: 7},
+    summaryZh: '使用 RWKV 降低长文本学习式无损压缩的序列建模复杂度，并将模型开销纳入论文评测口径。',
+    brief: 'RWKV 低复杂度学习式文本无损压缩',
+    tags: ['text', 'lossless', 'RWKV', 'AAAI-2025'],
+    paperHasOpenPDF: true,
+  },
+  {
+    id: 'NH-DATA-001',
+    title: 'MSDZip: Universal Lossless Compression for Multi-source Data',
+    authors: 'Ma, Sun, Yi, Ding, Liu, Wang',
+    year: 2025,
+    venue: 'The Web Conference 2025',
+    modality: 'scientific-structured',
+    losslessOrLossy: 'lossless',
+    paperUrl: 'https://doi.org/10.1145/3696410.3714655',
+    paperLits: ['LIT-0372'],
+    codeUrl: 'https://github.com/huidong-ma/MSDZip',
+    github: null,
+    qualityBar: {novelty: 8, reusability: 7, deployment: 5, codeQuality: 7},
+    summaryZh: '以局部-全局-深度混合预测和分步并行多 GPU 策略处理多源数据无损压缩。',
+    brief: '多源数据学习式预测与分步并行',
+    tags: ['multi-source', 'lossless', 'parallel', 'WWW-2025'],
+    paperHasOpenPDF: true,
+  },
+  {
+    id: 'NH-DATA-002',
+    title: 'DeepGeCo: Genomics Data Lossless Compression with (S, K)-Mer Encoding',
+    authors: 'Sun, Yi, Ma, Sun, Zheng, Cui, Yan, Wang, Liu',
+    year: 2025,
+    venue: 'AAAI 2025',
+    modality: 'scientific-structured',
+    losslessOrLossy: 'lossless',
+    paperUrl: 'https://doi.org/10.1609/aaai.v39i12.33371',
+    paperLits: ['LIT-0373'],
+    github: null,
+    qualityBar: {novelty: 8, reusability: 5, deployment: 4, codeQuality: 4},
+    summaryZh: '结合 (s,k)-mer 预处理、BiGRU/Transformer 和三种运行模式，处理基因组模型冷启动与吞吐取舍。',
+    brief: '(s,k)-mer 与深度模型的基因组无损压缩',
+    tags: ['genomics', 'lossless', 'AAAI-2025'],
+    paperHasOpenPDF: true,
+  },
+  {
+    id: 'NH-3D-001',
+    title: 'UniPCGC: Towards Practical Point Cloud Geometry Compression',
+    authors: 'Wang, Gao',
+    year: 2025,
+    venue: 'AAAI 2025',
+    modality: 'pointcloud-codec',
+    losslessOrLossy: 'both',
+    paperUrl: 'https://doi.org/10.1609/aaai.v39i12.33387',
+    paperLits: ['LIT-0369'],
+    codeUrl: 'https://github.com/Wangkkklll/UniPCGC',
+    github: null,
+    qualityBar: {novelty: 9, reusability: 7, deployment: 6, codeQuality: 7},
+    summaryZh: '在统一轻量框架中支持点云几何有损、无损、可变码率和可变复杂度，并提供公开实现。',
+    brief: '统一有损/无损点云几何压缩',
+    tags: ['point-cloud', 'lossless', 'lossy', 'AAAI-2025'],
+    paperHasOpenPDF: true,
+  },
+  {
+    id: 'NH-IMG-CTX-001',
+    title: 'C-CTX: Cubic-Checkerboard Context Entropy Model for Learned Image Compression',
+    authors: 'Feng, Zhu, Zhang, Li, Wang',
+    year: 2026,
+    venue: 'IEEE Transactions on Multimedia 2026',
+    modality: 'image-lossy',
+    losslessOrLossy: 'lossy',
+    paperUrl: 'https://doi.org/10.1109/TMM.2025.3645638',
+    paperLits: ['LIT-0370'],
+    github: null,
+    qualityBar: {novelty: 8, reusability: 4, deployment: 4, codeQuality: 4},
+    summaryZh: '使用立方棋盘掩码、通道重排和特征解耦同时建模空间与通道相关性。',
+    brief: '空间-通道联合上下文熵模型',
+    tags: ['image', 'lossy', 'entropy-model', 'TMM-2026'],
+    paperHasOpenPDF: false,
+  },
 ];
 
 // ============ 工具函数 ============
@@ -892,6 +982,8 @@ export const MODALITY_META: Record<NeuralModality, ModalityMeta> = {
   'video-codec':      { id: 'video-codec',      emoji: '🎬', label: 'Neural Video Codec', labelZh: '神经视频 codec', color: '#0891b2', brief: '运动补偿、时域上下文与端到端视频压缩' },
   'generative-image': { id: 'generative-image', emoji: '✨', label: 'Generative Low Bitrate', labelZh: '生成式低码率', color: '#a855f7', brief: 'GAN/Diffusion decoder 参与极低码率重建' },
   'hybrid-arch':      { id: 'hybrid-arch',      emoji: '🧬', label: 'New Backbone / Entropy Model', labelZh: '新架构熵模型', color: '#f59e0b', brief: 'Mamba/RWKV/Transformer 作为 codec backbone 或熵模型' },
+  'scientific-structured': { id: 'scientific-structured', emoji: 'DATA', label: 'Scientific / Structured', labelZh: '科学与结构化数据', color: '#0f766e', brief: '多源、基因组与领域数据的学习式无损压缩' },
+  'pointcloud-codec': { id: 'pointcloud-codec', emoji: '3D', label: 'Point Cloud Codec', labelZh: '神经点云压缩', color: '#b45309', brief: '点云几何与属性的有损/无损统一建模' },
 };
 
 export type SortMode = 'sota' | 'recent' | 'stars' | 'quality' | 'deployment';

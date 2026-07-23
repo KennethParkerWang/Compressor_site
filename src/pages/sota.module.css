@@ -383,7 +383,29 @@
 }
 
 .sourceRow {
+  align-items: center;
   justify-content: flex-start;
+}
+
+.primarySourceLink {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid var(--cr-accent);
+  border-radius: 4px;
+  background: var(--cr-accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.primarySourceLink:hover {
+  background: color-mix(in srgb, var(--cr-accent) 86%, #000);
+  color: #fff;
+  text-decoration: none;
 }
 
 .limitation {
