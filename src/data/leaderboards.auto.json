@@ -1,5 +1,5 @@
 {
-  "refreshedAt": "2026-08-02",
+  "refreshedAt": "2026-08-03",
   "sources": {
     "ltcb": "http://mattmahoney.net/dc/text.html",
     "silesia": "http://mattmahoney.net/dc/silesia.html",
@@ -310,20 +310,11 @@
     ]
   },
   "boardUpdatedAt": {
-    "enwik9_mahoney": "2026-07-31",
-    "silesia": "2026-07-31",
-    "hutter": "2026-08-02",
-    "clic_image_0_15": "2026-08-02",
-    "clic_image_0_075": "2026-08-02"
+    "enwik9_mahoney": "2026-08-03",
+    "silesia": "2026-08-03",
+    "hutter": "2026-08-03",
+    "clic_image_0_15": "2026-08-03",
+    "clic_image_0_075": "2026-08-03"
   },
-  "failures": [
-    {
-      "source": "ltcb",
-      "message": "parser returned no valid entries"
-    },
-    {
-      "source": "silesia",
-      "message": "parser returned no valid entries"
-    }
-  ]
+  "failures": []
 }
