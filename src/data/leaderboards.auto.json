@@ -1,5 +1,5 @@
 {
-  "refreshedAt": "2026-08-30",
+  "refreshedAt": "2026-08-31",
   "sources": {
     "ltcb": "http://mattmahoney.net/dc/text.html",
     "silesia": "http://mattmahoney.net/dc/silesia.html",
@@ -10,9 +10,23 @@
   "boards": {
     "enwik9_mahoney": [
       {
+        "method": "altxs 1.0.0",
+        "metric": "106,924,811 B",
+        "metricShort": "106924811",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
         "method": "nncp v3.2",
         "metric": "107,261,318 B",
         "metricShort": "107261318",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "cmix-obias 18 Aug 2026",
+        "metric": "108,009,834 B",
+        "metricShort": "108009834",
         "lowerIsBetter": true,
         "sourceUrl": "http://mattmahoney.net/dc/text.html"
       },
@@ -48,20 +62,6 @@
         "method": "tensorflow-compress v4",
         "metric": "113,597,696 B",
         "metricShort": "113597696",
-        "lowerIsBetter": true,
-        "sourceUrl": "http://mattmahoney.net/dc/text.html"
-      },
-      {
-        "method": "cmix-hp 10 Jun 2021",
-        "metric": "113,712,798 B",
-        "metricShort": "113712798",
-        "lowerIsBetter": true,
-        "sourceUrl": "http://mattmahoney.net/dc/text.html"
-      },
-      {
-        "method": "fast-cmix",
-        "metric": "113,746,218 B",
-        "metricShort": "113746218",
         "lowerIsBetter": true,
         "sourceUrl": "http://mattmahoney.net/dc/text.html"
       }
@@ -310,9 +310,9 @@
     ]
   },
   "boardUpdatedAt": {
-    "enwik9_mahoney": "2026-08-30",
-    "silesia": "2026-08-30",
-    "hutter": "2026-08-30",
+    "enwik9_mahoney": "2026-08-31",
+    "silesia": "2026-08-31",
+    "hutter": "2026-08-31",
     "clic_image_0_15": "2026-08-29",
     "clic_image_0_075": "2026-08-29"
   },
