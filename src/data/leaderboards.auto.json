@@ -1,5 +1,5 @@
 {
-  "refreshedAt": "2026-09-02",
+  "refreshedAt": "2026-09-03",
   "sources": {
     "ltcb": "http://mattmahoney.net/dc/text.html",
     "silesia": "http://mattmahoney.net/dc/silesia.html",
@@ -46,8 +46,8 @@
       },
       {
         "method": "forge-cmix v2",
-        "metric": "109,079,791 B",
-        "metricShort": "109079791",
+        "metric": "109,079,343 B",
+        "metricShort": "109079343",
         "lowerIsBetter": true,
         "sourceUrl": "http://mattmahoney.net/dc/text.html"
       },
@@ -310,9 +310,9 @@
     ]
   },
   "boardUpdatedAt": {
-    "enwik9_mahoney": "2026-09-02",
-    "silesia": "2026-09-02",
-    "hutter": "2026-09-02",
+    "enwik9_mahoney": "2026-09-03",
+    "silesia": "2026-09-03",
+    "hutter": "2026-09-03",
     "clic_image_0_15": "2026-08-29",
     "clic_image_0_075": "2026-08-29"
   },
