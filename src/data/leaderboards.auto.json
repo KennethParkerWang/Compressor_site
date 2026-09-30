@@ -1,5 +1,5 @@
 {
-  "refreshedAt": "2026-09-29",
+  "refreshedAt": "2026-09-30",
   "sources": {
     "ltcb": "http://mattmahoney.net/dc/text.html",
     "silesia": "http://mattmahoney.net/dc/silesia.html",
@@ -68,6 +68,13 @@
     ],
     "silesia": [
       {
+        "method": "paq8px_v217 -12L",
+        "metric": "27,682,006 B",
+        "metricShort": "27682006",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/silesia.html"
+      },
+      {
         "method": "paq8px_v215 -12L",
         "metric": "27,825,511 B",
         "metricShort": "27825511",
@@ -99,13 +106,6 @@
         "method": "precomp v0.4.7 -cn | cmix v21",
         "metric": "28,261,094 B",
         "metricShort": "28261094",
-        "lowerIsBetter": true,
-        "sourceUrl": "http://mattmahoney.net/dc/silesia.html"
-      },
-      {
-        "method": "paq8px_v206 -12TR",
-        "metric": "28,280,021 B",
-        "metricShort": "28280021",
         "lowerIsBetter": true,
         "sourceUrl": "http://mattmahoney.net/dc/silesia.html"
       }
@@ -310,9 +310,9 @@
     ]
   },
   "boardUpdatedAt": {
-    "enwik9_mahoney": "2026-09-29",
-    "silesia": "2026-09-29",
-    "hutter": "2026-09-29",
+    "enwik9_mahoney": "2026-09-30",
+    "silesia": "2026-09-30",
+    "hutter": "2026-09-30",
     "clic_image_0_15": "2026-08-29",
     "clic_image_0_075": "2026-08-29"
   },
