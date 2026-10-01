@@ -1,5 +1,5 @@
 {
-  "refreshedAt": "2026-09-30",
+  "refreshedAt": "2026-10-01",
   "sources": {
     "ltcb": "http://mattmahoney.net/dc/text.html",
     "silesia": "http://mattmahoney.net/dc/silesia.html",
@@ -10,9 +10,9 @@
   "boards": {
     "enwik9_mahoney": [
       {
-        "method": "tufazip 0.1.0",
-        "metric": "105,979,069 B",
-        "metricShort": "105979069",
+        "method": "tufazip v2",
+        "metric": "105,388,353 B",
+        "metricShort": "105388353",
         "lowerIsBetter": true,
         "sourceUrl": "http://mattmahoney.net/dc/text.html"
       },
@@ -111,6 +111,30 @@
       }
     ],
     "hutter": [
+      {
+        "method": "fx2-cmix-T (Hutter, Vladimir Ivanov)",
+        "year": 2026,
+        "metric": "100.42 MB",
+        "metricShort": "100424672",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://prize.hutter1.net/"
+      },
+      {
+        "method": "cmix-obias (Hutter, David Freelan)",
+        "year": 2026,
+        "metric": "108.52 MB",
+        "metricShort": "108521870",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://prize.hutter1.net/"
+      },
+      {
+        "method": "cmix-lex (Hutter, Ibrahim Marcouch & Kaido Orav)",
+        "year": 2026,
+        "metric": "109.67 MB",
+        "metricShort": "109671639",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://prize.hutter1.net/"
+      },
       {
         "method": "fx2-cmix (Hutter, Kaido Orav & Byron Knoll)",
         "year": 2024,
@@ -310,9 +334,9 @@
     ]
   },
   "boardUpdatedAt": {
-    "enwik9_mahoney": "2026-09-30",
-    "silesia": "2026-09-30",
-    "hutter": "2026-09-30",
+    "enwik9_mahoney": "2026-10-01",
+    "silesia": "2026-10-01",
+    "hutter": "2026-10-01",
     "clic_image_0_15": "2026-08-29",
     "clic_image_0_075": "2026-08-29"
   },
