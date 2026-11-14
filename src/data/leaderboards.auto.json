@@ -1,5 +1,5 @@
 {
-  "refreshedAt": "2026-11-13",
+  "refreshedAt": "2026-11-14",
   "sources": {
     "ltcb": "http://mattmahoney.net/dc/text.html",
     "silesia": "http://mattmahoney.net/dc/silesia.html",
@@ -13,6 +13,13 @@
         "method": "tufazip v2",
         "metric": "105,388,353 B",
         "metricShort": "105388353",
+        "lowerIsBetter": true,
+        "sourceUrl": "http://mattmahoney.net/dc/text.html"
+      },
+      {
+        "method": "DNA-4",
+        "metric": "105,554,360 B",
+        "metricShort": "105554360",
         "lowerIsBetter": true,
         "sourceUrl": "http://mattmahoney.net/dc/text.html"
       },
@@ -55,13 +62,6 @@
         "method": "forge-cmix v2",
         "metric": "109,079,343 B",
         "metricShort": "109079343",
-        "lowerIsBetter": true,
-        "sourceUrl": "http://mattmahoney.net/dc/text.html"
-      },
-      {
-        "method": "cmix-lex",
-        "metric": "109,190,109 B",
-        "metricShort": "109190109",
         "lowerIsBetter": true,
         "sourceUrl": "http://mattmahoney.net/dc/text.html"
       }
@@ -334,9 +334,9 @@
     ]
   },
   "boardUpdatedAt": {
-    "enwik9_mahoney": "2026-11-13",
-    "silesia": "2026-11-13",
-    "hutter": "2026-11-13",
+    "enwik9_mahoney": "2026-11-14",
+    "silesia": "2026-11-14",
+    "hutter": "2026-11-14",
     "clic_image_0_15": "2026-08-29",
     "clic_image_0_075": "2026-08-29"
   },
