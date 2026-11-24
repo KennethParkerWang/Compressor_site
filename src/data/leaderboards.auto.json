@@ -1,5 +1,5 @@
 {
-  "refreshedAt": "2026-11-23",
+  "refreshedAt": "2026-11-24",
   "sources": {
     "ltcb": "http://mattmahoney.net/dc/text.html",
     "silesia": "http://mattmahoney.net/dc/silesia.html",
@@ -334,9 +334,9 @@
     ]
   },
   "boardUpdatedAt": {
-    "enwik9_mahoney": "2026-11-23",
-    "silesia": "2026-11-23",
-    "hutter": "2026-11-23",
+    "enwik9_mahoney": "2026-11-24",
+    "silesia": "2026-11-24",
+    "hutter": "2026-11-24",
     "clic_image_0_15": "2026-08-29",
     "clic_image_0_075": "2026-08-29"
   },
